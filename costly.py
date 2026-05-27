@@ -5,8 +5,6 @@ ranks = ["Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "
 
 a = [] #user's hand
 b = [] #computer's hand 
-a_points = int(0)
-b_points = int(0)
 
 def cards():
     deck = []
@@ -28,15 +26,16 @@ def start(deck:list):
     cuts = [a_deal, b_deal]          #save cut card strings to a list 
     deck.append(a_deal)              #return cut cards to the deck 
     deck.append(b_deal)      
-    for item in cuts:                #comapre who has the lower cut 
-        if item[0:3] == 'Jack' or "King" or "Quee":
-            item = int(10) 
-        elif item[0:2] == 'Ace':
-            item = int(1)
-        elif item[0:1] == '10':
-            item = int(10)
+    for x in range(len(cuts)):                #comapre who has the lower cut 
+        item = cuts[x]
+        if item[0:4] == 'Jack' or item[0:4] == "King" or item[0:4] == "Quee":
+            cuts[x] = int(10) 
+        elif item[0:3] == 'Ace':
+            cuts[x] = int(1)
+        elif item[0:2] == '10':
+            cuts[x] = int(10)
         else: 
-            item = int(item[0])
+            cuts[x] = int(item[0])
     if cuts[0] < cuts[1]:
         a.append('*D*')
         b.append('#')
@@ -71,8 +70,10 @@ def deal(deck:list):
 
 #Pegging play
 def play(top:str):
+    a_points = int(0)
+    b_points = int(0)
     #if top card is Jack or Deuce add 4 points to dealer of 'His Heels'
-    top_type = top[0:3]
+    top_type = top[0:4]
     if top_type == 'Jack':
         if a[0] == '*D*':
             a_points += 4
@@ -85,6 +86,7 @@ def play(top:str):
         else:
             b_points += 4
         print('Duece Down +4')
+    return a_points, b_points
     
     #Pegging Play
     #Non-dealer starts
@@ -97,9 +99,9 @@ def play(top:str):
 
 def main(): 
     main_deck = cards()
-    start(main_deck)
+    main_deck = start(main_deck)
     trump = deal(main_deck)
-    play(trump)
+    a_point, b_point = play(trump)
 
 
 if __name__ == '__main__':

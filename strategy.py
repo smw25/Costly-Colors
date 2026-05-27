@@ -28,6 +28,16 @@ def sequence(hand):
     else:
         return False 
 
+def pairs(hand):
+    for card in hand:
+        card = card[0:3]
+    if hand[0] == hand[1] or hand[2]:
+        return True
+    elif hand[1] == hand[2]:
+        return True
+    else:
+        return False 
+
 #Addition to 15, 25, or 31  
 def addition(hand):
     #turn all cards in hand into their numerical values 
@@ -42,5 +52,6 @@ def addition(hand):
             card = int(card[0])
     
 
+sequence(hand)
 #First Card: We 
 #for card in b[1:3]:
