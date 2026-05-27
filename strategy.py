@@ -3,19 +3,19 @@ from costly import b
 #Computer Logic
 
 #Analyze Hand
-hand = b[1:3] 
+hand = b[1:4] 
 
 #Sequence (Prials)
 def sequence(hand):
     #turn all cards in hand into their respective numerical order
     for card in hand:                
-        if card[0:3] == 'Jack':
+        if card[0:4] == 'Jack':
             card = 11
-        if card[0:3] == 'Quee':
+        elif card[0:4] == 'Quee':
             card = 12
-        if card[0:3] == 'King':
+        elif card[0:4] == 'King':
             card = 13
-        if card[0:2] == 'Ace':
+        elif card[0:3] == 'Ace':
             card = 1
         else:
             card == int(card[0])
