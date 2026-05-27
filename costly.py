@@ -1,4 +1,5 @@
 import random
+import strategy as s
 
 suits = ["Diamonds", "Hearts", "Clubs", "Spades", ]
 ranks = ["Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"]
@@ -73,7 +74,7 @@ def deal(deck:list):
 def analyze(c_card:str, player_total):
     vitals = c_card.split(' ') #list with ['#', 'of', 'suit']
     #add to running total pile
-    total.append(vitals[0])  #string value stays in total 
+    total.append(vitals[0])  #string value (no suit) stays in total 
     #analyze running total function
   #pairs first 
     if total[-4] == total[-3] == total[-2] == total[-1]:
@@ -104,21 +105,22 @@ def analyze(c_card:str, player_total):
         vitals[0] = 1
     else:
         vitals[0] = int(vitals[0])
+    ntotal.append(vitals[0])
 
   #sums third 
-    if sum(total) == 31:
-        numadd = len(total)
+    if sum(ntotal) == 31:
+        numadd = len(ntotal)
         player_total += numadd
         print('31 +' + numadd)
-    elif sum(total) == 25:
-        numadd = len(total)
+    elif sum(ntotal) == 25:
+        numadd = len(ntotal)
         player_total += numadd
         print('25 +' + numadd)
-    elif sum(total) == 15:
-        numadd = len(total)
+    elif sum(ntotal) == 15:
+        numadd = len(ntotal)
         player_total += numadd
         print('15 +' + numadd)
-    return player_total
+    return player_total, sum(ntotal)
     
 #Pegging playCard Turn 
 def initial(top:str):
@@ -147,15 +149,20 @@ def pegging(a_tot, b_tot):
     #Non-dealer starts
     #could put this in a 'for' loop x in range(6)
     if a[0] == '#':
-        nflop = int(input("Choose card # 1, 2, or 3: ")) #user enters integer of card
+        #1st Play = User
+        nflop = int(input("Choose card # 1, 2, or 3: (If applicable)")) #user enters integer of card
         flop = a[nflop]
-        a_tot = analyze(flop, a_tot)
-        print(flop + ' --> Total is: ' + total)
-        print('Your Total: ' + a_tot)
-        #run computer's choice and show 
+        a_tot, total_sum = analyze(flop, a_tot)
+        print(flop + ' --> Total is: ' + str(ntotal))
+        #2nd Play = Computer's choice and show 
     else: 
-        #random.choices(b[1:3], weights=[])
-        flop = b[1]
+        #1st Play = Computer's choice
+        seq_value, seq_hand, middle = s.sequence(b)
+        w = s.first_card_non(seq_hand, seq_value, middle)
+        xflop = random.choices(b[1:3], weights=w)
+        flop = xflop
+        b_tot, total_sum = analyze(b_tot)
+        #2nd Play = User's turn 
 
     #Hand Play
     #     
