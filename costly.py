@@ -157,8 +157,8 @@ def pegging(a_tot, b_tot):
         #2nd Play = Computer's choice and show 
     else: 
         #1st Play = Computer's choice
-        seq_value, seq_hand, middle = s.sequence(b[1:])
-        w = s.first_card_non(seq_hand, seq_value, middle)
+        seq_value, seq_hand, orderd = s.sequence(b[1:])
+        w = s.first_card_non(seq_hand, seq_value, orderd)
         xflop = random.choices(b[1:4], weights=w)
         flop = xflop[0]
         b_tot, total_sum = analyze(flop, b_tot)
