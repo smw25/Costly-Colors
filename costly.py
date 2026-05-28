@@ -77,13 +77,13 @@ def analyze(c_card:str, player_total):
     total.append(vitals[0])  #string value (no suit) stays in total 
     #analyze running total function
   #pairs first 
-    if total[-4] == total[-3] == total[-2] == total[-1]:
+    if len(total) >= 4 and total[-4] == total[-3] == total[-2] == total[-1]:
         player_total += 18
         print('Double Prial (4-of-a-kind) +18')
-    elif total[-3] == total[-2] == total[-1]:
+    elif len(total) >= 3 and total[-3] == total[-2] == total[-1]:
         player_total += 9 
         print('Prial (3-of-a-king) +9')
-    elif total[-2] == total[-1]:
+    elif len(total) >= 2 and total[-2] == total[-1]:
         player_total += 2
         print('Pair +2')
 
@@ -153,17 +153,21 @@ def pegging(a_tot, b_tot):
         nflop = int(input("Choose card # 1, 2, or 3: (If applicable)")) #user enters integer of card
         flop = a[nflop]
         a_tot, total_sum = analyze(flop, a_tot)
-        print(flop + ' --> Total is: ' + str(ntotal))
+        print(flop + ' --> Total is: ' + str(sum(ntotal)))
         #2nd Play = Computer's choice and show 
     else: 
         #1st Play = Computer's choice
         seq_value, seq_hand, middle = s.sequence(b)
         w = s.first_card_non(seq_hand, seq_value, middle)
-        xflop = random.choices(b[1:3], weights=w)
-        flop = xflop
-        b_tot, total_sum = analyze(b_tot)
+        xflop = random.choices(b[1:4], weights=w)
+        flop = xflop[0]
+        b_tot, total_sum = analyze(flop, b_tot)
+        print(flop + ' --> Total is: ' + str(sum(ntotal)))
         #2nd Play = User's turn 
-
+        nflop = int(input("Choose card # 1, 2, or 3: (If applicable)")) #user enters integer of card
+        flop = a[nflop]
+        a_tot, total_sum = analyze(flop, a_tot)
+        print(flop + ' --> Total is: ' + str(sum(ntotal)))
     #Hand Play
     #     
     
@@ -173,7 +177,7 @@ def main():
     main_deck = start(main_deck)
     trump = deal(main_deck)
     a_point, b_point = initial(trump)
-    #pegging(a_point, b_point)
+    pegging(a_point, b_point)
 
 if __name__ == '__main__':
     main()    

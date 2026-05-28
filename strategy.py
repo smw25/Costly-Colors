@@ -1,9 +1,9 @@
 import random
-from costly import b 
+ 
 #Computer Logic
 
 #Analyze Hand FOR PEGGING (trump card DOESN'T MATTER)
-hand = b[1:4]   #[# of Suit, xxx, xxx]
+   #[# of Suit, xxx, xxx]
 
 #Sequence (Prials)
 def sequence(hand:list):
@@ -20,7 +20,7 @@ def sequence(hand:list):
         elif card[0:3] == 'Ace':
             hand[inx] = 1
         else:
-            hand[inx] == int(card[0])
+            hand[inx] = int(card[0])
     ordered = sorted(hand)
     #check to see if these cards are in a sequence
     run_1 = ordered[1] - 1
@@ -58,10 +58,7 @@ def addition(hand):
             card = int(10)
         else: 
             card = int(card[0])
-    
-seq_value, seq_hand, middle = sequence(hand)
-pairs(hand)
-addition(hand)
+
 
 #First Card: Computer is non-dealer (goes first)
 def first_card_non(s_hand, svalue, midd):
