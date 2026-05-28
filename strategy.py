@@ -47,13 +47,14 @@ def pairs(hand:list):
     for card in hand:
         ind = hand.index(card)
         hand[ind] = card[0:4]
+    #ONLY 3 CARDS / IN HAND
     #If the first card equals the second or third we have a pair 
     if hand[0] == hand[1] or hand[0] == hand[2]:
         return True
     elif hand[1] == hand[2]:
-        return True
+        return hand, True
     else:
-        return False 
+        return hand, False 
 
 #Addition to 15, 25, or 31  
 def addition(hand:list):
@@ -99,9 +100,9 @@ def first_card_non(s_hand, svalue, s_ordered):
             weights.append(1)
     return weights
 
-def comp_go(c_hand, totalnum, indx):
+def comp_go(c_hand, totalsum, indx):
     c_hand = addition(c_hand)
-    if c_hand[indx] + totalnum > 31:
+    if c_hand[indx] + totalsum > 31:
         go = True
     else:
         go = False
@@ -111,15 +112,13 @@ def next_card(totalnum, vtotal, c_hand):
     #Args:  vtotal = "hand" being played between players 
     #       totalnum = hand as just numbers (no face cards just 10s)
     #       c_hand = the hand dealt to the computer 
-#In theory the sequence, pair, and addition functions can be used for the running total on the board
-#in this way the computer would be able to analyze this and choose cards based upon what would be more advantageous pointwise
-#How to implement this on GOs?????
 
     #WHICHEVER GIVES MOST POINTS
     current = sum(totalnum)
     total_len = len(vtotal) 
-    
-    #Sequencing     --> Just establishes if there is a sequence
+    options = []
+    #Sequencing     
+    #--> Just establishes if there is a sequence
     if total_len == 2:
         #3run = sequence(vtotal[-2:])
         run, c_hand, ord = sequence(vtotal[-2:])
@@ -127,30 +126,60 @@ def next_card(totalnum, vtotal, c_hand):
         #4run = sequence(vtotal[-3:])
         run, c_hand, ord = sequence(vtotal[-3:])
     elif total_len >= 4:
-        #5run = sequence(vtotal[-4:])
-        run, c_hand, ord = sequence(vtotal[-4:])
+        #5run or more = sequence(vtotal[-total_length:])
+        run, c_hand, ord = sequence(vtotal[-total_len:])
     else: #if only 1 card
         pass
-    
+    #Checks if a card in the computer's hand can complete a run on the played cards
     if run == True:
-        for card in c_hand: 
-            ord.append(card)
-            seq, c_hand, ord = sequence(ord)
-            if seq == True:
-                play = c_hand.index(card)
-     
-                #Play that card 
+        for card in c_hand:             #in the computer's hand 
+            iplay = c_hand.index(card)   #index integer
+            ord.append(card)            #ordered list of played down cards from above 
+            seq, cc_hand, ordd = sequence(ord)
+            go_test = comp_go(c_hand, current, iplay)
+            if seq == True and go_test == False:
+                atup = (card, len(ord)) #******************
+                options.append(atup)
+                break
+            else:
+                pass
+            ord.pop()
+        
     #Pairs and Prials
-    #if len(vtotal) >= 3 and vtotal[-3] == vtotal[-2] == vtotal[-1] 
-    #   and any card in hand == vtotal[-1]
-        #play that card that matches (+18)
-    #if vtotal[-2] == vtotal [-1] 
-    # and any card in hand == vtotal[-1]
-    #   play that card (+9)
-    # if vtotal[-1] == any card in hand 
-    #   play that card (+2)
+    c_hand, val = pairs(c_hand)
+    if len(vtotal) >= 3 and vtotal[-3] == vtotal[-2] == vtotal[-1]: #only can be 4 of a kind
+        if vtotal[-1] in c_hand:
+            ipp = c_hand.index(vtotal[-1])
+            #play that card that matches (+18)
+            atup = (c_hand[ipp], 18)            #*******
+            options.append(atup)
+        else: 
+            pass
+    elif vtotal[-2] == vtotal [-1]:
+        if vtotal[-1] in c_hand: 
+            ipp = c_hand.index(vtotal[-1])
+            #play that card (+9)
+            atup = (c_hand[ipp], 9)            #*******
+            options.append(atup)
+        else:
+            pass
+    elif vtotal[-1] in c_hand: 
+        ipp = c_hand.index(vtotal[-1])
+        #play that card (+2)
+        atup = (c_hand[ipp], 2)              #*******
+        options.append(atup)
 
-#Addition
-    #if current + any number in hand = 15, 25, or 31
+    #Addition
     c_hand = addition(c_hand)
-        #play that card (add it to total and do the analyze thing)
+    #if current + any number in hand = 15, 25, or 31
+    for card in c_hand: #hand is now composed of numerical value of cards
+        aind = c_hand.index(card)
+        if current + card == 15 or 25 or 31:
+            addval = len(totalnum) + 1
+            atup = (c_hand[aind], addval)
+            options.append(atup)
+            break
+        else:
+            pass
+    
+    #Biggest Value 
