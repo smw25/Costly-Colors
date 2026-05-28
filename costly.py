@@ -6,6 +6,8 @@ ranks = ["Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "
 
 a = [] #user's hand
 b = [] #computer's hand 
+ah = []
+bh = []
 total = [] #list of card values w/o suits as strings e.g. []'7', 'Jack'] that have been played
 ntotal = []
 
@@ -154,23 +156,36 @@ def pegging(a_tot, b_tot):
         flop = a[nflop]
         a_tot, total_sum = analyze(flop, a_tot)
         print(flop + ' --> Total is: ' + str(sum(ntotal)))
+        a.pop(flop)
+        ah.append(flop)
         #2nd Play = Computer's choice and show
         flop = s.next_card(ntotal, total, b[1:])
         b_tot, total_sum = analyze(flop, b_tot)
         print(flop + ' --> Total is: ' + str(sum(ntotal)))
+        b.pop(flop)
+        bh.pop(flop)
+        print(a)
     else: 
         #1st Play = Computer's choice
         seq_value, seq_hand, orderd = s.sequence(b[1:])
         w = s.first_card_non(seq_hand, seq_value, orderd)
         xflop = random.choices(b[1:4], weights=w)
         flop = xflop[0]
+        nflop = b.index(flop)
         b_tot, total_sum = analyze(flop, b_tot)
         print(flop + ' --> Total is: ' + str(sum(ntotal)))
+        b.pop(nflop)
+        bh.append(flop)
         #2nd Play = User's turn 
-        nflop = int(input("Choose card # 1, 2, or 3: (If applicable)")) #user enters integer of card
-        flop = a[nflop]
+        nflop = int(input("Choose card # 1, 2, or 3: (If applicable)")) #user enters integer of card (index)
+        flop = a[nflop]  #value / card 
         a_tot, total_sum = analyze(flop, a_tot)
         print(flop + ' --> Total is: ' + str(sum(ntotal)))
+        a.pop(nflop)
+        ah.append(flop)
+        print(a)
+
+    return a_tot, b_tot
     #Hand Play
     #     
     
@@ -178,6 +193,7 @@ def pegging(a_tot, b_tot):
 def main(): 
     main_deck = cards()
     main_deck = start(main_deck)
+    print('*Costly Colours*')
     trump = deal(main_deck)
     a_point, b_point = initial(trump)
     pegging(a_point, b_point)
