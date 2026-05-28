@@ -23,19 +23,28 @@ def sequence(hand:list):
             hand[inx] = int(card[0])
     ordered = sorted(hand)
     #check to see if these cards are in a sequence
-    #l_len = len(ordered)
-    #for i in range(l_len)
-    #if ordered[i] == ordered[i+1]
-    #   continue / True
-    #else 
-    #   False and ?break?      
-    run_1 = ordered[1] - 1
-    run_2 = ordered[2] - 1
-    if (ordered[0] == run_1) and (ordered[1] == run_2):
-        mid = ordered[1]
-        return True, hand, mid
-    else:
-        return False, hand, None 
+    l_ord = len(ordered)
+    for i in range(l_ord):
+        if i == l_ord - 1:
+            break
+        elif ordered[i+1] - 1 == ordered[i]:
+            value = True
+        else: 
+           value = False 
+           mid = None
+           break     
+    midi = len(ordered)//2
+    mid = ordered[midi]
+    return value, hand, mid 
+    #OLD SEQUENCE CHECK#
+    # if len(ordered) == 3
+    #run_1 = ordered[1] - 1
+    #run_2 = ordered[2] - 1
+    #if (ordered[0] == run_1) and (ordered[1] == run_2):
+    #    mid = ordered[1]
+    #    return True, hand, mid
+    #else:
+    #    return False, hand, None 
 
 #Pairs 
 def pairs(hand:list):
@@ -92,26 +101,33 @@ def first_card_non(s_hand, svalue, midd):
             weights.append(1)
     return weights
 
-#def adding_totals(ntotal, total):
+
+def adding_totals(totalnum, vtotal):
 #In theory the sequence, pair, and addition functions can be used for the running total on the board
 #in this way the computer would be able to analyze this and choose cards based upon what would be more advantageous pointwise
 #How to implement this on GOs?????
 
-#WHICHEVER GIVES MOST POINTS
-#current = sum(ntotal)
-#surrent = total 
-#3run = sequence(total[-2:])
-#4run = sequence(total[-3:])
-#5run = sequence(total[-4:])
+    #WHICHEVER GIVES MOST POINTS
+    current = sum(totalnum)
+    total_len = len(vtotal) 
+    
+    if total_len == 2:
+        #3run = sequence(vtotal[-2:])
+        three = sequence(vtotal[-2:])
+    elif total_len == 3:
+        #4run = sequence(vtotal[-3:])
+        four = sequence(vtotal[-3:])
+    elif total_len >= 4:
+        #5run = sequence(vtotal[-4:])
+        five = sequence(vtotal[-4:])
+    #if current + any number in hand = 15, 25, or 31
+        #play that card (add it to total and do the analyze thing)
 
-#if current + any number in hand = 15, 25, or 31
-    #play that card (add it to total and do the analyze thing)
-
-#Pairs and Prials
-#if len(total) >= 3 and total[-3] == total[-2] == total[-1] and any card in hand == total[-1]
-    #play that card that matches (+18)
-#if total[-2] == total [-1] and any card in hand == total[-1]
-#   play that card (+9)
-# if total[-1] == any card in hand 
-#   play that card (+2)
+    #Pairs and Prials
+    #if len(total) >= 3 and total[-3] == total[-2] == total[-1] and any card in hand == total[-1]
+        #play that card that matches (+18)
+    #if total[-2] == total [-1] and any card in hand == total[-1]
+    #   play that card (+9)
+    # if total[-1] == any card in hand 
+    #   play that card (+2)
 

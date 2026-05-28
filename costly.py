@@ -6,7 +6,7 @@ ranks = ["Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "
 
 a = [] #user's hand
 b = [] #computer's hand 
-total = []
+total = [] #list of card values w/o suits as strings e.g. []'7', 'Jack'] that have been played
 ntotal = []
 
 def cards():
@@ -111,15 +111,15 @@ def analyze(c_card:str, player_total):
     if sum(ntotal) == 31:
         numadd = len(ntotal)
         player_total += numadd
-        print('31 +' + numadd)
+        print('31 +' + str(numadd))
     elif sum(ntotal) == 25:
         numadd = len(ntotal)
         player_total += numadd
-        print('25 +' + numadd)
+        print('25 +' + str(numadd))
     elif sum(ntotal) == 15:
         numadd = len(ntotal)
         player_total += numadd
-        print('15 +' + numadd)
+        print('15 +' + str(numadd))
     return player_total, sum(ntotal)
     
 #Pegging playCard Turn 
