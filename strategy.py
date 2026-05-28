@@ -116,7 +116,7 @@ def next_card(totalnum, vtotal, c_hand):
     #WHICHEVER GIVES MOST POINTS
     current = sum(totalnum)
     total_len = len(vtotal) 
-    options = []
+    options = []  #tuples = ('card of suit', ##)
     #Sequencing     
     #--> Just establishes if there is a sequence
     if total_len == 2:
@@ -183,3 +183,17 @@ def next_card(totalnum, vtotal, c_hand):
             pass
     
     #Biggest Value 
+    if len(options) > 1:
+        points = options[0][1]
+        for x in range(len(options)):
+            if options[x][1] > points:
+                points = options[x][1]
+                play_card = options[x][0]
+            else:
+                pass
+    if len(options) == 1:
+        play_card = options[0][0]
+    if len(options) == 0:
+        lp = random.choices(c_hand[1:])
+        play_card = lp[0]
+    return play_card
