@@ -156,14 +156,15 @@ def pegging(a_tot, b_tot):
         flop = a[nflop]
         a_tot, total_sum = analyze(flop, a_tot)
         print(flop + ' --> Total is: ' + str(sum(ntotal)))
-        a.pop(flop)
+        a.pop(nflop)
         ah.append(flop)
         #2nd Play = Computer's choice and show
         flop = s.next_card(ntotal, total, b[1:])
         b_tot, total_sum = analyze(flop, b_tot)
         print(flop + ' --> Total is: ' + str(sum(ntotal)))
-        b.pop(flop)
-        bh.pop(flop)
+        nflop = b.index(flop)
+        b.pop(nflop)
+        bh.append(flop)
         print(a)
     else: 
         #1st Play = Computer's choice
