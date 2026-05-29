@@ -181,6 +181,7 @@ def next_card(totalnum, vtotal, c_hand):
     #Addition
     a_hand = c_hand.copy()
     a_hand = addition(a_hand)
+    go_out = []
     #if current + any number in hand = 15, 25, or 31
     for card in a_hand: #hand is now composed of numerical value of cards
         aind = a_hand.index(card)
@@ -189,6 +190,10 @@ def next_card(totalnum, vtotal, c_hand):
             atup = (c_hand[aind], addval)
             options.append(atup)
             break
+        elif current + card > 31:
+            go_out.append(1)
+            if sum(go_out) == len(a_hand):
+                return 
         else:
             pass
     

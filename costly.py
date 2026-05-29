@@ -154,18 +154,22 @@ def pegging(a_tot, b_tot):
         if a[0] == '#':
             #1st Play = User
             nflop = int(input("Choose card # 1, 2, or 3: (If applicable)")) #user enters integer of card
+            #if nflop != 0 (run as normal)
             flop = a[nflop]
             a_tot, total_sum = analyze(flop, a_tot)
             print(flop + ' --> Total is: ' + str(sum(ntotal)))
             a.pop(nflop)
             ah.append(flop)
+            #else use go procedure -------------------
             #2nd Play = Computer's choice and show
             flop = s.next_card(ntotal, total, b[1:])
+            #if flop != None 
             b_tot, total_sum = analyze(flop, b_tot)
             print(flop + ' --> Total is: ' + str(sum(ntotal)))
             nflop = b.index(flop)
             b.pop(nflop)
             bh.append(flop)
+            #else: use go procedure ---------------
             print(a)
         else: 
             #1st Play = Computer's choice
@@ -180,11 +184,13 @@ def pegging(a_tot, b_tot):
             bh.append(flop)
             #2nd Play = User's turn 
             nflop = int(input("Choose card # 1, 2, or 3: (If applicable)")) #user enters integer of card (index)
+            #if nflop != 0 (run as normal)
             flop = a[nflop]  #value / card 
             a_tot, total_sum = analyze(flop, a_tot)
             print(flop + ' --> Total is: ' + str(sum(ntotal)))
             a.pop(nflop)
             ah.append(flop)
+            #else: go procedure -------------
             print(a)
 
     return a_tot, b_tot
