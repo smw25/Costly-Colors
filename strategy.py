@@ -157,9 +157,12 @@ def next_card(totalnum, vtotal, c_hand):
     p_hand = c_hand.copy()
     p_hand, val = pairs(p_hand)
     if len(vtotal) >= 3 and vtotal[-3] == vtotal[-2] == vtotal[-1]: #only can be 4 of a kind
-        if vtotal[-1] in p_hand:                #JUST the Number or 
+        if vtotal[-1] in p_hand:                #JUST the Number or Face
             ipp = p_hand.index(vtotal[-1])
             #play that card that matches (+18)
+            #go_test = comp_go(p_hand, current, ipp)
+            #if go_test == True 
+                #pass
             atup = (p_hand[ipp], 18)            #*******
             options.append(atup)
         else: 
@@ -168,6 +171,9 @@ def next_card(totalnum, vtotal, c_hand):
         if vtotal[-1] in p_hand: 
             ipp = p_hand.index(vtotal[-1])
             #play that card (+9)
+            #go_test = comp_go(p_hand, current, ipp)
+            #if go_test == True 
+                #pass
             atup = (p_hand[ipp], 9)            #*******
             options.append(atup)
         else:
@@ -175,6 +181,9 @@ def next_card(totalnum, vtotal, c_hand):
     elif vtotal[-1] in p_hand: 
         ipp = p_hand.index(vtotal[-1])
         #play that card (+2)
+        #go_test = comp_go(p_hand, current, ipp)
+        #if go_test == True 
+            #pass
         atup = (p_hand[ipp], 2)              #*******
         options.append(atup)
 
@@ -193,7 +202,8 @@ def next_card(totalnum, vtotal, c_hand):
         elif current + card > 31:
             go_out.append(1)
             if sum(go_out) == len(a_hand):
-                return 
+                pass
+                #return None
         else:
             pass
     

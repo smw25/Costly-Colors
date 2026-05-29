@@ -9,7 +9,7 @@ b = [] #computer's hand
 ah = []
 bh = []
 total = [] #list of card values w/o suits as strings e.g. []'7', 'Jack'] that have been played
-ntotal = []
+ntotal = [] #list of card values as integers 
 
 def cards():
     deck = []
@@ -146,6 +146,16 @@ def initial(top:str):
             print('Mr. Crib: Duece Down +4')
     return a_points, b_points
     
+def go(signal): 
+    if signal == 0: 
+        total.clear()
+        ntotal.clear()
+        print('Go! +1 for Mr. Crib')
+    elif signal == None: 
+        total.clear()
+        ntotal.clear()
+        print('Go! +1 for you')
+
 #Pegging Play
 def pegging(a_tot, b_tot):
     #Non-dealer starts
@@ -153,7 +163,7 @@ def pegging(a_tot, b_tot):
     for inning in range(3):
         if a[0] == '#':
             #1st Play = User
-            nflop = int(input("Choose card # 1, 2, or 3: (If applicable)")) #user enters integer of card
+            nflop = int(input("Choose card # 1, 2, or 3 (If applicable type '0' for a Go): ")) #user enters integer of card
             #if nflop != 0 (run as normal)
             flop = a[nflop]
             a_tot, total_sum = analyze(flop, a_tot)
@@ -161,6 +171,13 @@ def pegging(a_tot, b_tot):
             a.pop(nflop)
             ah.append(flop)
             #else use go procedure -------------------
+            #print(*Go*)
+            #Allow computer to make a play
+            #cflop = s.next_card(ntotal, total, b[1:])
+            #if cflop == None 
+                #go(nflop)
+            #else: 
+                #break?? / pass
             #2nd Play = Computer's choice and show
             flop = s.next_card(ntotal, total, b[1:])
             #if flop != None 
@@ -173,10 +190,13 @@ def pegging(a_tot, b_tot):
             print(a)
         else: 
             #1st Play = Computer's choice
+            #if inning == 0 
             seq_value, seq_hand, orderd = s.sequence(b[1:])
             w = s.first_card_non(seq_hand, seq_value, orderd)
             xflop = random.choices(b[1:4], weights=w)
             flop = xflop[0]
+            #else: 
+                #flop = s.next_card(ntotal, total, b[1:])
             nflop = b.index(flop)
             b_tot, total_sum = analyze(flop, b_tot)
             print(flop + ' --> Total is: ' + str(sum(ntotal)))
