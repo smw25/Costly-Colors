@@ -92,7 +92,18 @@ def analyze(c_card:str, player_total):
   #sequence second 
     ordtotal = sorted(total, key=ranks.index) #sorted total sequence strings 
     if len(ordtotal) >= 3:
-        if ordtotal in ranks:
+        indrlist = []       #list of indexes...... (10, J, Q) = (9, 10, 11)
+        true_seq = False
+        #if ordtotal in ranks:   #if each element of ordered total is in the same position as each element in ranks == sequence 
+        for card in ordtotal:
+            indr = ranks.index(card)  #=== finds the index of the card in 'ranks' list
+            indrlist.append(indr)
+        for i in range((len(indrlist) -1)):
+            if indrlist[i] + 1 == indrlist[i+1]:
+                true_seq = True 
+            else:
+                break 
+        if true_seq == True:
             player_total += len(ordtotal)
             numadd = str(len(ordtotal))
             print('Sequence +' + numadd)
