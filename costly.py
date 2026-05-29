@@ -113,7 +113,7 @@ def analyze(c_card:str, player_total):
     if sum(ntotal) == 31:
         numadd = len(ntotal)
         player_total += numadd
-        print('31 +' + str(numadd))
+        print('31 +' + str(numadd))   #add a line making total and ntotal 0 
     elif sum(ntotal) == 25:
         numadd = len(ntotal)
         player_total += numadd
@@ -146,73 +146,135 @@ def initial(top:str):
             print('Mr. Crib: Duece Down +4')
     return a_points, b_points
     
-def go(signal): 
+def go(signal, player_tot): 
     if signal == 0: 
         total.clear()
         ntotal.clear()
+        player_tot += 1 
         print('Go! +1 for Mr. Crib')
     elif signal == None: 
         total.clear()
         ntotal.clear()
+        player_tot += 1
         print('Go! +1 for you')
+    return player_tot
+
+def user_error(chosen):
+    if chosen > len(a):
+        print('**Out of Position** -- Choose the correct card position')
+        rechoose = int(input("Choose card # 1, 2, or 3 (If applicable type '0' for a Go): "))
+    elif sum(ntotal) + chosen > 31:
+        print('**Over 31 --- Choose a differnet card or type "0" for Go')
+        rechoose = int(input("Selection: "))
 
 #Pegging Play
 def pegging(a_tot, b_tot):
     #Non-dealer starts
     #could put this in a 'for' loop x in range(6)
-    for inning in range(3):
+    got = 'x'
+    gotc = 'comp'
+    while len(a) > 1 or len(b) > 1:  
+    #for inning in range(3):
         if a[0] == '#':
-            #1st Play = User
+        #1st Play = User
             nflop = int(input("Choose card # 1, 2, or 3 (If applicable type '0' for a Go): ")) #user enters integer of card
-            #if nflop != 0 (run as normal)
-            flop = a[nflop]
-            a_tot, total_sum = analyze(flop, a_tot)
-            print(flop + ' --> Total is: ' + str(sum(ntotal)))
-            a.pop(nflop)
-            ah.append(flop)
-            #else use go procedure -------------------
-            #print(*Go*)
+            if nflop != 0:          #(run as normal)
+                flop = a[nflop]
+                a_tot, total_sum = analyze(flop, a_tot)
+                print(flop + ' --> Total is: ' + str(sum(ntotal)))
+                a.pop(nflop)
+                ah.append(flop)
+            elif nflop == 0 and got == 'x': #use go procedure ------------------- (User says 'go' and Starts pegging after)
             #Allow computer to make a play
-            #cflop = s.next_card(ntotal, total, b[1:])
-            #if cflop == None 
-                #go(nflop)
-            #else: 
-                #break?? / pass
+                print('Go! ----->')
+                cflop = s.next_card(ntotal, total, b[1:])
+                if cflop == None:
+                    b_tot = go(nflop, b_tot)
+                    continue       #Allows the user to start at the top of the loop
+                else: 
+                    pass #break?? / pass
+
             #2nd Play = Computer's choice and show
             flop = s.next_card(ntotal, total, b[1:])
-            #if flop != None 
-            b_tot, total_sum = analyze(flop, b_tot)
-            print(flop + ' --> Total is: ' + str(sum(ntotal)))
-            nflop = b.index(flop)
-            b.pop(nflop)
-            bh.append(flop)
-            #else: use go procedure ---------------
+            if flop != None:           #Normal Play 
+                b_tot, total_sum = analyze(flop, b_tot)
+                print(flop + ' --> Total is: ' + str(sum(ntotal)))
+                nflop = b.index(flop)
+                b.pop(nflop)
+                bh.append(flop)
+            else: #'comp' & 0          #use go procedure ---------------
+                if nflop != 0 and got == 'x': #(indicating the player hasn't reciprocated the go)
+                    print('Go! ----->')
+                    got = 'comp'
+                    continue
+                elif got == 'comp':
+                    a_tot = go(flop, a_tot)
+                    #Computer's turn  (maybe put the computer gameplay in that part of the go)
+                    seq_value, seq_hand, orderd = s.sequence(b[1:])
+                    w = s.first_card_non(seq_hand, seq_value, orderd)
+                    xflop = random.choices(b[1:], weights=w)
+                    flop = xflop[0]
+                    b_tot, total_sum = analyze(flop, b_tot)
+                    print(flop + ' --> Total is: ' + str(sum(ntotal)))
+                    nflop = b.index(flop)
+                    b.pop(nflop)
+                    bh.append(flop)
             print(a)
+        
         else: 
-            #1st Play = Computer's choice
-            #if inning == 0 
-            seq_value, seq_hand, orderd = s.sequence(b[1:])
-            w = s.first_card_non(seq_hand, seq_value, orderd)
-            xflop = random.choices(b[1:4], weights=w)
-            flop = xflop[0]
-            #else: 
-                #flop = s.next_card(ntotal, total, b[1:])
-            nflop = b.index(flop)
-            b_tot, total_sum = analyze(flop, b_tot)
-            print(flop + ' --> Total is: ' + str(sum(ntotal)))
-            b.pop(nflop)
-            bh.append(flop)
-            #2nd Play = User's turn 
-            nflop = int(input("Choose card # 1, 2, or 3: (If applicable)")) #user enters integer of card (index)
-            #if nflop != 0 (run as normal)
-            flop = a[nflop]  #value / card 
-            a_tot, total_sum = analyze(flop, a_tot)
-            print(flop + ' --> Total is: ' + str(sum(ntotal)))
-            a.pop(nflop)
-            ah.append(flop)
-            #else: go procedure -------------
-            print(a)
+        #1st Play = Computer's choice
+            if len(total) == 0:
+                seq_value, seq_hand, orderd = s.sequence(b[1:])
+                w = s.first_card_non(seq_hand, seq_value, orderd)
+                xflop = random.choices(b[1:], weights=w)
+                flop = xflop[0]
+            else: 
+                flop = s.next_card(ntotal, total, b[1:])
 
+            if flop == None and gotc == 'x':    #user's fault and Computer can't play 
+                pass
+            elif flop != None:
+                b_tot, total_sum = analyze(flop, b_tot)
+                print(flop + ' --> Total is: ' + str(sum(ntotal)))
+                nflop = b.index(flop)
+                b.pop(nflop)
+                bh.append(flop)
+            else:      #Let the user make a play 
+                #Let user go 
+                if nflop == 0 and gotc == 'comp':   #computer's fault 
+                    #run go
+                    a_tot = go(flop, a_tot)
+                    continue
+                else: 
+                    print('Go! ----->')
+                    pass
+
+            #2nd Play = User's turn 
+            print(a)
+            nflop = int(input("Choose card # 1, 2, or 3: (If applicable)")) #user enters integer of card (index)
+            if nflop != 0:    #(run as normal)
+                flop = a[nflop]  #value / card 
+                a_tot, total_sum = analyze(flop, a_tot)
+                print(flop + ' --> Total is: ' + str(sum(ntotal)))
+                a.pop(nflop)
+                ah.append(flop)
+            else: 
+                if flop != None:
+                    print('Go! ----->')
+                    gotc = 'x'                   #go is user fault
+                    pass  
+                elif nflop == 0 and gotc == 'x':
+                    #go procedure -------------
+                    b_tot = go(nflop, b_tot)
+                    nflop = int(input("Choose card # 1, 2, or 3: (If applicable)"))
+                    flop = a[nflop]  #value / card 
+                    a_tot, total_sum = analyze(flop, a_tot)
+                    print(flop + ' --> Total is: ' + str(sum(ntotal)))
+                    a.pop(nflop)
+                    ah.append(flop)
+    print('---Pegging Completed---')
+    print("Mr. Crib's Points: " + str(b_tot))
+    print("Your Points: " + str(a_tot))
     return a_tot, b_tot
     #Hand Play
     #     

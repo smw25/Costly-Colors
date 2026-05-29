@@ -163,7 +163,7 @@ def next_card(totalnum, vtotal, c_hand):
             #go_test = comp_go(p_hand, current, ipp)
             #if go_test == True 
                 #pass
-            atup = (p_hand[ipp], 18)            #*******
+            atup = (c_hand[ipp], 18)            #*******
             options.append(atup)
         else: 
             pass
@@ -174,7 +174,7 @@ def next_card(totalnum, vtotal, c_hand):
             #go_test = comp_go(p_hand, current, ipp)
             #if go_test == True 
                 #pass
-            atup = (p_hand[ipp], 9)            #*******
+            atup = (c_hand[ipp], 9)            #*******
             options.append(atup)
         else:
             pass
@@ -184,7 +184,7 @@ def next_card(totalnum, vtotal, c_hand):
         #go_test = comp_go(p_hand, current, ipp)
         #if go_test == True 
             #pass
-        atup = (p_hand[ipp], 2)              #*******
+        atup = (c_hand[ipp], 2)              #*******
         options.append(atup)
 
     #Addition
@@ -202,8 +202,7 @@ def next_card(totalnum, vtotal, c_hand):
         elif current + card > 31:
             go_out.append(1)
             if sum(go_out) == len(a_hand):
-                pass
-                #return None
+                return None
         else:
             pass
     
@@ -218,6 +217,8 @@ def next_card(totalnum, vtotal, c_hand):
                 pass
     elif len(options) == 1:
         play_card = options[0][0]
+    elif len(options) == 0 and len(c_hand) == 0:
+        return None 
     elif len(options) == 0:
         lp = random.choices(c_hand)
         play_card = lp[0]
