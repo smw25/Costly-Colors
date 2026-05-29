@@ -32,14 +32,3 @@ Show your appreciation to those who have contributed to the project.
 For open source projects, say how it is licensed.
 
 ## Project status
-when given 0 retrieving *D* or # this should indicate a go
-    if go is called then all "totals" lists should be emptied 
-
-this could be solved by making another if loop in the initial 'if' for who is dealer
-    this if would right after nflop 
-    if nflop != 0, then run as normal
-    if nflop == 0 then we run Go procedures 
-
-doing this for the computer strats would include: 
-    making a larger if-else at the start of the addition section 
-    if would be if current 

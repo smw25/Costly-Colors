@@ -151,12 +151,12 @@ def go(signal, player_tot):
         total.clear()
         ntotal.clear()
         player_tot += 1 
-        print('Go! +1 for Mr. Crib')
+        print('Go! +1 for Mr. Crib \n')
     elif signal == None: 
         total.clear()
         ntotal.clear()
         player_tot += 1
-        print('Go! +1 for you')
+        print('Go! +1 for you \n')
     return player_tot
 
 def user_error(chosen):
@@ -205,6 +205,7 @@ def pegging(a_tot, b_tot):
             else: #'comp' & 0          #use go procedure ---------------
                 if nflop != 0 and got == 'x': #(indicating the player hasn't reciprocated the go)
                     print('Go! ----->')
+                    print(a)
                     got = 'comp'
                     continue
                 elif got == 'comp':
@@ -283,7 +284,7 @@ def pegging(a_tot, b_tot):
 def main(): 
     main_deck = cards()
     main_deck = start(main_deck)
-    print('*Costly Colours*')
+    print('*#*#*#*#*Costly Colours*#*#*#*#*')
     trump = deal(main_deck)
     a_point, b_point = initial(trump)
     pegging(a_point, b_point)
