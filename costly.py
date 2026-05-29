@@ -150,41 +150,42 @@ def initial(top:str):
 def pegging(a_tot, b_tot):
     #Non-dealer starts
     #could put this in a 'for' loop x in range(6)
-    if a[0] == '#':
-        #1st Play = User
-        nflop = int(input("Choose card # 1, 2, or 3: (If applicable)")) #user enters integer of card
-        flop = a[nflop]
-        a_tot, total_sum = analyze(flop, a_tot)
-        print(flop + ' --> Total is: ' + str(sum(ntotal)))
-        a.pop(nflop)
-        ah.append(flop)
-        #2nd Play = Computer's choice and show
-        flop = s.next_card(ntotal, total, b[1:])
-        b_tot, total_sum = analyze(flop, b_tot)
-        print(flop + ' --> Total is: ' + str(sum(ntotal)))
-        nflop = b.index(flop)
-        b.pop(nflop)
-        bh.append(flop)
-        print(a)
-    else: 
-        #1st Play = Computer's choice
-        seq_value, seq_hand, orderd = s.sequence(b[1:])
-        w = s.first_card_non(seq_hand, seq_value, orderd)
-        xflop = random.choices(b[1:4], weights=w)
-        flop = xflop[0]
-        nflop = b.index(flop)
-        b_tot, total_sum = analyze(flop, b_tot)
-        print(flop + ' --> Total is: ' + str(sum(ntotal)))
-        b.pop(nflop)
-        bh.append(flop)
-        #2nd Play = User's turn 
-        nflop = int(input("Choose card # 1, 2, or 3: (If applicable)")) #user enters integer of card (index)
-        flop = a[nflop]  #value / card 
-        a_tot, total_sum = analyze(flop, a_tot)
-        print(flop + ' --> Total is: ' + str(sum(ntotal)))
-        a.pop(nflop)
-        ah.append(flop)
-        print(a)
+    for inning in range(3):
+        if a[0] == '#':
+            #1st Play = User
+            nflop = int(input("Choose card # 1, 2, or 3: (If applicable)")) #user enters integer of card
+            flop = a[nflop]
+            a_tot, total_sum = analyze(flop, a_tot)
+            print(flop + ' --> Total is: ' + str(sum(ntotal)))
+            a.pop(nflop)
+            ah.append(flop)
+            #2nd Play = Computer's choice and show
+            flop = s.next_card(ntotal, total, b[1:])
+            b_tot, total_sum = analyze(flop, b_tot)
+            print(flop + ' --> Total is: ' + str(sum(ntotal)))
+            nflop = b.index(flop)
+            b.pop(nflop)
+            bh.append(flop)
+            print(a)
+        else: 
+            #1st Play = Computer's choice
+            seq_value, seq_hand, orderd = s.sequence(b[1:])
+            w = s.first_card_non(seq_hand, seq_value, orderd)
+            xflop = random.choices(b[1:4], weights=w)
+            flop = xflop[0]
+            nflop = b.index(flop)
+            b_tot, total_sum = analyze(flop, b_tot)
+            print(flop + ' --> Total is: ' + str(sum(ntotal)))
+            b.pop(nflop)
+            bh.append(flop)
+            #2nd Play = User's turn 
+            nflop = int(input("Choose card # 1, 2, or 3: (If applicable)")) #user enters integer of card (index)
+            flop = a[nflop]  #value / card 
+            a_tot, total_sum = analyze(flop, a_tot)
+            print(flop + ' --> Total is: ' + str(sum(ntotal)))
+            a.pop(nflop)
+            ah.append(flop)
+            print(a)
 
     return a_tot, b_tot
     #Hand Play

@@ -53,12 +53,13 @@ def pairs(hand:list):
         hand[ind] = parts[0]
     #ONLY 3 CARDS / IN HAND
     #If the first card equals the second or third we have a pair 
-    if hand[0] == hand[1] or hand[0] == hand[2]:
-        return hand, True
-    elif hand[1] == hand[2]:
-        return hand, True
-    else:
-        return hand, False 
+    #if hand[0] == hand[1] or hand[0] == hand[2]:
+    #    return hand, True
+    #elif hand[1] == hand[2]:
+    #    return hand, True
+    #else:
+    #    return hand, False 
+    return hand, None
 
 #Addition to 15, 25, or 31  
 def addition(hand:list):
@@ -104,9 +105,10 @@ def first_card_non(s_hand, svalue, s_ordered):
             weights.append(1)
     return weights
 
-def comp_go(c_hand, totalsum, indx):
-    c_hand = addition(c_hand)
-    if c_hand[indx] + totalsum > 31:
+def comp_go(c_hand:list, totalsum, indx):
+    go_hand = c_hand.copy()
+    go_hand = addition(go_hand)
+    if go_hand[indx] + totalsum > 31:
         go = True
     else:
         go = False
@@ -120,6 +122,7 @@ def next_card(totalnum, vtotal, c_hand):
     current = sum(totalnum)
     total_len = len(vtotal) 
     options = []  #tuples = ('card of suit', ##)
+    
     #Sequencing     
     #--> Just establishes if there is a sequence
     if total_len == 2:
@@ -198,9 +201,9 @@ def next_card(totalnum, vtotal, c_hand):
                 play_card = options[x][0]
             else:
                 pass
-    if len(options) == 1:
+    elif len(options) == 1:
         play_card = options[0][0]
-    if len(options) == 0:
-        lp = random.choices(c_hand[1:])
+    elif len(options) == 0:
+        lp = random.choices(c_hand)
         play_card = lp[0]
     return play_card
