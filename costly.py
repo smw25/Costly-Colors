@@ -156,7 +156,8 @@ def analyze(c_card:str, player_total):
     if sum(ntotal) == 31:
         numadd = len(ntotal)
         player_total += numadd
-        print('31 +' + str(numadd))   #add a line making total and ntotal 0 
+        print('31 +' + str(numadd))   #add a line making total and ntotal 0
+        total.clear()
     elif sum(ntotal) == 25:
         numadd = len(ntotal)
         player_total += numadd
@@ -225,6 +226,11 @@ def pegging(a_tot, b_tot):
                 flop = a[nflop]
                 a_tot, total_sum = analyze(flop, a_tot)
                 print(flop + ' --> Total is: ' + str(sum(ntotal)))
+                if total_sum == 31:
+                    ntotal.clear()
+                    print('')
+                else:
+                    pass
                 a.pop(nflop)
                 ah.append(flop)
             elif nflop == 0 and got == 'x': #use go procedure ------------------- (User says 'go' and Starts pegging after)
@@ -242,6 +248,11 @@ def pegging(a_tot, b_tot):
             if flop != None:           #Normal Play 
                 b_tot, total_sum = analyze(flop, b_tot)
                 print(flop + ' --> Total is: ' + str(sum(ntotal)))
+                if total_sum == 31:
+                    ntotal.clear()
+                    print('')
+                else:
+                    pass
                 nflop = b.index(flop)
                 b.pop(nflop)
                 bh.append(flop)
@@ -280,6 +291,11 @@ def pegging(a_tot, b_tot):
             elif flop != None:
                 b_tot, total_sum = analyze(flop, b_tot)
                 print(flop + ' --> Total is: ' + str(sum(ntotal)))
+                if total_sum == 31:
+                    ntotal.clear()
+                    print('')
+                else:
+                    pass
                 nflop = b.index(flop)
                 b.pop(nflop)
                 bh.append(flop)
@@ -300,6 +316,11 @@ def pegging(a_tot, b_tot):
                 flop = a[nflop]  #value / card 
                 a_tot, total_sum = analyze(flop, a_tot)
                 print(flop + ' --> Total is: ' + str(sum(ntotal)))
+                if total_sum == 31:
+                    ntotal.clear()
+                    print('')
+                else:
+                    pass
                 a.pop(nflop)
                 ah.append(flop)
             else: 
