@@ -16,16 +16,21 @@ def sequence(hand:list):
             hand[inx] = 13
         elif card[0:3] == 'Ace':
             hand[inx] = 1
+        elif card[0:2] == '10':
+            hand[inx] = 10
         else:
             hand[inx] = int(card[0])
     ordered = sorted(hand)
     #check to see if these cards are in a sequence
     l_ord = len(ordered)
-    for i in range(l_ord):
-        if i == l_ord - 1:  #if there is only 1 card there cannot be a sequence 
+    value = False 
+    #for i in range(l_ord):
+    for i in range(l_ord-1, 0, -1):
+        if l_ord == 1 or l_ord == 0:  #if there is only 1 card there cannot be a sequence 
             value = False
             break
-        elif ordered[i+1] - 1 == ordered[i]:
+        #elif ordered[i] == ordered[i]:
+        elif ordered[i-1] +1 == ordered[i]:
             value = True
         else: 
            value = False 
@@ -160,32 +165,35 @@ def next_card(totalnum, vtotal, c_hand):
         if vtotal[-1] in p_hand:                #JUST the Number or Face
             ipp = p_hand.index(vtotal[-1])
             #play that card that matches (+18)
-            #go_test = comp_go(p_hand, current, ipp)
-            #if go_test == True 
-                #pass
-            atup = (c_hand[ipp], 18)            #*******
-            options.append(atup)
+            too_big = comp_go(p_hand, current, ipp)
+            if too_big == True:
+                pass
+            else:
+                atup = (c_hand[ipp], 18)            #*******
+                options.append(atup)
         else: 
             pass
-    elif len(vtotal) == 2 and vtotal[-2] == vtotal [-1]:  #three of a kind and 2 cards on the board
+    elif len(vtotal) == 2 and vtotal[-2] == vtotal[-1]:  #three of a kind and 2 cards on the board
         if vtotal[-1] in p_hand: 
             ipp = p_hand.index(vtotal[-1])
             #play that card (+9)
-            #go_test = comp_go(p_hand, current, ipp)
-            #if go_test == True 
-                #pass
-            atup = (c_hand[ipp], 9)            #*******
-            options.append(atup)
+            too_big = comp_go(p_hand, current, ipp)
+            if too_big == True:
+                pass
+            else:
+                atup = (c_hand[ipp], 9)            #*******
+                options.append(atup)
         else:
             pass
     elif vtotal[-1] in p_hand: 
         ipp = p_hand.index(vtotal[-1])
         #play that card (+2)
-        #go_test = comp_go(p_hand, current, ipp)
-        #if go_test == True 
-            #pass
-        atup = (c_hand[ipp], 2)              #*******
-        options.append(atup)
+        too_big = comp_go(p_hand, current, ipp)
+        if too_big == True:
+                pass
+        else:
+            atup = (c_hand[ipp], 2)              #*******
+            options.append(atup)
 
     #Addition
     a_hand = c_hand.copy()

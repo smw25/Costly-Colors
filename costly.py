@@ -90,22 +90,54 @@ def analyze(c_card:str, player_total):
         print('Pair +2')
 
   #sequence second 
-    ordtotal = sorted(total, key=ranks.index) #sorted total sequence strings 
-    if len(ordtotal) >= 3:
-        indrlist = []       #list of indexes...... (10, J, Q) = (9, 10, 11)
+    #ordtotal = sorted(total, key=ranks.index) #sorted total sequence strings 
+    if len(total) >= 3:
         true_seq = False
-        #if ordtotal in ranks:   #if each element of ordered total is in the same position as each element in ranks == sequence 
-        for card in ordtotal:
-            indr = ranks.index(card)  #=== finds the index of the card in 'ranks' list
-            indrlist.append(indr)
-        for i in range((len(indrlist) -1)):
-            if indrlist[i] + 1 == indrlist[i+1]:
-                true_seq = True 
-            else:
-                break 
+        #work backward from last card:
+        if len(total) == 6:
+            #take the last three cards of 'total' 
+            portion = total[-1:-3] 
+            #order this shorter list 
+            portion = sorted(portion, key=ranks.index) 
+            for i in range(len(portion) - 1, 0, -1):  #start at last value and work backwards
+                if portion[i-1] +1 == portion[i]: 
+                    true_seq = True 
+                else:
+                    true_seq = False
+        elif len(total) == 5 and true_seq == False:
+                #take the last three cards of 'total' 
+            portion = total[-1:-3] 
+                #order this shorter list  
+            portion = sorted(portion, key=ranks.index)
+            for i in range(len(portion) - 1, 0, -1):  #start at last value and work backwards
+                if portion[i-1] +1 == portion[i]: 
+                        true_seq = True 
+                else:
+                    true_seq = False
+        elif len(total) == 4 and true_seq == False:
+            #take the last three cards of 'total' 
+            portion = total[-1:-3] 
+            #order this shorter list  
+            portion = sorted(portion, key=ranks.index)
+            for i in range(len(portion) - 1, 0, -1):  #start at last value and work backwards
+                if portion[i-1] +1 == portion[i]: 
+                        true_seq = True 
+                else:
+                    true_seq = False
+        elif len(total) == 3 and true_seq == False:
+            #take the last three cards of 'total' 
+            portion = total[-1:-3] 
+            #order this shorter list  
+            portion = sorted(portion, key=ranks.index)
+            for i in range(len(portion) - 1, 0, -1):  #start at last value and work backwards
+                if portion[i-1] +1 == portion[i]: 
+                    true_seq = True 
+                else:
+                    true_seq = False   
+        #if ordtotal in ranks:   #if each element of ordered total is in the same position as each element in ranks == sequence  
         if true_seq == True:
-            player_total += len(ordtotal)
-            numadd = str(len(ordtotal))
+            player_total += len(portion)
+            numadd = str(len(portion))
             print('Sequence +' + numadd)
         else: 
             pass
