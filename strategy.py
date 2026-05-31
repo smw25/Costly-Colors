@@ -185,7 +185,7 @@ def next_card(totalnum, vtotal, c_hand):
                 options.append(atup)
         else:
             pass
-    elif vtotal[-1] in p_hand: 
+    elif len(vtotal) > 0 and vtotal[-1] in p_hand: 
         ipp = p_hand.index(vtotal[-1])
         #play that card (+2)
         too_big = comp_go(p_hand, current, ipp)
@@ -199,6 +199,7 @@ def next_card(totalnum, vtotal, c_hand):
     a_hand = c_hand.copy()
     a_hand = addition(a_hand)
     go_out = []
+    over = []
     #if current + any number in hand = 15, 25, or 31
     for card in a_hand: #hand is now composed of numerical value of cards
         aind = a_hand.index(card)
@@ -209,10 +210,18 @@ def next_card(totalnum, vtotal, c_hand):
             break
         elif current + card > 31:
             go_out.append(1)
+            ii = a_hand.index(card)
+            over.append(ii)
             if sum(go_out) == len(a_hand):
                 return None
+        #elif current + card < 31:
+            #playable = True 
+        #elif current + card > 31:
+            #c_hand.pop()
         else:
             pass
+    #if sum(go_out)
+    
     
     #Biggest Value 
     if len(options) > 1:
@@ -228,6 +237,9 @@ def next_card(totalnum, vtotal, c_hand):
     elif len(options) == 0 and len(c_hand) == 0:
         return None 
     elif len(options) == 0:
+        if len(over) != 0:
+            for index in over:
+                c_hand.pop(index)
         lp = random.choices(c_hand)
         play_card = lp[0]
     return play_card
