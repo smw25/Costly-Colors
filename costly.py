@@ -147,9 +147,8 @@ def analyze(c_card:str, player_total, peggohand):
         #if ordtotal in ranks:   #if each element of ordered total is in the same position as each element in ranks == sequence  
         if true_seq == True:
             player_total += len(portion)
-            numadd = str(len(portion))
-            print('Sequence +' + numadd)
-            numadd += len(portion)
+            numadd += len(portion) 
+            print('Sequence +' + str(len(portion)))
         else: 
             pass
     else: 
@@ -366,15 +365,16 @@ def hand(a_tot, b_tot, top_cd):
     if a[0] == '#':
         #count (non-dealer) user's hand first 
         indicator = [True, 'U']
-        print(ah)
         ntotal.clear()
+        total.clear()
         for card in ah:
             vitals = card.split(' ')
             if vitals[0] == 'King' or vitals[0] == 'Queen' or vitals[0] == 'Jack':
                 vitals[0] = 10
             elif vitals[0] == 'Ace':
                 vitals[0] = 1
-            ntotal.append(int(vitals[0])) 
+            else:
+                ntotal.append(int(vitals[0])) 
         an_tot, sum_t = analyze(top_cd, a_tot, indicator)
         a_tot += an_tot
         ah.append(top_cd)
@@ -384,22 +384,24 @@ def hand(a_tot, b_tot, top_cd):
             vitals[0] = 10
         elif vitals[0] == 'Ace':
             vitals[0] = 1
-        ntotal.append(vitals[0])
+        ntotal.append(int(vitals[0]))
         an_tot, sum_t = analyze(top_cd, a_tot, indicator)
         a_tot += an_tot
+        print(ah)
         print('Your Total is: ' + str(a_tot))
 
         #count (dealer) computer's hand last 
         indicator = [True, 'C']
-        print(bh)
         ntotal.clear()
+        total.clear()
         for card in bh:
             vitals = card.split(' ')
             if vitals[0] == 'King' or vitals[0] == 'Queen' or vitals[0] == 'Jack':
                 vitals[0] = 10
             elif vitals[0] == 'Ace':
                 vitals[0] = 1
-            ntotal.append(int(vitals[0]))
+            else:
+                ntotal.append(int(vitals[0]))
         bn_tot, sum_t = analyze(top_cd, b_tot, indicator)
         b_tot += bn_tot
         bh.append(top_cd)
@@ -409,22 +411,25 @@ def hand(a_tot, b_tot, top_cd):
             vitals[0] = 10
         elif vitals[0] == 'Ace':
             vitals[0] = 1
-        ntotal.append(vitals[0])
+        ntotal.append(int(vitals[0]))
         bn_tot, sum_t = analyze(top_cd, b_tot, indicator)
         b_tot += bn_tot
+        print(bh)
         print("Mr. Crib's Total is: " + str(b_tot))
+    
     else:
         #count computer (non-d) first
         indicator = [True, 'C']
-        print(bh)
         ntotal.clear()
+        total.clear()
         for card in ah:
             vitals = card.split(' ')
             if vitals[0] == 'King' or vitals[0] == 'Queen' or vitals[0] == 'Jack':
                 vitals[0] = 10
             elif vitals[0] == 'Ace':
                 vitals[0] = 1
-            ntotal.append(int(vitals[0]))
+            else:
+                ntotal.append(int(vitals[0]))
         bn_tot, sum_t = analyze(top_cd, b_tot, indicator)
         b_tot += bn_tot
         bh.append(top_cd)
@@ -434,22 +439,24 @@ def hand(a_tot, b_tot, top_cd):
             vitals[0] = 10
         elif vitals[0] == 'Ace':
             vitals[0] = 1
-        ntotal.append(vitals[0])
+        ntotal.append(int(vitals[0]))
         bn_tot, sum_t = analyze(top_cd, b_tot, indicator)
         b_tot += bn_tot
+        print(bh)
         print("Mr. Crib's Total is: " + str(b_tot))
 
         #user = dealer last 
         indicator = [True, 'U']
-        print(ah)
         ntotal.clear()
+        total.clear()
         for card in ah:
             vitals = card.split(' ')
             if vitals[0] == 'King' or vitals[0] == 'Queen' or vitals[0] == 'Jack':
                 vitals[0] = 10
             elif vitals[0] == 'Ace':
                 vitals[0] = 1
-            ntotal.append(int(vitals[0]))
+            else:
+                ntotal.append(int(vitals[0]))
         an_tot, sum_t = analyze(top_cd, a_tot, indicator)
         a_tot += an_tot
         ah.append(top_cd)
@@ -459,9 +466,10 @@ def hand(a_tot, b_tot, top_cd):
             vitals[0] = 10
         elif vitals[0] == 'Ace':
             vitals[0] = 1
-        ntotal.append(vitals[0])
+        ntotal.append(int(vitals[0]))
         an_tot, sum_t = analyze(top_cd, a_tot, indicator)
         a_tot += an_tot
+        print(ah)
         print('Your Total is: ' + str(a_tot))
     total.clear()
     ntotal.clear()
