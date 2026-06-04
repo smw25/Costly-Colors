@@ -104,6 +104,11 @@ def analyze(c_card:str, player_total, peggohand):
     if len(app_list) >= 3:
         true_seq = False
         #work backward from last card:
+        #New Method: 
+        #portion = sorted(portion)
+        #while true_seq == True
+            #if portion[i-1] +1 == portion[i]
+
         if len(app_list) == 6:
             #take the last three cards of 'total' 
             portion = app_list[-1:-3] 
@@ -136,7 +141,7 @@ def analyze(c_card:str, player_total, peggohand):
                     true_seq = False
         elif len(app_list) == 3 and true_seq == False:
             #take the last three cards of 'total' 
-            portion = app_list[-1:-3] 
+            portion = app_list[-1:-3:-1] 
             #order this shorter list  
             portion = sorted(portion, key=ranks.index)
             for i in range(len(portion) - 1, 0, -1):  #start at last value and work backwards
