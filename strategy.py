@@ -26,7 +26,7 @@ def sequence(hand:list):
     value = False 
     #for i in range(l_ord):
     for i in range(l_ord-1, 0, -1):
-        if l_ord == 1 or l_ord == 0:  #if there is only 1 card there cannot be a sequence 
+        if l_ord <= 2:  #if there is only 1 card there cannot be a sequence 
             value = False
             break
         #elif ordered[i] == ordered[i]:

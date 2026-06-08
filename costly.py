@@ -73,55 +73,47 @@ def deal(deck:list):
     print(top_card)
     return top
 
-def analyze(c_card:str, player_total, peggohand):
+def analyze(c_card:str, player_total):
     numadd = 0 
-    if peggohand[0] == False:      #pegging round
-        app_list = total
-    elif peggohand[0] == True and peggohand[1] == 'U':    #User hand play
-        app_list = ah
-    elif peggohand[0] == True and peggohand[1] == 'C':    #Computer hand play 
-        app_list = bh
     vitals = c_card.split(' ') #list with ['#', 'of', 'suit']
     #add to running total pile
     total.append(vitals[0])  #string value (no suit) stays in total 
     #analyze running total function
   #pairs first 
-    if len(app_list) >= 4 and app_list[-4] == app_list[-3] == app_list[-2] == app_list[-1]:
+    if len(total) >= 4 and total[-4] == total[-3] == total[-2] == total[-1]:
         player_total += 18
         numadd += 18
         print('Double Prial (4-of-a-kind) +18')
-    elif len(app_list) >= 3 and app_list[-3] == app_list[-2] == app_list[-1]:
+    elif len(total) >= 3 and total[-3] == total[-2] == total[-1]:
         player_total += 9 
         numadd += 9
         print('Prial (3-of-a-king) +9')
-    elif len(app_list) >= 2 and app_list[-2] == app_list[-1]:
+    elif len(total) >= 2 and total[-2] == total[-1]:
         player_total += 2
         numadd += 2
         print('Pair +2')
 
   #sequence second 
     #ordtotal = sorted(total, key=ranks.index) #sorted total sequence strings 
-    if len(app_list) >= 3:
+    if len(total) >= 3:
         true_seq = False
-        #work backward from last card:
-        #New Method: 
-        #portion = sorted(portion)
-        #while true_seq == True
-            #if portion[i-1] +1 == portion[i]
-
-        if len(app_list) == 6:
+        portion = total[-3:]
+        ######
+        true_seq, portion, orderhand = s.sequence(portion)
+        if len(total) == 6:
             #take the last three cards of 'total' 
-            portion = app_list[-1:-3] 
+            portion = total[-3:] 
             #order this shorter list 
             portion = sorted(portion, key=ranks.index) 
+            
             for i in range(len(portion) - 1, 0, -1):  #start at last value and work backwards
                 if portion[i-1] +1 == portion[i]: 
                     true_seq = True 
                 else:
                     true_seq = False
-        elif len(app_list) == 5 and true_seq == False:
+        elif len(total) == 5 and true_seq == False:
                 #take the last three cards of 'total' 
-            portion = app_list[-1:-3] 
+            portion = total[-3:] 
                 #order this shorter list  
             portion = sorted(portion, key=ranks.index)
             for i in range(len(portion) - 1, 0, -1):  #start at last value and work backwards
@@ -129,9 +121,9 @@ def analyze(c_card:str, player_total, peggohand):
                         true_seq = True 
                 else:
                     true_seq = False
-        elif len(app_list) == 4 and true_seq == False:
+        elif len(total) == 4 and true_seq == False:
             #take the last three cards of 'total' 
-            portion = app_list[-1:-3] 
+            portion = total[-3:] 
             #order this shorter list  
             portion = sorted(portion, key=ranks.index)
             for i in range(len(portion) - 1, 0, -1):  #start at last value and work backwards
@@ -139,9 +131,9 @@ def analyze(c_card:str, player_total, peggohand):
                         true_seq = True 
                 else:
                     true_seq = False
-        elif len(app_list) == 3 and true_seq == False:
+        elif len(total) == 3 and true_seq == False:
             #take the last three cards of 'total' 
-            portion = app_list[-1:-3:-1] 
+            portion = total[-3:] 
             #order this shorter list  
             portion = sorted(portion, key=ranks.index)
             for i in range(len(portion) - 1, 0, -1):  #start at last value and work backwards
@@ -165,9 +157,7 @@ def analyze(c_card:str, player_total, peggohand):
         vitals[0] = 1
     else:
         vitals[0] = int(vitals[0])
-
-    if peggohand[0] == False:
-        ntotal.append(vitals[0])
+    ntotal.append(vitals[0])
 
   #sums third 
     if sum(ntotal) == 31:
@@ -236,8 +226,7 @@ def pegging(a_tot, b_tot):
     #Non-dealer starts
     #could put this in a 'for' loop x in range(6)
     got = 'x'
-    gotc = 'comp'
-    indicator = [False]     #--------------Put in analyze 
+    gotc = 'comp' 
     while len(a) > 1 or len(b) > 1:  
     #for inning in range(3):
         if a[0] == '#':
@@ -245,7 +234,7 @@ def pegging(a_tot, b_tot):
             nflop = int(input("Choose card # 1, 2, or 3 (If applicable type '0' for a Go): ")) #user enters integer of card
             if nflop != 0:          #(run as normal)
                 flop = a[nflop]
-                a_tot, total_sum = analyze(flop, a_tot, indicator)
+                a_tot, total_sum = analyze(flop, a_tot)
                 print(flop + ' --> Total is: ' + str(sum(ntotal)))
                 if total_sum == 31:
                     ntotal.clear()
@@ -267,7 +256,7 @@ def pegging(a_tot, b_tot):
             #2nd Play = Computer's choice and show
             flop = s.next_card(ntotal, total, b[1:])
             if flop != None:           #Normal Play 
-                b_tot, total_sum = analyze(flop, b_tot, indicator)
+                b_tot, total_sum = analyze(flop, b_tot)
                 print(flop + ' --> Total is: ' + str(sum(ntotal)))
                 if total_sum == 31:
                     ntotal.clear()
@@ -290,7 +279,7 @@ def pegging(a_tot, b_tot):
                     w = s.first_card_non(seq_hand, seq_value, orderd)
                     xflop = random.choices(b[1:], weights=w)
                     flop = xflop[0]
-                    b_tot, total_sum = analyze(flop, b_tot, indicator)
+                    b_tot, total_sum = analyze(flop, b_tot)
                     print(flop + ' --> Total is: ' + str(sum(ntotal)))
                     nflop = b.index(flop)
                     b.pop(nflop)
@@ -310,7 +299,7 @@ def pegging(a_tot, b_tot):
             if flop == None and gotc == 'x':    #user's fault and Computer can't play 
                 pass
             elif flop != None:
-                b_tot, total_sum = analyze(flop, b_tot, indicator)
+                b_tot, total_sum = analyze(flop, b_tot)
                 print(flop + ' --> Total is: ' + str(sum(ntotal)))
                 if total_sum == 31:
                     ntotal.clear()
@@ -335,7 +324,7 @@ def pegging(a_tot, b_tot):
             nflop = int(input("Choose card # 1, 2, or 3: (If applicable)")) #user enters integer of card (index)
             if nflop != 0:    #(run as normal)
                 flop = a[nflop]  #value / card 
-                a_tot, total_sum = analyze(flop, a_tot, indicator)
+                a_tot, total_sum = analyze(flop, a_tot)
                 print(flop + ' --> Total is: ' + str(sum(ntotal)))
                 if total_sum == 31:
                     ntotal.clear()
@@ -354,7 +343,7 @@ def pegging(a_tot, b_tot):
                     b_tot = go(nflop, b_tot)
                     nflop = int(input("Choose card # 1, 2, or 3: (If applicable)"))
                     flop = a[nflop]  #value / card 
-                    a_tot, total_sum = analyze(flop, a_tot, indicator)
+                    a_tot, total_sum = analyze(flop, a_tot)
                     print(flop + ' --> Total is: ' + str(sum(ntotal)))
                     a.pop(nflop)
                     ah.append(flop)
@@ -369,7 +358,6 @@ def hand(a_tot, b_tot, top_cd):
     print('\n---Hand Play---')
     if a[0] == '#':
         #count (non-dealer) user's hand first 
-        indicator = [True, 'U']
         ntotal.clear()
         total.clear()
         for card in ah:
@@ -380,7 +368,7 @@ def hand(a_tot, b_tot, top_cd):
                 vitals[0] = 1
             else:
                 ntotal.append(int(vitals[0])) 
-        an_tot, sum_t = analyze(top_cd, a_tot, indicator)
+        an_tot, sum_t = analyze(top_cd, a_tot)
         a_tot += an_tot
         ah.append(top_cd)
         last = ah[-1]
@@ -390,7 +378,7 @@ def hand(a_tot, b_tot, top_cd):
         elif vitals[0] == 'Ace':
             vitals[0] = 1
         ntotal.append(int(vitals[0]))
-        an_tot, sum_t = analyze(top_cd, a_tot, indicator)
+        an_tot, sum_t = analyze(top_cd, a_tot)
         a_tot += an_tot
         print(ah)
         print('Your Total is: ' + str(a_tot))
@@ -407,7 +395,7 @@ def hand(a_tot, b_tot, top_cd):
                 vitals[0] = 1
             else:
                 ntotal.append(int(vitals[0]))
-        bn_tot, sum_t = analyze(top_cd, b_tot, indicator)
+        bn_tot, sum_t = analyze(top_cd, b_tot)
         b_tot += bn_tot
         bh.append(top_cd)
         last = bh[-1]
@@ -417,7 +405,7 @@ def hand(a_tot, b_tot, top_cd):
         elif vitals[0] == 'Ace':
             vitals[0] = 1
         ntotal.append(int(vitals[0]))
-        bn_tot, sum_t = analyze(top_cd, b_tot, indicator)
+        bn_tot, sum_t = analyze(top_cd, b_tot)
         b_tot += bn_tot
         print(bh)
         print("Mr. Crib's Total is: " + str(b_tot))
@@ -435,7 +423,7 @@ def hand(a_tot, b_tot, top_cd):
                 vitals[0] = 1
             else:
                 ntotal.append(int(vitals[0]))
-        bn_tot, sum_t = analyze(top_cd, b_tot, indicator)
+        bn_tot, sum_t = analyze(top_cd, b_tot)
         b_tot += bn_tot
         bh.append(top_cd)
         last = bh[-1]
@@ -445,7 +433,7 @@ def hand(a_tot, b_tot, top_cd):
         elif vitals[0] == 'Ace':
             vitals[0] = 1
         ntotal.append(int(vitals[0]))
-        bn_tot, sum_t = analyze(top_cd, b_tot, indicator)
+        bn_tot, sum_t = analyze(top_cd, b_tot)
         b_tot += bn_tot
         print(bh)
         print("Mr. Crib's Total is: " + str(b_tot))
@@ -462,7 +450,7 @@ def hand(a_tot, b_tot, top_cd):
                 vitals[0] = 1
             else:
                 ntotal.append(int(vitals[0]))
-        an_tot, sum_t = analyze(top_cd, a_tot, indicator)
+        an_tot, sum_t = analyze(top_cd, a_tot)
         a_tot += an_tot
         ah.append(top_cd)
         last = ah[-1]
@@ -472,7 +460,7 @@ def hand(a_tot, b_tot, top_cd):
         elif vitals[0] == 'Ace':
             vitals[0] = 1
         ntotal.append(int(vitals[0]))
-        an_tot, sum_t = analyze(top_cd, a_tot, indicator)
+        an_tot, sum_t = analyze(top_cd, a_tot)
         a_tot += an_tot
         print(ah)
         print('Your Total is: ' + str(a_tot))
@@ -487,7 +475,7 @@ def main():
     trump = deal(main_deck)
     a_point, b_point = initial(trump)
     a_point, b_point = pegging(a_point, b_point)
-    a_point, b_point = hand(a_point, b_point, trump)
+    #a_point, b_point = hand(a_point, b_point, trump)
 
 if __name__ == '__main__':
     main()    
