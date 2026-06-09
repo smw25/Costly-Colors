@@ -71,6 +71,7 @@ def deal(deck:list):
 #print the list that a (user) has 
     print(a)
     print(top_card)
+    print('')
     return top
 
 def analyze(c_card:str, player_total):
@@ -87,7 +88,7 @@ def analyze(c_card:str, player_total):
     elif len(total) >= 3 and total[-3] == total[-2] == total[-1]:
         player_total += 9 
         numadd += 9
-        print('Prial (3-of-a-king) +9')
+        print('Prial (3-of-a-kind) +9')
     elif len(total) >= 2 and total[-2] == total[-1]:
         player_total += 2
         numadd += 2
@@ -99,57 +100,28 @@ def analyze(c_card:str, player_total):
         true_seq = False
         portion = total[-3:]
         ######
-        true_seq, portion, orderhand = s.sequence(portion)
-        if len(total) == 6:
-            #take the last three cards of 'total' 
-            portion = total[-3:] 
-            #order this shorter list 
-            portion = sorted(portion, key=ranks.index) 
-            
-            for i in range(len(portion) - 1, 0, -1):  #start at last value and work backwards
-                if portion[i-1] +1 == portion[i]: 
-                    true_seq = True 
-                else:
-                    true_seq = False
-        elif len(total) == 5 and true_seq == False:
-                #take the last three cards of 'total' 
-            portion = total[-3:] 
-                #order this shorter list  
-            portion = sorted(portion, key=ranks.index)
-            for i in range(len(portion) - 1, 0, -1):  #start at last value and work backwards
-                if portion[i-1] +1 == portion[i]: 
-                        true_seq = True 
-                else:
-                    true_seq = False
-        elif len(total) == 4 and true_seq == False:
-            #take the last three cards of 'total' 
-            portion = total[-3:] 
-            #order this shorter list  
-            portion = sorted(portion, key=ranks.index)
-            for i in range(len(portion) - 1, 0, -1):  #start at last value and work backwards
-                if portion[i-1] +1 == portion[i]: 
-                        true_seq = True 
-                else:
-                    true_seq = False
-        elif len(total) == 3 and true_seq == False:
-            #take the last three cards of 'total' 
-            portion = total[-3:] 
-            #order this shorter list  
-            portion = sorted(portion, key=ranks.index)
-            for i in range(len(portion) - 1, 0, -1):  #start at last value and work backwards
-                if portion[i-1] +1 == portion[i]: 
-                    true_seq = True 
-                else:
-                    true_seq = False   
-        #if ordtotal in ranks:   #if each element of ordered total is in the same position as each element in ranks == sequence  
-        if true_seq == True:
-            player_total += len(portion)
-            numadd += len(portion) 
-            print('Sequence +' + str(len(portion)))
-        else: 
+        true_seq, sh, ord = s.sequence(portion) #this must be true 
+        p_ind = -4
+        if true_seq == False:
             pass
+        else: 
+            while true_seq == True and (abs(p_ind) <= len(total)):
+                portion = total[p_ind:]
+                true_seq, sh, ord = s.sequence(portion)
+                p_ind = p_ind - 1
+
+            if true_seq == True:
+                player_total += len(portion)
+                run = str(len(portion))
+                print('Run of ' + run + ': +' + run)
+            elif true_seq == False and len(portion) >= 3: 
+                p_ind = p_ind +2 
+                portion = total[p_ind:]
+                player_total += len(portion)
+                run = str(len(portion))
+                print('Run of ' + run + ': +' + run)
     else: 
-        pass        
+        pass    
     #change face cards to numbers of summation points 
     if vitals[0] == 'Jack' or vitals[0] == "Queen" or vitals[0] == "King" :
         vitals[0] = 10
@@ -214,13 +186,44 @@ def go(signal, player_tot):
     return player_tot
 
 def user_error(chosen):
-    if chosen > len(a):
-        print('**Out of Position** -- Choose the correct card position')
-        rechoose = int(input("Choose card # 1, 2, or 3 (If applicable type '0' for a Go): "))
-    elif sum(ntotal) + chosen > 31:
-        print('**Over 31 --- Choose a differnet card or type "0" for Go')
-        rechoose = int(input("Selection: "))
+    if chosen > len(a) - 1:
+        while chosen > len(a) - 1:
+            print('**Out of Position** -- Choose the correct card position \n')
+            chosen = int(input("Choose card # 1, 2, or 3 (If applicable type '0' for a Go): "))
+            rechoose = chosen
+    v_spl = a[chosen].split()
+    if v_spl[0] == 'Jack' or v_spl[0] == 'Queen' or v_spl[0] == 'King':
+        v_spl[0] = 10
+    elif v_spl[0] == 'Ace':
+        v_spl[0] = 1
+    elif v_spl[0] == '#' or v_spl[0] == '*D*':
+        return 0
+    numb = int(v_spl[0])
+    if sum(ntotal) + numb > 31:
+        while sum(ntotal) + numb > 31:
+            print('**Over 31** --- Choose a differnet card or type "0" for Go \n')
+            rechoose = int(input("Selection: "))
 
+            #if a person picks a number out of the card hand range 
+            if rechoose > len(a) - 1:
+                while chosen > len(a) - 1:
+                    print('**Out of Position** -- Choose the correct card position \n')
+                    rechoose = int(input("Choose card # 1, 2, or 3 (If applicable type '0' for a Go): "))
+            #turn chosen card into numerical value 
+            v_spl = a[rechoose].split()
+            if v_spl[0] == 'Jack' or v_spl[0] == 'Queen' or v_spl[0] == 'King':
+                v_spl[0] = 10
+            elif v_spl[0] == 'Ace':
+                v_spl[0] = 1
+            #Once a go is correctly declared
+            elif v_spl[0] == '#' or v_spl[0] == '*D*':
+                break
+            else:
+                numb = int(v_spl[0])
+    else:
+        rechoose = chosen 
+    return rechoose
+ 
 #Pegging Play
 def pegging(a_tot, b_tot):
     #Non-dealer starts
@@ -232,6 +235,10 @@ def pegging(a_tot, b_tot):
         if a[0] == '#':
         #1st Play = User
             nflop = int(input("Choose card # 1, 2, or 3 (If applicable type '0' for a Go): ")) #user enters integer of card
+            
+            #user error
+            nflop = user_error(nflop)
+
             if nflop != 0:          #(run as normal)
                 flop = a[nflop]
                 a_tot, total_sum = analyze(flop, a_tot)
@@ -321,7 +328,8 @@ def pegging(a_tot, b_tot):
 
             #2nd Play = User's turn 
             print(a)
-            nflop = int(input("Choose card # 1, 2, or 3: (If applicable)")) #user enters integer of card (index)
+            nflop = int(input("Choose card # 1, 2, or 3: (If applicable type '0' for a Go):")) #user enters integer of card (index)
+            nflop = user_error(nflop)
             if nflop != 0:    #(run as normal)
                 flop = a[nflop]  #value / card 
                 a_tot, total_sum = analyze(flop, a_tot)
@@ -341,7 +349,8 @@ def pegging(a_tot, b_tot):
                 elif nflop == 0 and gotc == 'x':
                     #go procedure -------------
                     b_tot = go(nflop, b_tot)
-                    nflop = int(input("Choose card # 1, 2, or 3: (If applicable)"))
+                    nflop = int(input("Choose card # 1, 2, or 3: (If applicable type '0' for a Go):"))
+                    nflop = user_error(nflop)
                     flop = a[nflop]  #value / card 
                     a_tot, total_sum = analyze(flop, a_tot)
                     print(flop + ' --> Total is: ' + str(sum(ntotal)))
