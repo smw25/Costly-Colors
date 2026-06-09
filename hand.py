@@ -14,7 +14,7 @@ def analyze_2(player_tot, p_hand:list):
     v_hand = []
     c_hand = []
     for card in p_hand:
-        info = card.split(' ')
+        info = card.split()
         v_hand.append(info[0])  #value
         c_hand.append(info[2])  #suit "color"
 
@@ -48,11 +48,11 @@ def analyze_2(player_tot, p_hand:list):
         print('3 in Color (Black): +2')          
         
     #nobs and duces second
-    for i in range(len(v_hand)):
-        if v_hand[i] == 'Jack' and c_hand[i] == c_hand[-1]:
+    for i in range(len(v_hand[0:2])):
+        if v_hand[i] == 'Jack' and c_hand[i] == c_hand[-1]: #suit of the jack matches the suit of turned up card
             player_tot += 4
             print('His Nobs: +4')
-        elif v_hand[i] == '2' and c_hand[i] == c_hand[-1]:
+        elif v_hand[i] == '2' and c_hand[i] == c_hand[-1]:  #suit of the deuce matches the suit of turned up card
             player_tot += 4
             print('Right Deuce: +4')
         elif v_hand[i] == 'Jack' or v_hand[i] == '2':
@@ -80,9 +80,44 @@ def analyze_2(player_tot, p_hand:list):
             print('Prial of ' + str_pri + ': +9')
 
     #sequences fourth
-    seq_hand = p_hand.copy()
-    value, seq_hand, ordered = s.sequence(seq_hand)     #p_hand is now just card values
-    
+    seq_hand = p_hand.copy()    
+    true_seq = False
+    portion = seq_hand[0:2]
+    ######
+    true_seq, sh, ord = s.sequence(portion) #this must be true -----  #p_hand is now just card values
+    if true_seq == False:
+        pass
+    else: 
+        if true_seq == True:    #the three cards dealt in hand = a run
+            value, seq_hand, ordered = s.sequence(seq_hand)
+            if value == True and true_seq == True:
+                player_tot += len(seq_hand) 
+                run = str(len(seq_hand))
+            elif true_seq == True and value == False: 
+                player_tot += len(portion)
+                run = str(len(portion))
+            print('Run of ' + run + ': +' + run)
+            
+
     #addition fifth
     add_hand = s.addition(p_hand)
+    #If ALL 4 cards add a Number
+    if sum(add_hand) == 15 or sum(add_hand) == 25 or sum(add_hand) == 31:
+        player_tot += 4
+        print('All 4 cards = ' + str(sum(add_hand)) + ': +4')
     
+    #The summation of three cards can ONLY equal 15 or 25 
+    for triple in it.combinations(add_hand, 3):
+        if sum(triple) == 15 or sum(triple) == 25:
+            print(triple)
+            player_tot += 3
+            print('Sum to ' + str(sum(triple)) + ': +3')
+
+    #The summation of any two cards can only equal 15
+    for combo in it.combinations(add_hand, 2):
+        if sum(combo) == 15:
+            print(combo)
+            player_tot += 2
+            print('Sum to 15: +2')
+
+    return player_tot

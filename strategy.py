@@ -144,8 +144,8 @@ def next_card(totalnum, vtotal, c_hand):
     #Checks if a card in the computer's hand can complete a run on the played cards
     if run == True:
         #the cards are now just their numerical values with face cards having 11, 12, 13
-        for card in shand:              #in the computer's hand 
-            iplay = shand.index(card)   #index integer
+        for card in c_hand:              #in the computer's hand 
+            iplay = c_hand.index(card)   #index integer
             lcard = [card]
             v, h, o = sequence(lcard)
             ord.append(card)            #ordered list of played down cards from above 

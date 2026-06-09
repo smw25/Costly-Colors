@@ -1,5 +1,6 @@
 import random
 import strategy as s
+import hand as h
 
 suits = ["Diamonds", "Hearts", "Clubs", "Spades", ]
 ranks = ["Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"]
@@ -365,113 +366,28 @@ def pegging(a_tot, b_tot):
 
 def hand(a_tot, b_tot, top_cd):
     print('\n---Hand Play---')
+    pa_total = a_tot
+    pb_total = b_tot
+    ah.append(top_cd)
+    bh.append(top_cd)
     if a[0] == '#':
         #count (non-dealer) user's hand first 
-        ntotal.clear()
-        total.clear()
-        for card in ah:
-            vitals = card.split(' ')
-            if vitals[0] == 'King' or vitals[0] == 'Queen' or vitals[0] == 'Jack':
-                vitals[0] = 10
-            elif vitals[0] == 'Ace':
-                vitals[0] = 1
-            else:
-                ntotal.append(int(vitals[0])) 
-        an_tot, sum_t = analyze(top_cd, a_tot)
-        a_tot += an_tot
-        ah.append(top_cd)
-        last = ah[-1]
-        vitals = last.split(' ')
-        if vitals[0] == 'King' or vitals[0] == 'Queen' or vitals[0] == 'Jack':
-            vitals[0] = 10
-        elif vitals[0] == 'Ace':
-            vitals[0] = 1
-        ntotal.append(int(vitals[0]))
-        an_tot, sum_t = analyze(top_cd, a_tot)
-        a_tot += an_tot
         print(ah)
+        a_tot = h.analyze_2(a_tot, ah)
         print('Your Total is: ' + str(a_tot))
-
-        #count (dealer) computer's hand last 
-        indicator = [True, 'C']
-        ntotal.clear()
-        total.clear()
-        for card in bh:
-            vitals = card.split(' ')
-            if vitals[0] == 'King' or vitals[0] == 'Queen' or vitals[0] == 'Jack':
-                vitals[0] = 10
-            elif vitals[0] == 'Ace':
-                vitals[0] = 1
-            else:
-                ntotal.append(int(vitals[0]))
-        bn_tot, sum_t = analyze(top_cd, b_tot)
-        b_tot += bn_tot
-        bh.append(top_cd)
-        last = bh[-1]
-        vitals = last.split(' ')
-        if vitals[0] == 'King' or vitals[0] == 'Queen' or vitals[0] == 'Jack':
-            vitals[0] = 10
-        elif vitals[0] == 'Ace':
-            vitals[0] = 1
-        ntotal.append(int(vitals[0]))
-        bn_tot, sum_t = analyze(top_cd, b_tot)
-        b_tot += bn_tot
+        ###count (dealer) computer's hand last 
         print(bh)
+        b_tot = h.analyze_2(b_tot, bh)
         print("Mr. Crib's Total is: " + str(b_tot))
     
     else:
         #count computer (non-d) first
-        indicator = [True, 'C']
-        ntotal.clear()
-        total.clear()
-        for card in ah:
-            vitals = card.split(' ')
-            if vitals[0] == 'King' or vitals[0] == 'Queen' or vitals[0] == 'Jack':
-                vitals[0] = 10
-            elif vitals[0] == 'Ace':
-                vitals[0] = 1
-            else:
-                ntotal.append(int(vitals[0]))
-        bn_tot, sum_t = analyze(top_cd, b_tot)
-        b_tot += bn_tot
-        bh.append(top_cd)
-        last = bh[-1]
-        vitals = last.split(' ')
-        if vitals[0] == 'King' or vitals[0] == 'Queen' or vitals[0] == 'Jack':
-            vitals[0] = 10
-        elif vitals[0] == 'Ace':
-            vitals[0] = 1
-        ntotal.append(int(vitals[0]))
-        bn_tot, sum_t = analyze(top_cd, b_tot)
-        b_tot += bn_tot
         print(bh)
+        b_tot = h.analyze_2(b_tot, bh)
         print("Mr. Crib's Total is: " + str(b_tot))
-
-        #user = dealer last 
-        indicator = [True, 'U']
-        ntotal.clear()
-        total.clear()
-        for card in ah:
-            vitals = card.split(' ')
-            if vitals[0] == 'King' or vitals[0] == 'Queen' or vitals[0] == 'Jack':
-                vitals[0] = 10
-            elif vitals[0] == 'Ace':
-                vitals[0] = 1
-            else:
-                ntotal.append(int(vitals[0]))
-        an_tot, sum_t = analyze(top_cd, a_tot)
-        a_tot += an_tot
-        ah.append(top_cd)
-        last = ah[-1]
-        vitals = last.split(' ')
-        if vitals[0] == 'King' or vitals[0] == 'Queen' or vitals[0] == 'Jack':
-            vitals[0] = 10
-        elif vitals[0] == 'Ace':
-            vitals[0] = 1
-        ntotal.append(int(vitals[0]))
-        an_tot, sum_t = analyze(top_cd, a_tot)
-        a_tot += an_tot
+        ###user = dealer last 
         print(ah)
+        a_tot = h.analyze_2(a_tot, ah)
         print('Your Total is: ' + str(a_tot))
     total.clear()
     ntotal.clear()
@@ -484,7 +400,7 @@ def main():
     trump = deal(main_deck)
     a_point, b_point = initial(trump)
     a_point, b_point = pegging(a_point, b_point)
-    #a_point, b_point = hand(a_point, b_point, trump)
+    a_point, b_point = hand(a_point, b_point, trump)
 
 if __name__ == '__main__':
     main()    
