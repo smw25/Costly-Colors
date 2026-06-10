@@ -3,16 +3,20 @@ import itertools as it
 import costly as c 
 import strategy as s 
 #hearts and 
-
 #we can either hard wire or make this more general 
 def analyze_2(player_tot, p_hand:list):
     #colors first 
-    red = True 
+    red = False
     blk = False
     rc = 0
     bc = 0
     v_hand = []
     c_hand = []
+    dp = None
+    str_pri = None
+    str_pair = None
+
+
     for card in p_hand:
         info = card.split()
         v_hand.append(info[0])  #value
@@ -32,10 +36,10 @@ def analyze_2(player_tot, p_hand:list):
         if all(suit_c == card for card in c_hand) == True: #All same suit 
             player_tot += 6
             print('Costly Colours! (4 ' + suit_c + '): +6 \n' )
-        elif sum(suit_c == card for card in p_hand) == 3:   #3 cards same suit 
+        elif sum(suit_c == card for card in c_hand) == 3:   #3 cards same suit 
             player_tot += 5
             print('4 in Colour, 3 in Suit (' + suit_c + '): +5 \n')
-        elif sum(suit_c == card for card in p_hand) == 2:    #2 cards in same suit 
+        elif sum(suit_c == card for card in c_hand) == 2:    #2 cards in same suit 
             player_tot += 4
             print('4 in Colour, 2 in Suit (' + suit_c + '): +4 \n')
     elif c_hand.count(suit_c) == 3: #3 cards same suit & NOT ALL same color 
@@ -69,35 +73,45 @@ def analyze_2(player_tot, p_hand:list):
         vitals = card.split(' ')
         pp_hand[cind] = vitals[0]
 
-    for pair in it.combinations(pp_hand, 2):
-        if pair[0] == pair [1]:
-            player_tot += 2
-            str_pair = str(pair[0])
-            print('Pair of ' + str_pair + ': +2 \n')
+    if pp_hand[0] == pp_hand[1] == pp_hand[2] == pp_hand[3]:
+        player_total += 18
+        dp = str(pp_hand[0])
+        print('Double Prial (4-of-a-kind) of ' + dp + ': +18 \n')
+
     for prial in it.combinations(pp_hand, 3):
         if prial[0] == prial[1] == prial[2]:
+            str_pri = str(prial[0])
+            if str_pri == dp:
+                break
             player_tot += 9
-            str_pri = str(pair[0])
             print('Prial of ' + str_pri + ': +9 \n')
 
-    #sequences fourth
-    seq_hand = p_hand.copy()    
-    true_seq = False
-    portion = seq_hand[0:2]
+    for pair in it.combinations(pp_hand, 2):
+        if pair[0] == pair [1]:
+            str_pair = str(pair[0])
+            if str_pair == str_pri:     #should stop a lesser pair from being counted from the same trips
+                break
+            player_tot += 2
+            print('Pair of ' + str_pair + ': +2 \n')
+    
+    #sequences fourth       SEQUENCES DON'T COUNT IN HAND
+    #seq_hand = p_hand.copy()    
+    #true_seq = False
+    #portion = seq_hand[0:2]
     ######
-    true_seq, sh, ord = s.sequence(portion) #this must be true -----  #p_hand is now just card values
-    if true_seq == False:
-        pass
-    else: 
-        if true_seq == True:    #the three cards dealt in hand = a run
-            value, seq_hand, ordered = s.sequence(seq_hand)
-            if value == True and true_seq == True:
-                player_tot += len(seq_hand) 
-                run = str(len(seq_hand))
-            elif true_seq == True and value == False: 
-                player_tot += len(portion)
-                run = str(len(portion))
-            print('Run of ' + run + ': +' + run +'\n')
+    #true_seq, sh, ord = s.sequence(portion) #this must be true -----  #p_hand is now just card values
+    #if true_seq == False:
+    #    pass
+    #else: 
+    #    if true_seq == True:    #the three cards dealt in hand = a run
+    #        value, seq_hand, ordered = s.sequence(seq_hand)
+    #        if value == True and true_seq == True:
+    #            player_tot += len(seq_hand) 
+    #            run = str(len(seq_hand))
+    #        elif true_seq == True and value == False: 
+    #            player_tot += len(portion)
+    #            run = str(len(portion))
+    #        print('Run of ' + run + ': +' + run +'\n')
             
 
     #addition fifth

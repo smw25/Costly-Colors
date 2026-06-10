@@ -370,6 +370,7 @@ def hand(a_tot, b_tot, top_cd):
     pb_total = b_tot
     ah.append(top_cd)
     bh.append(top_cd)
+    print('Top Card is: ' + top_cd + '\n')
     if a[0] == '#':
         print('Non-Dealer (Your) Hand Totals:')
         #count (non-dealer) user's hand first 
