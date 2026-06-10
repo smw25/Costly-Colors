@@ -146,7 +146,20 @@ def analyze_2(player_tot, p_hand:list):
     return player_tot
 
 def round_totals(user_total, comp_total, pa, pb):
-    print('*#*Round Toals*#*')
-    str(user_total)
-    print("---Pegging---")
-    print('Your Total =  ')
+    print('*#*#*Round Toals*#*#*')
+    ut = str(user_total)  #useer
+    ct = str(comp_total)
+    pas = str(pa)         #user's pegging
+    pbs = str(pb)
+    #Computer Hand
+    print('---Computer---')
+    print("Pegging = " + pbs)
+    print("Hand = " + str(comp_total - pb))
+    print('Computer Total = ' + ct + '\n')
+
+    #user
+    print('---You---') 
+    print('Pegging = ' + pas)
+    print("Hand = " + str(user_total - pa))
+    print('Your Total = ' + ut)
+
