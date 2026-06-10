@@ -146,9 +146,9 @@ def next_card(totalnum, vtotal, c_hand):
         #the cards are now just their numerical values with face cards having 11, 12, 13
         for card in c_hand:              #in the computer's hand 
             iplay = c_hand.index(card)   #index integer
-            lcard = [card]
-            v, h, o = sequence(lcard)
-            ord.append(card)            #ordered list of played down cards from above 
+            #lcard = [card]
+            #v, h, o = sequence(lcard)
+            vtotal.append(card)            #ordered list of played down cards from above 
             seq, cc_hand, ordd = sequence(ord)   #we only care if by adding a card we get a sequence
             go_test = comp_go(c_hand, current, iplay)
             if seq == True and go_test == False:
