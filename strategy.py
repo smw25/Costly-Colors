@@ -149,7 +149,7 @@ def next_card(totalnum, vtotal, c_hand):
             #lcard = [card]
             #v, h, o = sequence(lcard)
             vtotal.append(card)            #ordered list of played down cards from above 
-            seq, cc_hand, ordd = sequence(ord)   #we only care if by adding a card we get a sequence
+            seq, cc_hand, ordd = sequence(vtotal)   #we only care if by adding a card we get a sequence
             go_test = comp_go(c_hand, current, iplay)
             if seq == True and go_test == False:
                 atup = (card, len(ord)) #******************

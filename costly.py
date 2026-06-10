@@ -334,7 +334,7 @@ def pegging(a_tot, b_tot):
             if nflop != 0:    #(run as normal)
                 flop = a[nflop]  #value / card 
                 a_tot, total_sum = analyze(flop, a_tot)
-                print(flop + ' --> Total is: ' + str(sum(ntotal)))
+                print(flop + ' --> Total is: ' + str(sum(ntotal)) + '\n')
                 if total_sum == 31:
                     ntotal.clear()
                     print('')
@@ -371,21 +371,25 @@ def hand(a_tot, b_tot, top_cd):
     ah.append(top_cd)
     bh.append(top_cd)
     if a[0] == '#':
+        print('Non-Dealer (Your) Hand Totals')
         #count (non-dealer) user's hand first 
         print(ah)
         a_tot = h.analyze_2(a_tot, ah)
-        print('Your Total is: ' + str(a_tot))
+        print('Your Total is: ' + str(a_tot) + '\n')
         ###count (dealer) computer's hand last 
+        print("Dealer's (Mr. Crib's) Hand Totals")
         print(bh)
         b_tot = h.analyze_2(b_tot, bh)
         print("Mr. Crib's Total is: " + str(b_tot))
     
     else:
         #count computer (non-d) first
+        print("Non-Dealer (Mr. Crib's) Hand Totals")
         print(bh)
         b_tot = h.analyze_2(b_tot, bh)
-        print("Mr. Crib's Total is: " + str(b_tot))
+        print("Mr. Crib's Total is: " + str(b_tot) + '\n')
         ###user = dealer last 
+        print("Dealer's (Your) Hand Totals")
         print(ah)
         a_tot = h.analyze_2(a_tot, ah)
         print('Your Total is: ' + str(a_tot))
@@ -399,8 +403,8 @@ def main():
     print('*#*#*#*#*Costly Colours*#*#*#*#*')
     trump = deal(main_deck)
     a_point, b_point = initial(trump)
-    a_point, b_point = pegging(a_point, b_point)
-    a_point, b_point = hand(a_point, b_point, trump)
+    pa_point, pb_point = pegging(a_point, b_point)
+    a_point, b_point = hand(pa_point, pb_point, trump)
 
 if __name__ == '__main__':
     main()    

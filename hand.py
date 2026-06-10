@@ -105,7 +105,7 @@ def analyze_2(player_tot, p_hand:list):
     add_hand = p_hand.copy()
     tenxs = []
     for card in add_hand:
-        if 'Jack' in card[0:4] or 'Quee' in card[0:4] or 'King' in card[0:4]:
+        if 'Jack' in card[0:4] or 'Quee' in card[0:4] or 'King' in card[0:4] or '10' in card[0:2]:
             findx = add_hand.index(card)
             tenxs.append(findx)
     counter = 0
@@ -144,3 +144,9 @@ def analyze_2(player_tot, p_hand:list):
             print('Sum to 15: +2 \n')
 
     return player_tot
+
+def round_totals(user_total, comp_total, pa, pb):
+    print('*#*Round Toals*#*')
+    str(user_total)
+    print("---Pegging---")
+    print('Your Total =  ')
