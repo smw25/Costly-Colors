@@ -1,6 +1,7 @@
 import random
 import strategy as s
 import hand as h
+import time as t 
 
 suits = ["Diamonds", "Hearts", "Clubs", "Spades", ]
 ranks = ["Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"]
@@ -365,6 +366,7 @@ def pegging(a_tot, b_tot):
     #Hand Play    
 
 def hand(a_tot, b_tot, top_cd):
+    t.sleep(2)
     print('\n---Hand Play---')
     pa_total = a_tot
     pb_total = b_tot
@@ -372,24 +374,28 @@ def hand(a_tot, b_tot, top_cd):
     bh.append(top_cd)
     print('Top Card is: ' + top_cd + '\n')
     if a[0] == '#':
+        t.sleep(0.5)
         print('Non-Dealer (Your) Hand Totals:')
         #count (non-dealer) user's hand first 
         print(ah)
         a_tot = h.analyze_2(a_tot, ah)
         print('Your Total is: ' + str(a_tot) + '\n')
         ###count (dealer) computer's hand last 
+        t.sleep(1)
         print("Dealer's (Mr. Crib's) Hand Totals:")
         print(bh)
         b_tot = h.analyze_2(b_tot, bh)
-        print("Mr. Crib's Total is: " + str(b_tot))
+        print("Mr. Crib's Total is: " + str(b_tot) + '\n')
     
     else:
         #count computer (non-d) first
+        t.sleep(1)
         print("Non-Dealer (Mr. Crib's) Hand Totals:")
         print(bh)
         b_tot = h.analyze_2(b_tot, bh)
         print("Mr. Crib's Total is: " + str(b_tot) + '\n')
         ###user = dealer last 
+        t.sleep(1)
         print("Dealer's (Your) Hand Totals:")
         print(ah)
         a_tot = h.analyze_2(a_tot, ah)
@@ -398,6 +404,18 @@ def hand(a_tot, b_tot, top_cd):
     ntotal.clear()
     return a_tot, b_tot
     
+def return_cards(u_hand, ai_hand, topc, deck:list):
+    u_hand.pop()
+    for card in u_hand[0:3]:
+        deck.append(card)
+    ai_hand.pop()
+    for card in ai_hand:
+        deck.append(card)
+    deck.append(topc)
+    ah.clear()
+    bh.clear()
+    return deck
+
 def main(): 
     main_deck = cards()
     main_deck = start(main_deck)
@@ -405,9 +423,10 @@ def main():
     trump = deal(main_deck)
     a_point, b_point = initial(trump)
     pa_point, pb_point = pegging(a_point, b_point)
-    a_point, b_point = hand(pa_point, pb_point, trump)
+    a_point, b_point = hand(pa_point, pb_point, trump)  #total points after the round for each player
     h.round_totals(a_point, b_point, pa_point, pb_point)
-
+    main_deck = return_cards(ah, bh, trump, main_deck)
+    
 if __name__ == '__main__':
     main()    
 

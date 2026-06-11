@@ -4,7 +4,7 @@ import random
    #[# of Suit, xxx, xxx]
 #Sequence (Prials)
 def sequence(hand:list):
-    #hand = hand[1:]
+    hand = hand.copy()
     #turn all cards in hand into their respective numerical order
     for card in hand:  
         inx = hand.index(card)              
@@ -156,8 +156,7 @@ def next_card(totalnum, vtotal, c_hand):
                 options.append(atup)
                 break
             else:
-                pass
-                ord.pop()
+                vtotal.pop()
         ord.pop()
         
     #Pairs and Prials

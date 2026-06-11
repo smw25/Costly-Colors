@@ -2,6 +2,7 @@ import random
 import itertools as it
 import costly as c 
 import strategy as s 
+import time as t
 #hearts and 
 #we can either hard wire or make this more general 
 def analyze_2(player_tot, p_hand:list):
@@ -52,7 +53,7 @@ def analyze_2(player_tot, p_hand:list):
         print('3 in Color (Black): +2 \n')          
         
     #nobs and duces second
-    for i in range(len(v_hand[0:2])):
+    for i in range(len(v_hand[0:3])):
         if v_hand[i] == 'Jack' and c_hand[i] == c_hand[-1]: #suit of the jack matches the suit of turned up card
             player_tot += 4
             print('His Nobs: +4 \n')
@@ -133,11 +134,15 @@ def analyze_2(player_tot, p_hand:list):
     #The summation of three cards can ONLY equal 15 or 25 
     for triple in it.combinations(add_hand, 3):
         if sum(triple) == 15 or sum(triple) == 25:
-            if 10 in triple:
+            if 10 in triple and len(tenxs) > 1:
                 kick = p_hand[tenxs[counter]]
                 print(triple, end='')
                 print(' -------> ' + kick)
                 counter += 1
+            elif 10 in triple and len(tenxs) == 1:
+                kick = p_hand[tenxs[0]]
+                print(triple, end='')
+                print(' -------> ' + kick)
             else: 
                 print(triple)
             player_tot += 3
@@ -156,20 +161,22 @@ def analyze_2(player_tot, p_hand:list):
                 print(combo)
             player_tot += 2
             print('Sum to 15: +2 \n')
+    counter = 0
 
     return player_tot
 
 def round_totals(user_total, comp_total, pa, pb):
     print('*#*#*Round Toals*#*#*')
+    
     ut = str(user_total)  #useer
     ct = str(comp_total)
     pas = str(pa)         #user's pegging
     pbs = str(pb)
     #Computer Hand
-    print('---Computer---')
+    print('---Mr. Crib---')
     print("Pegging = " + pbs)
     print("Hand = " + str(comp_total - pb))
-    print('Computer Total = ' + ct + '\n')
+    print("Mr. Crib's Total = " + ct + "\n")
 
     #user
     print('---You---') 
