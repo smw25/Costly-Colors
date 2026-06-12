@@ -193,6 +193,21 @@ def user_error(chosen):
             print('**Out of Position** -- Choose the correct card position \n')
             chosen = int(input("Choose card # 1, 2, or 3 (If applicable type '0' for a Go): "))
             rechoose = chosen
+    #if chosen == 0:
+        #rtest = a.copy()
+        #for card in rtest[1:]
+        #   cix = rtest.index(card)
+        #   if card[0:4] == 'Jack' or card[0:4] == 'Quee' or card[0:4] == 'King' or card[0:2] == '10'
+                #rtest[cix] = 10
+        #   elif card[0:3] == 'Ace'
+                #rtest[cix] == 1
+        #   else:
+                #rtest[cix] == int(card[0])
+
+        #for card in rtest[1:]
+            #cix = rtest.index(card)
+            #if card + sum(ntotal) <= 31 ###A renege 
+                #print('You can still play a card (' + str(a[cix]) ') with Total remaining under 31')
     v_spl = a[chosen].split()
     if v_spl[0] == 'Jack' or v_spl[0] == 'Queen' or v_spl[0] == 'King':
         v_spl[0] = 10
@@ -306,7 +321,8 @@ def pegging(a_tot, b_tot):
                 flop = s.next_card(ntotal, total, b[1:])
 
             if flop == None and gotc == 'x':    #user's fault and Computer can't play 
-                pass
+                b_tot = go(nflop, b_tot)  #Figuiring out ----------------
+                pass #continue maybe
             elif flop != None:
                 b_tot, total_sum = analyze(flop, b_tot)
                 print(flop + ' --> Total is: ' + str(sum(ntotal)))
