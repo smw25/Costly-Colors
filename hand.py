@@ -152,7 +152,11 @@ def analyze_2(player_tot, p_hand:list):
     #The summation of any two cards can only equal 15
     for combo in it.combinations(add_hand, 2):
         if sum(combo) == 15:
-            if 10 in combo:
+            if 10 in combo and len(tenxs) == 1:  #works with having one 10 card and multiple othe fifteens
+                kick = p_hand[tenxs[0]]   #counter == 0 
+                print(combo, end='')
+                print(' -------> ' + kick)
+            elif 10 in combo and len(tenxs) > 1: #works with multiple 10s 
                 kick = p_hand[tenxs[counter]]
                 print(combo, end='')
                 print(' -------> ' + kick)

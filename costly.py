@@ -188,29 +188,19 @@ def go(signal, player_tot):
     return player_tot
 
 def user_error(chosen):
-    #chosen is an integer 
-    valid = ['0', '1', '2', '3']
     #If the typed value is not an integer
     while True:
         try:
-            if chosen == 'qq':
-                break
             chosen = int(chosen)
             break
         except ValueError: 
             chosen = input('Type an integer (0, 1, 2, or , 3): ')
-    #if chosen not in valid:
-    #    while chosen not in valid:
-    #        chosen = input('Type an integer (0, 1, 2, or , 3): ')
-    #    chosen = int(chosen)
-    #else:
-    #    chosen = int(chosen)
-    #If the given integer is more than the position of the cards in hand
+    #If chosen number is not in the list of cards by size (1,2,3 or 0)
     if chosen > len(a) - 1:
-        while chosen > len(a) - 1:
-            print('**Out of Position** -- Choose the correct card position \n')
-            chosen = int(input("Choose card # 1, 2, or 3 (If applicable type '0' for a Go): "))
-            rechoose = chosen
+        print('**Out of Position** -- Choose the correct card position \n')
+        chosen = int(input("Choose card # 1, 2, or 3 (If applicable type '0' for a Go): "))
+        rechoose = chosen
+        return user_error(rechoose)
     #If player tries to Renege
     if chosen == 0:
         rtest = a.copy()
@@ -225,45 +215,48 @@ def user_error(chosen):
 
         for card in rtest[1:]:
             cix = rtest.index(card)
-            while card + sum(ntotal) <= 31: ###A renege 
+            if card + sum(ntotal) <= 31: ###A renege 
                 print('**Renege** - You can still play a card (' + str(a[cix]) + ') with Total remaining under 31')  
-                rechoose = int(input('Choose the correct card 1 or 2: '))
+                rechoose = input('Choose the correct card 1 or 2: ')
+                print('')
+                return user_error(rechoose)
+
     v_spl = a[chosen].split()
     if v_spl[0] == 'Jack' or v_spl[0] == 'Queen' or v_spl[0] == 'King':
         v_spl[0] = 10
     elif v_spl[0] == 'Ace':
         v_spl[0] = 1
-    elif v_spl[0] == '#' or v_spl[0] == '*D*':
+    elif v_spl[0] == '#' or v_spl[0] == '*D*':  #indication of a go by the player
         return 0
     numb = int(v_spl[0])
     #If player Has to say go, but tries to play a card
     if sum(ntotal) + numb > 31:
-        while sum(ntotal) + numb > 31:
-            print('**Over 31** --- Choose a differnet card or type "0" for Go \n')
-            rechoose = int(input("Selection: "))
-
+        #while sum(ntotal) + numb > 31:
+        print('**Over 31** --- Choose a differnet card or type "0" for Go \n')
+        rechoose = input("Selection: ")
+        return user_error(rechoose)
             #if a person picks a number out of the card hand range 
-            if rechoose > len(a) - 1:
-                while chosen > len(a) - 1:
-                    print('**Out of Position** -- Choose the correct card position \n')
-                    rechoose = int(input("Choose card # 1, 2, or 3 (If applicable type '0' for a Go): "))
+        if rechoose > len(a) - 1:
+            while rechoose > len(a) - 1:
+                print('**Out of Position** -- Choose the correct card position \n')
+                rechoose = int(input("Choose card # 1, 2, or 3 (If applicable type '0' for a Go): "))
             #turn chosen card into numerical value 
-            v_spl = a[rechoose].split()
-            if v_spl[0] == 'Jack' or v_spl[0] == 'Queen' or v_spl[0] == 'King':
-                v_spl[0] = 10
-            elif v_spl[0] == 'Ace':
-                v_spl[0] = 1
+        v_spl = a[rechoose].split()
+        if v_spl[0] == 'Jack' or v_spl[0] == 'Queen' or v_spl[0] == 'King':
+            v_spl[0] = 10
+        elif v_spl[0] == 'Ace':
+            v_spl[0] = 1
             #Once a go is correctly declared
-            elif v_spl[0] == '#' or v_spl[0] == '*D*':
-                break
-            else:
-                numb = int(v_spl[0])
+        elif v_spl[0] == '#' or v_spl[0] == '*D*':
+            #break
+        #else:
+            numb = int(v_spl[0])
     else:
         rechoose = chosen 
     return rechoose
  
 #Pegging Play
-def pegging(a_tot, b_tot):
+def pegging(a_tot, b_tot, playerp:int, compp:int):
     #Non-dealer starts
     #could put this in a 'for' loop x in range(6)
     got = 'x'
@@ -281,6 +274,12 @@ def pegging(a_tot, b_tot):
                 flop = a[nflop]
                 a_tot, total_sum = analyze(flop, a_tot)
                 print(flop + ' --> Total is: ' + str(sum(ntotal)))
+                ###CHECK FOR WIN
+                if playerp + a_tot >= 61:
+                    #print("You Win off of pegging: (point total)")
+                    break
+                else:
+                    pass
                 if total_sum == 31:
                     ntotal.clear()
                     print('')
@@ -294,6 +293,7 @@ def pegging(a_tot, b_tot):
                 cflop = s.next_card(ntotal, total, b[1:])
                 if cflop == None:
                     b_tot = go(nflop, b_tot)
+                    print(a)
                     continue       #Allows the user to start at the top of the loop
                 else: 
                     pass #break?? / pass
@@ -303,6 +303,12 @@ def pegging(a_tot, b_tot):
             if flop != None:           #Normal Play 
                 b_tot, total_sum = analyze(flop, b_tot)
                 print(flop + ' --> Total is: ' + str(sum(ntotal)))
+                ###CHECK FOR WIN
+                if compp + b_tot >= 61:
+                    #print("Mr. Crib Win's off of pegging: (point total) points")
+                    break
+                else:
+                    pass
                 if total_sum == 31:
                     ntotal.clear()
                     print('')
@@ -326,6 +332,12 @@ def pegging(a_tot, b_tot):
                     flop = xflop[0]
                     b_tot, total_sum = analyze(flop, b_tot)
                     print(flop + ' --> Total is: ' + str(sum(ntotal)))
+                    ###CHECK FOR WIN
+                    if compp + b_tot >= 61:
+                    #print("Mr. Crib Win's off of pegging: (point total) points")
+                        break
+                    else:
+                        pass
                     nflop = b.index(flop)
                     b.pop(nflop)
                     bh.append(flop)
@@ -347,6 +359,12 @@ def pegging(a_tot, b_tot):
             elif flop != None:
                 b_tot, total_sum = analyze(flop, b_tot)
                 print(flop + ' --> Total is: ' + str(sum(ntotal)))
+                ###CHECK FOR WIN
+                if compp + b_tot >= 61:
+                    #print("Mr. Crib Win's off of pegging: (point total) points")
+                    break
+                else:
+                    pass
                 if total_sum == 31:
                     ntotal.clear()
                     print('')
@@ -373,6 +391,12 @@ def pegging(a_tot, b_tot):
                 flop = a[nflop]  #value / card 
                 a_tot, total_sum = analyze(flop, a_tot)
                 print(flop + ' --> Total is: ' + str(sum(ntotal)) + '\n')
+                ###CHECK FOR WIN
+                if playerp + a_tot >= 61:
+                    #print("You Win off of pegging: (point total)")
+                    break
+                else:
+                    pass
                 if total_sum == 31:
                     ntotal.clear()
                     print('')
@@ -393,6 +417,12 @@ def pegging(a_tot, b_tot):
                     flop = a[nflop]  #value / card 
                     a_tot, total_sum = analyze(flop, a_tot)
                     print(flop + ' --> Total is: ' + str(sum(ntotal)))
+                    ###CHECK FOR WIN
+                    if playerp + a_tot >= 61:
+                    #print("You Win off of pegging: (point total)")
+                        break
+                    else:
+                        pass
                     a.pop(nflop)
                     ah.append(flop)
     print('---Pegging Completed---')
