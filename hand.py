@@ -77,7 +77,7 @@ def analyze_2(player_tot, p_hand:list):
     if pp_hand[0] == pp_hand[1] == pp_hand[2] == pp_hand[3]:
         player_total += 18
         dp = str(pp_hand[0])
-        print('Double Prial (4-of-a-kind) of ' + dp + ': +18 \n')
+        print('Double Prial (4-of-a-kind) of ' + dp + 's: +18 \n')
 
     for prial in it.combinations(pp_hand, 3):
         if prial[0] == prial[1] == prial[2]:
@@ -85,7 +85,7 @@ def analyze_2(player_tot, p_hand:list):
             if str_pri == dp:
                 break
             player_tot += 9
-            print('Prial of ' + str_pri + ': +9 \n')
+            print('Prial of ' + str_pri + 's: +9 \n')
 
     for pair in it.combinations(pp_hand, 2):
         if pair[0] == pair [1]:
@@ -93,7 +93,7 @@ def analyze_2(player_tot, p_hand:list):
             if str_pair == str_pri:     #should stop a lesser pair from being counted from the same trips
                 break
             player_tot += 2
-            print('Pair of ' + str_pair + ': +2 \n')
+            print('Pair of ' + str_pair + 's: +2 \n')
     
     #sequences fourth       SEQUENCES DON'T COUNT IN HAND
     #seq_hand = p_hand.copy()    

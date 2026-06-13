@@ -189,10 +189,22 @@ def go(signal, player_tot):
 
 def user_error(chosen):
     #chosen is an integer 
+    valid = ['0', '1', '2', '3']
     #If the typed value is not an integer
-    if not isinstance(chosen, int):
-        while not isinstance(chosen, int):
-            chosen = int(input('Type an integer 0, 1, 2, or , 3: '))
+    while True:
+        try:
+            if chosen == 'qq':
+                break
+            chosen = int(chosen)
+            break
+        except ValueError: 
+            chosen = input('Type an integer (0, 1, 2, or , 3): ')
+    #if chosen not in valid:
+    #    while chosen not in valid:
+    #        chosen = input('Type an integer (0, 1, 2, or , 3): ')
+    #    chosen = int(chosen)
+    #else:
+    #    chosen = int(chosen)
     #If the given integer is more than the position of the cards in hand
     if chosen > len(a) - 1:
         while chosen > len(a) - 1:
@@ -214,7 +226,7 @@ def user_error(chosen):
         for card in rtest[1:]:
             cix = rtest.index(card)
             while card + sum(ntotal) <= 31: ###A renege 
-                print('Renege: You can still play a card (' + str(a[cix]) + ') with Total remaining under 31')  
+                print('**Renege** - You can still play a card (' + str(a[cix]) + ') with Total remaining under 31')  
                 rechoose = int(input('Choose the correct card 1 or 2: '))
     v_spl = a[chosen].split()
     if v_spl[0] == 'Jack' or v_spl[0] == 'Queen' or v_spl[0] == 'King':
@@ -260,7 +272,7 @@ def pegging(a_tot, b_tot):
     #for inning in range(3):
         if a[0] == '#':
         #1st Play = User
-            nflop = int(input("Choose card # 1, 2, or 3 (If applicable type '0' for a Go): ")) #user enters integer of card
+            nflop = input("Choose card # 1, 2, or 3 (If applicable type '0' for a Go): ") #user enters integer of card
             
             #user error
             nflop = user_error(nflop)
@@ -355,7 +367,7 @@ def pegging(a_tot, b_tot):
 
             #2nd Play = User's turn 
             print(a)
-            nflop = int(input("Choose card # 1, 2, or 3: (If applicable type '0' for a Go):")) #user enters integer of card (index)
+            nflop = input("Choose card # 1, 2, or 3: (If applicable type '0' for a Go):") #user enters integer of card (index)
             nflop = user_error(nflop)
             if nflop != 0:    #(run as normal)
                 flop = a[nflop]  #value / card 
@@ -376,7 +388,7 @@ def pegging(a_tot, b_tot):
                 elif nflop == 0 and gotc == 'x':
                     #go procedure -------------
                     b_tot = go(nflop, b_tot)
-                    nflop = int(input("Choose card # 1, 2, or 3: (If applicable type '0' for a Go):"))
+                    nflop = input("Choose card # 1, 2, or 3: (If applicable type '0' for a Go):")
                     nflop = user_error(nflop)
                     flop = a[nflop]  #value / card 
                     a_tot, total_sum = analyze(flop, a_tot)
