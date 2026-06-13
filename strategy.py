@@ -227,6 +227,7 @@ def next_card(totalnum, vtotal, c_hand):
     #Biggest Value 
     if len(options) > 1:
         points = options[0][1]
+        play_card = points
         for x in range(len(options)):
             if options[x][1] > points:
                 points = options[x][1]
@@ -235,7 +236,7 @@ def next_card(totalnum, vtotal, c_hand):
                 pass
     elif len(options) == 1:
         play_card = options[0][0]
-    elif len(options) == 0 and len(c_hand) == 0:
+    elif len(options) == 0 and len(c_hand) == 0: #No cards available 
         return None 
     elif len(options) == 0:
         if len(over) != 0:

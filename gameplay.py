@@ -15,6 +15,20 @@ def gameplay():
         a_point, b_point = c.initial(trump)
         pa_point, pb_point = c.pegging(a_point, b_point)
         #add pegging points to player totals and if they exceed 121 were done 
+        if c.a[0] == '#':  #Human is non-dealer
+            if usertot + pa_point >= 61:
+                break
+            elif comptot + pb_point >= 61:
+                break
+            else:
+                pass
+        else:   #Computer is non-dealer
+            if comptot + pb_point >= 61:
+                break
+            elif usertot + pa_point >= 61:
+                break
+            else:
+                pass
         a_point, b_point = c.hand(pa_point, pb_point, trump)
         h.round_totals(a_point, b_point, pa_point, pb_point) #just displays totals
         usertot += a_point  

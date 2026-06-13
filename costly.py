@@ -188,26 +188,34 @@ def go(signal, player_tot):
     return player_tot
 
 def user_error(chosen):
+    #chosen is an integer 
+    #If the typed value is not an integer
+    if not isinstance(chosen, int):
+        while not isinstance(chosen, int):
+            chosen = int(input('Type an integer 0, 1, 2, or , 3: '))
+    #If the given integer is more than the position of the cards in hand
     if chosen > len(a) - 1:
         while chosen > len(a) - 1:
             print('**Out of Position** -- Choose the correct card position \n')
             chosen = int(input("Choose card # 1, 2, or 3 (If applicable type '0' for a Go): "))
             rechoose = chosen
-    #if chosen == 0:
-        #rtest = a.copy()
-        #for card in rtest[1:]
-        #   cix = rtest.index(card)
-        #   if card[0:4] == 'Jack' or card[0:4] == 'Quee' or card[0:4] == 'King' or card[0:2] == '10'
-                #rtest[cix] = 10
-        #   elif card[0:3] == 'Ace'
-                #rtest[cix] == 1
-        #   else:
-                #rtest[cix] == int(card[0])
+    #If player tries to Renege
+    if chosen == 0:
+        rtest = a.copy()
+        for card in rtest[1:]:
+           cix = rtest.index(card)
+           if card[0:4] == 'Jack' or card[0:4] == 'Quee' or card[0:4] == 'King' or card[0:2] == '10':
+                rtest[cix] = 10
+           elif card[0:3] == 'Ace':
+                rtest[cix] = 1
+           else:
+                rtest[cix] = int(card[0])
 
-        #for card in rtest[1:]
-            #cix = rtest.index(card)
-            #if card + sum(ntotal) <= 31 ###A renege 
-                #print('You can still play a card (' + str(a[cix]) ') with Total remaining under 31')
+        for card in rtest[1:]:
+            cix = rtest.index(card)
+            while card + sum(ntotal) <= 31: ###A renege 
+                print('Renege: You can still play a card (' + str(a[cix]) + ') with Total remaining under 31')  
+                rechoose = int(input('Choose the correct card 1 or 2: '))
     v_spl = a[chosen].split()
     if v_spl[0] == 'Jack' or v_spl[0] == 'Queen' or v_spl[0] == 'King':
         v_spl[0] = 10
@@ -216,6 +224,7 @@ def user_error(chosen):
     elif v_spl[0] == '#' or v_spl[0] == '*D*':
         return 0
     numb = int(v_spl[0])
+    #If player Has to say go, but tries to play a card
     if sum(ntotal) + numb > 31:
         while sum(ntotal) + numb > 31:
             print('**Over 31** --- Choose a differnet card or type "0" for Go \n')
@@ -395,13 +404,19 @@ def hand(a_tot, b_tot, top_cd):
         #count (non-dealer) user's hand first 
         print(ah)
         a_tot = h.analyze_2(a_tot, ah)
-        print('Your Total is: ' + str(a_tot) + '\n')
+        hatot = a_tot - pa_total
+        if hatot < 0:
+            hatot = 0 
+        print('Your Total is: ' + str(hatot) + '\n')
         ###count (dealer) computer's hand last 
-        t.sleep(1)
+        t.sleep(1.25)
         print("Dealer's (Mr. Crib's) Hand Totals:")
         print(bh)
         b_tot = h.analyze_2(b_tot, bh)
-        print("Mr. Crib's Total is: " + str(b_tot) + '\n')
+        hbtot = b_tot - pb_total
+        if hbtot < 0:
+            hbtot = 0
+        print("Mr. Crib's Total is: " + str(hbtot) + '\n')
     
     else:
         #count computer (non-d) first
@@ -409,13 +424,19 @@ def hand(a_tot, b_tot, top_cd):
         print("Non-Dealer (Mr. Crib's) Hand Totals:")
         print(bh)
         b_tot = h.analyze_2(b_tot, bh)
-        print("Mr. Crib's Total is: " + str(b_tot) + '\n')
+        hbtot = b_tot - pb_total
+        if hbtot < 0:
+            hbtot = 0
+        print("Mr. Crib's Total is: " + str(hbtot) + '\n')
         ###user = dealer last 
-        t.sleep(1)
+        t.sleep(1.25)
         print("Dealer's (Your) Hand Totals:")
         print(ah)
         a_tot = h.analyze_2(a_tot, ah)
-        print('Your Total is: ' + str(a_tot) + '\n')
+        hatot = a_tot - pa_total
+        if hatot < 0:
+            hatot = 0
+        print('Your Total is: ' + str(hatot) + '\n')
     total.clear()
     ntotal.clear()
     return a_tot, b_tot
