@@ -1,4 +1,6 @@
 import random
+import hand as h
+import gameplay as g
 #Computer Logic
 #Analyze Hand FOR PEGGING (trump card DOESN'T MATTER)
    #[# of Suit, xxx, xxx]
@@ -245,3 +247,34 @@ def next_card(totalnum, vtotal, c_hand):
         lp = random.choices(c_hand)
         play_card = lp[0]
     return play_card
+
+#def mog_choice(hand, topcard):          #What should the number be to mog
+#   c_tot = 0   
+#   testers = []   
+#   cc_hand = c.b.copy()  
+#   cc_hand.append(topcard)  
+    #total = h.analyze_3(c_tot, cc_hand)
+    #if total > #: 
+        #cmog = 'N'
+    #elif total == #:
+        #t_hand = c.b.copy()
+        #for card in t_hand:
+            #t_hand.pop(card)
+            #t_hand.append('0 of Blank')
+            #t_tot = h.analyze_3(c_tot, t_hand)
+            #if t_tot == #:
+                #cmog = 'Y'
+                #candidate = (t_hand.index(card), )
+            #elif t_tot < #:
+                #cmog = 'N'
+            #elif t_tot > #:
+                #cmog = 'N'
+    #elif total < #:
+        #t_hand = c.b.copy()
+        #for card in t_hand:
+            #t_hand.pop(card)
+            #t_hand.append('0 of Blank')
+            #t_tot = h.analyze_3(c_tot, t_hand)
+        
+            
+    #return cmog
