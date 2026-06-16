@@ -27,8 +27,6 @@ def analyze_2(player_tot, p_hand:list):
         if card == 'Diamonds'  or card == 'Hearts':
             red = True
             rc += 1
-        #if card == 'Blank':
-            #pass
         else: #'Clubs' in card or 'Spades' in card: #else 
             blk = True  
             bc += 1
@@ -132,8 +130,6 @@ def analyze_2(player_tot, p_hand:list):
     #If ALL 4 cards add a Number
     if sum(add_hand) == 15 or sum(add_hand) == 25 or sum(add_hand) == 31:
         player_tot += 4
-        #if 0 in add_hand
-            #player_tot -= 1
         print('All 4 cards = ' + str(sum(add_hand)) + ': +4 \n')
     
     #The summation of three cards can ONLY equal 15 or 25 
@@ -151,8 +147,6 @@ def analyze_2(player_tot, p_hand:list):
             else: 
                 print(triple)
             player_tot += 3
-            #if 0 in triple:
-                #player_tot -= 1
             print('Sum to ' + str(sum(triple)) + ': +3 \n')
     counter = 0
 

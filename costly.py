@@ -256,26 +256,62 @@ def user_error(chosen):
     return rechoose
  
 #Mogging
-#def mogging(a_tot, b_tot)
+#def mogging(a_tot, b_tot, trumper)
 # Dealer has the right to mog first = offer up a card to give to dealer
-#   if a[0] == '*D*'
-#       mog = input('Would you like to "Mog" (trade a card with Mr. Crib). Type Y or N:')
+#    if a[0] == '*D*'
+#        mog = input('Would you like to "Mog" (trade a card with Mr. Crib). Type Y or N:')
+        #while mog != 'Y' or mog != 'N':
+            #mog = input("Please just type capital 'Y' for yes, or capital 'N' for No")
+        #cmog, card_choice = mog_choice(b[1:], trumper)
 #   allow the computer to decide if it would like to mog
 #   save the computer choice as cmog
     #   if mog == 'Y' and cmog == 'N'
     #       a_tot += 1
+            #print(cmog + '-------------->')
             #print("Mr. Crib refuses to Mog: +1 point")
-    #   elif mog == 'N' and cmog == 'Y'
+    #   elif mog == 'N':
     #       b_tot += 1
+            #print(cmog + '-------------->')
     #       print("You refuse to Mog: Mr.Crib +1 point") 
     #   elif mog == 'Y' and cmog == 'Y'
+            #print("Mr. Crib also wishes to Mog!")
     #       trade = input('Select the card you wish to trade (1, 2, or 3): ') 
-            #crade = computer selects the card they want to get rid of 
+            #user_error(trade)
+            #crade = b.index(card_choice) #computer selects the card they want to get rid of 
             #t_card = a.pop(trade)
             #tc_card = b.pop(crade)
             #a.append(tc_card)
             #b.append(t_card)
+            #print("Your hand is now:")
+            #print(a)
+    #else:
+        #cmog, card_choice = mog_choice(b[1:], trumper)
+        #if cmog == 'N'
+            #a_tot += 1
+            #print(cmog + '-------------->')
+            #print("Mr. Crib refuses to Mog: +1 point")
+        #elif cmog == 'Y':  
+            #print("Mr. Crib wants to Mog")
+            #mog = input("Would you like to "Mog" (trade a card to Mr. Crib). Type Y or N: ")
+            #while mog != 'Y' or mog != 'N':
+                #mog = input("Please just type capital 'Y' for yes, or capital 'N' for No")
+            #if mog == 'N':
+                #b_tot += 1
+                #print(cmog + '-------------->')
+    #           print("You refuse to Mog: Mr.Crib +1 point")
+            #elif mog == 'Y':
+                #print("You also wish to Mog")
+                #trade = input('Select the card you wish to trade (1, 2, or 3): ') 
+                #user_error(trade)
+                #crade = b.index(card_choice) #computer selects the card they want to get rid of 
+                #t_card = a.pop(trade)
+                #tc_card = b.pop(crade)
+                #a.append(tc_card)
+                #b.append(t_card)
+                #print("Your hand is now:")
+                #print(a)
     #return a_tot, b_tot
+
 #Pegging Play
 def pegging(a_tot, b_tot, playerp:int, compp:int):
     #Non-dealer starts

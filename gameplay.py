@@ -13,7 +13,7 @@ def gameplay():
     while usertot < 121 or comptot < 121:
         trump = c.deal(main_deck)
         a_point, b_point = c.initial(trump)
-        #ma_point, mb_point = c.mogging()
+        #a_point, b_point = c.mogging(a_tot, b_tot, trump)
         pa_point, pb_point = c.pegging(a_point, b_point, usertot, comptot)  #just the initial totals for the round
         #add pegging points to player totals and if they exceed 121 were done 
         if c.a[0] == '#':  #Human is non-dealer

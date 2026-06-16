@@ -1,6 +1,5 @@
 import random
 import hand as h
-import gameplay as g
 #Computer Logic
 #Analyze Hand FOR PEGGING (trump card DOESN'T MATTER)
    #[# of Suit, xxx, xxx]
@@ -248,33 +247,61 @@ def next_card(totalnum, vtotal, c_hand):
         play_card = lp[0]
     return play_card
 
-#def mog_choice(hand, topcard):          #What should the number be to mog
-#   c_tot = 0   
-#   testers = []   
-#   cc_hand = c.b.copy()  
-#   cc_hand.append(topcard)  
-    #total = h.analyze_3(c_tot, cc_hand)
-    #if total > #: 
-        #cmog = 'N'
-    #elif total == #:
-        #t_hand = c.b.copy()
-        #for card in t_hand:
-            #t_hand.pop(card)
-            #t_hand.append('0 of Blank')
-            #t_tot = h.analyze_3(c_tot, t_hand)
-            #if t_tot == #:
-                #cmog = 'Y'
-                #candidate = (t_hand.index(card), )
-            #elif t_tot < #:
-                #cmog = 'N'
-            #elif t_tot > #:
-                #cmog = 'N'
-    #elif total < #:
-        #t_hand = c.b.copy()
-        #for card in t_hand:
-            #t_hand.pop(card)
-            #t_hand.append('0 of Blank')
-            #t_tot = h.analyze_3(c_tot, t_hand)
-        
-            
-    #return cmog
+def mog_choice(hand:list, topcard):          #What should the number be to mog  
+    c_tot = 0 
+    testers = []   
+    cc_hand = hand.copy()  
+    cc_hand.append(topcard)  
+    total = h.analyze_3(c_tot, cc_hand)
+    if total > 4: 
+        cmog = 'N'
+    elif total == 4:
+        t_hand = cc_hand.copy()
+        for card in t_hand:
+            c_tot = 0
+            t_hand.pop(card)
+            t_hand.append('0 of Blank')
+            t_tot = h.analyze_3(c_tot, t_hand)
+            if t_tot == 4:
+                cmog = 'Y'
+                candidate = (t_hand.index(card), t_tot)
+                testers.append(candidate)
+            elif t_tot < 4:
+                cmog = 'N'
+            elif t_tot > 4:
+                cmog = 'Y'
+                candidate = (t_hand.index(card), t_tot)
+                testers.append(candidate)
+    elif total < 4:
+        t_hand = cc_hand.copy()
+        for card in t_hand:
+            c_tot = 0
+            t_hand.pop(card)
+            t_hand.append('0 of Blank')
+            t_tot = h.analyze_3(c_tot, t_hand)
+            if t_tot > total:
+                cmog = 'Y'
+                candidate = (t_hand.index(card), t_tot)
+                testers.append(candidate)
+            elif t_tot < total:
+                cmog = 'N'
+            elif t_tot == total:
+                cmog = 'Y'
+                candidate = (t_hand.index(card), t_tot)
+                testers.append(candidate)
+    
+    if len(testers) == 0:
+        return cmog, None
+    else:
+        trader = testers[0][0]
+    for i in range(len(testers) -1):
+            if testers[i+1][1] > trader:
+                trader = t_hand[testers[i+1][0]]
+            elif testers[i+1][1] == trader:
+                iiit =random.choice(range(i, i+2))
+                if '5' not in t_hand[i+1][1]:
+                   trader = t_hand[i+1][1]
+                trader = t_hand[testers[iiit][0]]
+            else:
+                pass
+    return cmog, trader
