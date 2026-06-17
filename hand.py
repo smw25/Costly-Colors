@@ -30,7 +30,10 @@ def analyze_2(player_tot, p_hand:list):
         else: #'Clubs' in card or 'Spades' in card: #else 
             blk = True  
             bc += 1
-    suit_c = c_hand[0]
+    unique_suits = set(c_hand)
+    suit_c = max(unique_suits, key=c_hand.count())   # the suit with the highest count
+    count = c_hand.count(suit_c)
+    #suit_c = c_hand[0]
     if red == True and blk == True: 
         pass #keep going
     elif (red == True and blk == False) or (red == False and blk == True):  #All red/black cards

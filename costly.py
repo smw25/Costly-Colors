@@ -198,7 +198,7 @@ def user_error(chosen):
     #If chosen number is not in the list of cards by size (1,2,3 or 0)
     if chosen > len(a) - 1:
         print('**Out of Position** -- Choose the correct card position \n')
-        chosen = int(input("Choose card # 1, 2, or 3 (If applicable type '0' for a Go): "))
+        chosen = input("Choose card # 1, 2, or 3 (If applicable type '0' for a Go): ")
         rechoose = chosen
         return user_error(rechoose)
     #If player tries to Renege
@@ -256,13 +256,13 @@ def user_error(chosen):
     return rechoose
  
 #Mogging
-def mogging(a_tot, b_tot, trumper):
+def mogging(a_tot, b_tot, trumper, ag_tot):
 # Dealer has the right to mog first = offer up a card to give to dealer
     if a[0] == '*D*':
         mog = input('Would you like to "Mog" (trade a card with Mr. Crib). Type Y or N:')
         while mog not in ('Y', 'N'):
             mog = input("Please just type capital 'Y' for yes, or capital 'N' for No: ")
-        cmog, card_choice = s.mog_choice(b[1:], trumper)
+        cmog, card_choice = s.mog_choice(b[1:], trumper, ag_tot)
         #   allow the computer to decide if it would like to mog
         #   save the computer choice as cmog
         if mog == 'Y' and cmog == 'N':
@@ -276,7 +276,7 @@ def mogging(a_tot, b_tot, trumper):
         elif mog == 'Y' and cmog == 'Y':
             print("Mr. Crib also wishes to Mog!")
             trade = input('Select the card you wish to trade (1, 2, or 3): ') 
-            user_error(trade)
+            trade = user_error(trade)
             trade = int(trade)
             crade = b.index(card_choice) #computer selects the card they want to get rid of 
             t_card = a.pop(trade)
@@ -287,10 +287,10 @@ def mogging(a_tot, b_tot, trumper):
             print(a)
             print("")
     else:
-        cmog, card_choice = s.mog_choice(b[1:], trumper)
+        cmog, card_choice = s.mog_choice(b[1:], trumper, ag_tot)
         if cmog == 'N':
             a_tot += 1
-            print(cmog + 'o -------------->')
+            #print(cmog + 'o -------------->')
             print("Mr. Crib refuses to Mog: +1 point\n")
         elif cmog == 'Y':  
             print("Mr. Crib wants to Mog")
@@ -303,7 +303,7 @@ def mogging(a_tot, b_tot, trumper):
             elif mog == 'Y':
                 print("You also wish to Mog!")
                 trade = input('Select the card you wish to trade (1, 2, or 3): ') 
-                user_error(trade)
+                trade = user_error(trade)
                 trade = int(trade)
                 crade = b.index(card_choice) #computer selects the card they want to get rid of 
                 t_card = a.pop(trade)
