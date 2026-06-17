@@ -251,57 +251,77 @@ def mog_choice(hand:list, topcard):          #What should the number be to mog
     c_tot = 0 
     testers = []   
     cc_hand = hand.copy()  
-    cc_hand.append(topcard)  
+    #cc_hand.append(topcard)  
     total = h.analyze_3(c_tot, cc_hand)
     if total > 4: 
         cmog = 'N'
     elif total == 4:
         t_hand = cc_hand.copy()
         for card in t_hand:
+            id = t_hand.index(card)
             c_tot = 0
-            t_hand.pop(card)
+            t_hand.pop(id)
+            t_hand.append(topcard)
             t_hand.append('0 of Blank')
             t_tot = h.analyze_3(c_tot, t_hand)
             if t_tot == 4:
                 cmog = 'Y'
-                candidate = (t_hand.index(card), t_tot)
+                #if card == '0 of Blank':
+                #    candidate = (, t_tot)
+                candidate = (cc_hand.index(card), t_tot)
                 testers.append(candidate)
             elif t_tot < 4:
                 cmog = 'N'
             elif t_tot > 4:
                 cmog = 'Y'
-                candidate = (t_hand.index(card), t_tot)
+                #if card == '0 of Blank':
+                #    candidate = (, t_tot)
+                candidate = (cc_hand.index(card), t_tot)
                 testers.append(candidate)
+            t_hand.pop()
+            t_hand.pop()
+            t_hand.append(card)
     elif total < 4:
         t_hand = cc_hand.copy()
-        for card in t_hand:
+        for card in cc_hand:
             c_tot = 0
-            t_hand.pop(card)
+            id = t_hand.index(card)
+            card = t_hand.pop(id)
+            t_hand.append(topcard)
             t_hand.append('0 of Blank')
             t_tot = h.analyze_3(c_tot, t_hand)
             if t_tot > total:
                 cmog = 'Y'
-                candidate = (t_hand.index(card), t_tot)
+                #if card == '0 of Blank':
+                #    candidate = (cc_hand.index, t_tot)
+                candidate = (cc_hand.index(card), t_tot)
                 testers.append(candidate)
             elif t_tot < total:
                 cmog = 'N'
             elif t_tot == total:
                 cmog = 'Y'
-                candidate = (t_hand.index(card), t_tot)
+                #if card == '0 of Blank':
+                #    candidate = (, t_tot)
+                candidate = (cc_hand.index(card), t_tot)
                 testers.append(candidate)
-    
+            t_hand.pop()    #get rid of 0 of blank card
+            t_hand.pop()
+            t_hand.append(card) #put back the normal card 
     if len(testers) == 0:
         return cmog, None
     else:
-        trader = testers[0][0]
+        v_trader = testers[0][1]
+        trader = cc_hand[testers[0][0]]      #[(#, # total value)]  By getting rid of the card at the index (first value) your total hand score equals the second value 
     for i in range(len(testers) -1):
-            if testers[i+1][1] > trader:
-                trader = t_hand[testers[i+1][0]]
-            elif testers[i+1][1] == trader:
+            if testers[i+1][1] > v_trader:      #if the next card in testers provides a higher score
+                trader = cc_hand[testers[i+1][0]]   #make the next card the trader card
+                v_trader = testers[i+1][1]      #update the higher value when losing the trader card
+            elif testers[i+1][1] == v_trader:
                 iiit =random.choice(range(i, i+2))
-                if '5' not in t_hand[i+1][1]:
-                   trader = t_hand[i+1][1]
-                trader = t_hand[testers[iiit][0]]
+                if '5' not in cc_hand[i+1][1]:
+                   trader = cc_hand[i+1][1]
+                   v_trader = testers[i+1][1]
+                trader = cc_hand[testers[iiit][0]]
             else:
                 pass
-    return cmog, trader
+    return cmog, trader          #should return yes or no AND the string card e.g. '6 of Hearts'

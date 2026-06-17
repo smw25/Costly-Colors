@@ -208,8 +208,8 @@ def analyze_3(player_tot, p_hand:list): #No print statemnts (for mogging)
         if card == 'Diamonds'  or card == 'Hearts':
             red = True
             rc += 1
-        #if card == 'Blank':
-            #pass
+        if card == 'Blank':
+            pass
         else: #'Clubs' in card or 'Spades' in card: #else 
             blk = True  
             bc += 1
@@ -230,7 +230,7 @@ def analyze_3(player_tot, p_hand:list): #No print statemnts (for mogging)
     elif (blk == True and rc == 1):  
         player_tot += 2
     #nobs and duces second
-    for i in range(len(v_hand[0:3])):
+    for i in range(len(v_hand[0:])):
         if v_hand[i] == 'Jack' and c_hand[i] == c_hand[-1]: #suit of the jack matches the suit of turned up card
             player_tot += 4
         elif v_hand[i] == '2' and c_hand[i] == c_hand[-1]:  #suit of the deuce matches the suit of turned up card
@@ -273,29 +273,31 @@ def analyze_3(player_tot, p_hand:list): #No print statemnts (for mogging)
     #If ALL 4 cards add a Number
     if sum(add_hand) == 15 or sum(add_hand) == 25 or sum(add_hand) == 31:
         player_tot += 4
-        #if 0 in add_hand
-            #player_tot -= 1
+        if 0 in add_hand:
+            player_tot -= 1
     #The summation of three cards can ONLY equal 15 or 25 
     for triple in it.combinations(add_hand, 3):
         if sum(triple) == 15 or sum(triple) == 25:
             if 10 in triple and len(tenxs) > 1:
-                kick = p_hand[tenxs[counter]]
+                #kick = p_hand[tenxs[counter]]
                 counter += 1
             elif 10 in triple and len(tenxs) == 1:
-                kick = p_hand[tenxs[0]]
+                #kick = p_hand[tenxs[0]]
+                pass
             else: 
                 pass
             player_tot += 3
-            #if 0 in triple:
-                #player_tot -= 1
+            if 0 in triple:
+                player_tot -= 1
     counter = 0
     #The summation of any two cards can only equal 15
     for combo in it.combinations(add_hand, 2):
         if sum(combo) == 15:
             if 10 in combo and len(tenxs) == 1:  #works with having one 10 card and multiple othe fifteens
-                kick = p_hand[tenxs[0]]   #counter == 0
+                #kick = p_hand[tenxs[0]]   #counter == 0
+                pass
             elif 10 in combo and len(tenxs) > 1: #works with multiple 10s 
-                kick = p_hand[tenxs[counter]]
+                #kick = p_hand[tenxs[counter]]
                 counter += 1
             else: 
                 pass
