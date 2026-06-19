@@ -31,7 +31,7 @@ def analyze_2(player_tot, p_hand:list):
             blk = True  
             bc += 1
     unique_suits = set(c_hand)
-    suit_c = max(unique_suits, key=c_hand.count())   # the suit with the highest count
+    suit_c = max(unique_suits, key=c_hand.count)   # the suit with the highest count
     count = c_hand.count(suit_c)
     #suit_c = c_hand[0]
     if red == True and blk == True: 
@@ -49,7 +49,7 @@ def analyze_2(player_tot, p_hand:list):
     elif c_hand.count(suit_c) == 3: #3 cards same suit & NOT ALL same color 
         player_tot += 3
         print('3 in Suit (' + suit_c + '): +3') 
-    elif (red == True and bc == 1):     #3 in Color
+    if (red == True and bc == 1):     #3 in Color
         player_tot += 2 
         print('3 in Color (Red): +2 \n')
     elif (blk == True and rc == 1):   
@@ -233,7 +233,7 @@ def analyze_3(player_tot, p_hand:list): #No print statemnts (for mogging)
     elif (blk == True and rc == 1):  
         player_tot += 2
     #nobs and duces second
-    for i in range(len(v_hand[0:])):
+    for i in range(len(v_hand[0:3])):
         if v_hand[i] == 'Jack' and c_hand[i] == c_hand[-1]: #suit of the jack matches the suit of turned up card
             player_tot += 4
         elif v_hand[i] == '2' and c_hand[i] == c_hand[-1]:  #suit of the deuce matches the suit of turned up card

@@ -258,9 +258,12 @@ def mog_choice(hand:list, topcard, a_total):          #What should the number be
     elif a_total >= 58:
         cmog = 'Y'
         trader = random.choice(cc_hand)
-        #while '5' or '2' in trader:
-        #    trader = random.choice(cc_hand)
-        #    if all( '5' or '2' in card for card in hand): 
+        #if all('5' or '2' or 'Jack' in trader):
+            #trader = trader
+        #else:
+            #while '5' or '2' 'Jack' in trader:
+        #       trader = random.choice(cc_hand)
+        #       if all( '5' or '2' in card for card in hand): 
     elif total == 4:
         t_hand = cc_hand.copy()
         for card in cc_hand:    #cc_hand = [1st card, 2nd card, 3rd card]
@@ -268,10 +271,10 @@ def mog_choice(hand:list, topcard, a_total):          #What should the number be
             c_tot = 0
             #take out the current card of the hand
             t_hand.pop(id)
-            #put in the trump card      [2nd card, 3rd card, trump,] 
-            t_hand.append(topcard)
-            #put in the dummy card so your hand is now 4 cards long     [2nd card, 3rd card, trump, dummy]
+            #put in the dummy card so your hand is now 4 cards long     [2nd card, 3rd card, dummy]
             t_hand.append('0 of Blank')
+            #put in the trump card      [2nd card, 3rd card, dummy, trump,] 
+            t_hand.append(topcard)
             t_tot = h.analyze_3(c_tot, t_hand)
             if t_tot == 4:
                 cmog = 'Y'
@@ -290,14 +293,16 @@ def mog_choice(hand:list, topcard, a_total):          #What should the number be
             t_hand.pop()    #[2nd card, 3rd card, trump, xxdummyxx]
             t_hand.pop()    #[2nd card, 3rd card, xxtrumpxx]
             t_hand.append(card) #[2nd card, 3rd card, 1st card]
+        if len(testers) > 0:
+            cmog = 'Y'
     elif total < 4:
         t_hand = cc_hand.copy()
         for card in cc_hand:
             c_tot = 0
             id = t_hand.index(card)
             card = t_hand.pop(id)
-            t_hand.append(topcard)
             t_hand.append('0 of Blank')
+            t_hand.append(topcard)
             t_tot = h.analyze_3(c_tot, t_hand)
             if t_tot > total:
                 cmog = 'Y'
@@ -313,9 +318,11 @@ def mog_choice(hand:list, topcard, a_total):          #What should the number be
                 #    candidate = (, t_tot)
                 candidate = (cc_hand.index(card), t_tot)
                 testers.append(candidate)
+            t_hand.pop()    #get out trump card
             t_hand.pop()    #get rid of 0 of blank card
-            t_hand.pop()
             t_hand.append(card) #put back the normal card 
+        if len(testers) > 0:
+            cmog = 'Y'
     #If cmog = "N" then there will be no candidate cards to test
     if len(testers) == 0:
         return cmog, None
