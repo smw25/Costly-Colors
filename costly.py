@@ -102,26 +102,39 @@ def analyze(c_card:str, player_total):
         true_seq = False
         portion = total[-3:]
         ######
-        true_seq, sh, ord = s.sequence(portion) #this must be true 
-        p_ind = -4
+        best_run = 0
+    # Check from longest possible slice down to 3
+        for run_len in range(len(total), 2, -1):       #(start, stop, step)
+            portion = total[-run_len:]
+            true_seq, sh, ord = s.sequence(portion)
+            if true_seq == True:
+                best_run = run_len
+                break  # longest run found, stop
+
+    #if best_run >= 3:
+    #    player_total += best_run
+    #    print('Run of ' + str(best_run) + ': +' + str(best_run))
+        ######
+        #true_seq, sh, ord = s.sequence(portion) #this must be true 
+        #p_ind = -4
         if true_seq == False:
             pass
         else: 
-            while true_seq == True and (abs(p_ind) <= len(total)):
-                portion = total[p_ind:]
-                true_seq, sh, ord = s.sequence(portion)
-                p_ind = p_ind - 1
+            #while true_seq == True and (abs(p_ind) <= len(total)):
+            #    portion = total[p_ind:]
+            #    true_seq, sh, ord = s.sequence(portion)
+            #    p_ind = p_ind - 1
 
             if true_seq == True:
                 player_total += len(portion)
                 run = str(len(portion))
                 print('Run of ' + run + ': +' + run)
-            elif true_seq == False and len(portion) >= 3: 
-                p_ind = p_ind +2 
-                portion = total[p_ind:]
-                player_total += len(portion)
-                run = str(len(portion))
-                print('Run of ' + run + ': +' + run)
+            #elif true_seq == False and len(portion) >= 3: 
+                #p_ind = p_ind +2 
+                #portion = total[p_ind:]
+                #player_total += len(portion)
+                #run = str(len(portion))
+                #print('Run of ' + run + ': +' + run)
     else: 
         pass    
     #change face cards to numbers of summation points 
@@ -267,11 +280,11 @@ def mogging(a_tot, b_tot, trumper, ag_tot, bg_tot): #local user total, local com
         #   save the computer choice as cmog
         if mog == 'Y' and cmog == 'N':
             a_tot += 1
-            print(cmog + 'o --------------> Mr. Crib refuses to Mog: +1 point')
+            print(cmog + 'o --------------> Mr. Crib refuses to Mog: +1 point\n')
             print("")
         elif mog == 'N':
             b_tot += 1
-            print('You refuse to Mog: Mr.Crib +1 point')
+            print('You refuse to Mog: Mr.Crib +1 point\n')
             print("") 
         elif mog == 'Y' and cmog == 'Y':
             print("Mr. Crib also wishes to Mog!")
