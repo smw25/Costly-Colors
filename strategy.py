@@ -251,19 +251,28 @@ def mog_choice(hand:list, topcard, a_total):          #What should the number be
     c_tot = 0 
     testers = []   
     cc_hand = hand.copy()  
-    #cc_hand.append(topcard)  
+    #test the computer's dealt hand with the top card included
+    cc_hand.append(topcard)  
     total = h.analyze_3(c_tot, cc_hand)
+    cc_hand.pop()   #take out top card
     if total > 4: 
         cmog = 'N'
     elif a_total >= 58:
         cmog = 'Y'
         trader = random.choice(cc_hand)
-        #if all('5' or '2' or 'Jack' in trader):
-            #trader = trader
-        #else:
-            #while '5' or '2' 'Jack' in trader:
-        #       trader = random.choice(cc_hand)
-        #       if all( '5' or '2' in card for card in hand): 
+        tgc = 0     #"too good counter"
+        for card in cc_hand:
+            if '5' in card or '2' in card or 'Jack' in card:
+                tgc +=1 
+            else:
+                pass 
+        if tgc < 3:
+            if '5' in trader or '2' in trader or 'Jack' in trader:
+                while '5' in trader or '2' in trader or 'Jack' in trader:
+                   trader = random.choice(cc_hand)
+        elif tgc == 3:
+            trader = random.choice(cc_hand)
+
     elif total == 4:
         t_hand = cc_hand.copy()
         for card in cc_hand:    #cc_hand = [1st card, 2nd card, 3rd card]
