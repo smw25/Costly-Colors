@@ -2,6 +2,12 @@ import costly as c
 import hand as h 
 import random as r
 import time 
+import os 
+
+cwd = os.getcwd()
+stats = open('data.csv', 'w')
+stats.write('Round#,Pegging,Hand\n')  #round number, Pegging Score, Hand Score 
+stats.close()
 
 main_deck = c.cards()
 main_deck = c.start(main_deck)
@@ -10,7 +16,10 @@ print('*#*#*#*#*Costly Colours*#*#*#*#*')
 def gameplay():
     usertot = 0
     comptot = 0 
+    roundn = 0
     while usertot < 121 or comptot < 121:
+        stats = open('data.csv', 'a')
+        roundn += 1
         trump = c.deal(main_deck)
         a_point, b_point = c.initial(trump)
         a_point, b_point = c.mogging(a_point, b_point, trump, usertot, comptot)
@@ -34,7 +43,7 @@ def gameplay():
                 break
             else:
                 pass
-        a_point, b_point = c.hand(pa_point, pb_point, trump)
+        a_point, b_point = c.hand(pa_point, pb_point, trump)   #total returned is total from whole round so... a_point - pa_point can == 0 at minimum
         h.round_totals(a_point, b_point, pa_point, pb_point) #just displays totals
         usertot += a_point  
         comptot += b_point
@@ -70,17 +79,23 @@ def gameplay():
         r.shuffle(card_deck)
         r.shuffle(card_deck)
         print('\n *#*#*#*Next Round*#*#*#*')
+        stats.write(str(roundn) + ',' + str(pa_point) + ',' + str(a_point-pa_point) + '\n')
+        stats.close()
 
     #Winner Declaration         (add avg pegging and hand scores???)
     if c.a[0] == '#':
         if usertot >= 61:
             time.sleep(1.5)
+            stats.write(str(roundn) + ',' + str(pa_point) + ',' + str(a_point-pa_point) + '\n')
+            stats.close()
             print('\n*#*#*Grand Totals*#*#*')
             print('Mr. Crib = ' + str(comptot))
             print("Your's = " + str(usertot))
             print('*#*#*#*#*You win with a total of: ' + str(usertot) + '*#*#*#*#*')
         elif comptot >= 61:
             time.sleep(1.5)
+            stats.write(str(roundn) + ',' + str(pa_point) + ',' + str(a_point-pa_point) + '\n')
+            stats.close()
             print('\n*#*#*Grand Totals*#*#*')
             print('Mr. Crib = ' + str(comptot))
             print("Your's = " + str(usertot))
@@ -88,12 +103,16 @@ def gameplay():
     elif c.b[0] == '#':
         if comptot >= 61:
             time.sleep(1.5)
+            stats.write(str(roundn) + ',' + str(pa_point) + ',' + str(a_point-pa_point) + '\n')
+            stats.close()
             print('\n*#*#*Grand Totals*#*#*')
             print('Mr. Crib = ' + str(comptot))
             print("Your's = " + str(usertot))
             print('*#*#*#*#*Mr. Crib wins with a total of: ' + str(comptot) + '*#*#*#*#*')
         elif usertot >= 61:
             time.sleep(1.5)
+            stats.write(str(roundn) + ',' + str(pa_point) + ',' + str(a_point-pa_point) + '\n')
+            stats.close()
             print('\n*#*#*Grand Totals*#*#*')
             print('Mr. Crib = ' + str(comptot))
             print("Your's = " + str(usertot))
