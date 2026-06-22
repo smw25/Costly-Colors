@@ -13,6 +13,13 @@ main_deck = c.cards()
 main_deck = c.start(main_deck)
 print('*#*#*#*#*Costly Colours*#*#*#*#*')
 
+#def winner(playerTotal, rpoints):
+    #if c.a[0] == '#':  #Human is non-dealer
+
+
+    #else:   #Computer is non-dealer
+
+    #return playerTotal, win_state
 def gameplay():
     usertot = 0
     comptot = 0 
@@ -22,9 +29,28 @@ def gameplay():
         roundn += 1
         trump = c.deal(main_deck)
         a_point, b_point = c.initial(trump)
+        #Win Checker
+        if c.a[0] == '#':  #Human is non-dealer
+            if usertot + a_point >= 61:
+                usertot += a_point 
+                break
+            elif comptot + b_point >= 61:
+                comptot += b_point
+                break
+            else:
+                pass
+        else:   #Computer is non-dealer
+            if comptot + b_point >= 61:
+                comptot += b_point
+                break
+            elif usertot + a_point >= 61:
+                usertot += a_point
+                break
+            else:
+                pass
         a_point, b_point = c.mogging(a_point, b_point, trump, usertot, comptot)
         pa_point, pb_point = c.pegging(a_point, b_point, usertot, comptot)  #just the initial totals for the round
-        #add pegging points to player totals and if they exceed 121 were done 
+        #(Win Checker) add pegging points to player totals and if they exceed 61 were done 
         if c.a[0] == '#':  #Human is non-dealer
             if usertot + pa_point >= 61:
                 usertot += pa_point 
