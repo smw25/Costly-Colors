@@ -21,3 +21,10 @@ mpeg
 avg_p
 mhand
 avg_h
+
+.libPaths()
+
+R.version.string
+Sys.which("R")
+find.package("languageserver")
+require(languageserver)
