@@ -1,15 +1,23 @@
 library(languageserver)
 library(tidyverse)
-library(dplyr)
 cc_data <- read_csv("data.csv", show_col_types = FALSE)
 ?read_csv()
 View(cc_data)
 
-select(cc_data, Pegging) |>
-    max() -> mpeg
+#Maxes and Means
+mpeg <- select(cc_data, Pegging) |>
+  max()
 
-select(cc_data, Hand) |>
-    max() -> mhand
+avg_p <- pull(cc_data, Pegging) |>
+  mean()
+
+mhand <- select(cc_data, Hand) |>
+  max()
+
+avg_h <- pull(cc_data, Hand) |>
+  mean()
 
 mpeg
+avg_p
 mhand
+avg_h
