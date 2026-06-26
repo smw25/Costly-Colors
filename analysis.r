@@ -2,7 +2,7 @@ library(languageserver)
 library(tidyverse)
 cc_data <- read_csv("data.csv", show_col_types = FALSE)
 ?read_csv()
-View(cc_data)
+print(cc_data)
 
 #Maxes and Means
 mpeg <- select(cc_data, Pegging) |>
@@ -22,9 +22,16 @@ avg_p
 mhand
 avg_h
 
-.libPaths()
+round <- c("Pegging", "Hand")
+avgs <- c(avg_p, avg_h)
+maxs <- c(mpeg, mhand)
 
-R.version.string
-Sys.which("R")
-find.package("languageserver")
-require(languageserver)
+analyzed <- tibble(
+  Rounds = round,
+  Average = avgs,
+  Maximum = maxs
+)
+
+print(analyzed)
+
+write_csv(analyzed, "analyzed.csv")
