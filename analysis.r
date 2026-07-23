@@ -1,6 +1,8 @@
 library(languageserver)
 library(tidyverse)
 cc_data <- read_csv("data.csv", show_col_types = FALSE)
+#find a way to make it so if the game ends before hand play,
+#the -hand values become just NA
 ?read_csv()
 print(cc_data)
 

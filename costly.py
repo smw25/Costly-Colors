@@ -163,6 +163,16 @@ def analyze(c_card:str, player_total):
         player_total += snumadd
         print('15 +' + str(snumadd))
         numadd += snumadd
+    
+    #adding '1 for the latter' 
+    if len(a) == 2 and len(b) == 1:
+        if c_card in a:
+            player_total += 1
+            print('+1 For the "Latter"')
+    if len(b) == 2 and len(a) == 1:
+        if c_card in b:
+            player_total += 1
+            print('+1 For the "Latter"')
     return player_total, sum(ntotal)
     
 #Pegging playCard Turn 
@@ -498,6 +508,7 @@ def pegging(a_tot, b_tot, playerp:int, compp:int):
                         pass
                     a.pop(nflop)
                     ah.append(flop)
+    
     print('---Pegging Completed---')
     print("Mr. Crib's Points: " + str(b_tot))
     print("Your Points: " + str(a_tot))
