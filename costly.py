@@ -281,7 +281,7 @@ def user_error(chosen):
 #Mogging
 def mogging(a_tot, b_tot, trumper, ag_tot, bg_tot): #local user total, local computer total, trump card, user grand total
 # Dealer has the right to mog first = offer up a card to give to dealer
-    if a[0] == '*D*':
+    if a[0] == '#':
         mog = input('Would you like to "Mog" (trade a card with Mr. Crib). Type Y or N:')
         while mog not in ('Y', 'N'):
             mog = input("Please just type capital 'Y' for yes, or capital 'N' for No: ")

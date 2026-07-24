@@ -72,7 +72,7 @@ Sum to 15: +3
 
 Mr. Crib's Total is: 7
 ```
-Totals for the round, delineated by pegging and hand scores are calculated and displayed after this hand counting, then grand totals for total points between Mr. Crib and the user are displayed after. One must score 61 points to win. (Currently you cannot win off of mogging, but you can win based upon )
+Totals for the round, delineated by pegging and hand scores are calculated and displayed after this hand counting, then grand totals for total points between Mr. Crib and the user are displayed after. One must score 61 points to win. (Currently you cannot win off of mogging, but you can win based upon)
 ## Roadmap
 
 1. Statistical Analysis: The ability to track average pegging scores, average hand scares, highest pegging and hand scares, and best possible hand combination before pegging for the user and the computer across all rounds of the game. This will be implemented by saving the points earned during pegging and each round into a readable file format (.csv) which can be ran into R. 
