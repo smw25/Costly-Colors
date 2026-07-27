@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="style.css"> -->
     <title>Costly Colours</title>
   </head>
   <body>
@@ -19,6 +20,39 @@
         </p>
         <section>
             <h2>Gameplay</h2>
+            <div id="start"> 
+                <h3> {{ c_title }} </h3>
+                
+                <button value="GO">Start Game</button>
+            </div> <br>
+
+            <div id="pre_peg">
+                <p> {{ message }}</p>
+            </div>
+
+            <div id="mogg">
+            <form method="POST">
+                <label>Mogg? (Y/N):</label>
+                <label><input type="radio" name="mogg" value="Y" /> Yes</label>
+                <label><input type="radio" name="mogg" value="N" /> No</label>
+                <button>Submit</button>
+            </form><br>
+            </div>
+
+            <div id="total_messages">
+
+            </div>
+            <div id="hands">
+
+            </div>
+
+            <div id="card_choice">
+                <form method="POST">
+                    <button name="card" value="0">Play Card 1</button>
+                    <button name="card" value="1">Play Card 2</button>
+                    <button name="card" value="2">Play Card 3</button>
+                </form>
+            </div>
         </section>
 
         <section>
