@@ -1,4 +1,4 @@
-import costly as c
+import xcostly as c
 import hand as h 
 import random as r
 import time 
@@ -9,9 +9,9 @@ stats = open('data.csv', 'w')
 stats.write('Round#,Pegging,Hand\n')  #round number, Pegging Score, Hand Score 
 stats.close()
 
-def begin():
+def begin(game):
     messages = []
-    main_deck = c.cards()
+    main_deck = c.cards(game)
     main_deck = c.start(main_deck)
     #print('*#*#*#*#*Costly Colours*#*#*#*#*')
     messages.append('*#*#*#*#*Costly Colours*#*#*#*#*')
@@ -141,6 +141,6 @@ def gameplay(main_deck):
             print("Your's = " + str(usertot))
             print('*#*#*#*#*You win with a total of: ' + str(usertot) + '*#*#*#*#*')
 
-messages, mdeck = begin()
+#messages, mdeck = begin()
 #gameplay(mdeck)
     

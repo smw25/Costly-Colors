@@ -10,6 +10,7 @@
     <header>
         <h1>Costly Colours</h1>
         <nav>
+            <a href="index.html">Home</a>
             <a href="instructions.html">Instructions</a>
             <a href="https://en.wikipedia.org/wiki/Costly_Colours">History</a>
         </nav>
@@ -21,25 +22,30 @@
         <section>
             <h2>Gameplay</h2>
             <div id="start"> 
+                <form id="start" method="POST">
+                    <button name='start' type="submit" value="TRUE">Start Game</button>
+                </form>
                 <h3> {{ c_title }} </h3>
-                
-                <button value="GO">Start Game</button>
             </div> <br>
 
             <div id="pre_peg">
-                <p> {{ message }}</p>
+                {% for message in messages %}
+                    <p> {{ message }}</p>
+                {% endfor %}
             </div>
 
+            {% if start == "TRUE" %}
             <div id="mogg">
             <form method="POST">
-                <label>Mogg? (Y/N):</label>
+                <p>-----------------------------------------------------------</p>
+                <label>Would you like to "Mogg" (trade a card with Mr. Crib)?:</label>
                 <label><input type="radio" name="mogg" value="Y" /> Yes</label>
                 <label><input type="radio" name="mogg" value="N" /> No</label>
                 <button>Submit</button>
             </form><br>
             </div>
 
-            <div id="total_messages">
+            <div id="totals_messages">
 
             </div>
             <div id="hands">
@@ -48,11 +54,14 @@
 
             <div id="card_choice">
                 <form method="POST">
-                    <button name="card" value="0">Play Card 1</button>
-                    <button name="card" value="1">Play Card 2</button>
-                    <button name="card" value="2">Play Card 3</button>
+                    <button name="card" value="1">Play Card 1</button>
+                    <button name="card" value="2">Play Card 2</button>
+                    <button name="card" value="3">Play Card 3</button>
+                    <button name="card" value="0">GO!</button>
                 </form>
             </div>
+            {% else %}
+            {% endif %}
         </section>
 
         <section>
