@@ -14,12 +14,12 @@ total = [] #list of card values w/o suits as strings e.g. []'7', 'Jack'] that ha
 ntotal = [] #list of card values as integers 
 
 def cards(game):
-    game.deck = []
+    #game.deck = []
     for suit in suits:  #for every suit
         for rank in ranks:   #going through every number assign the suit to this number 
             card = rank + ' of ' + suit
             game.deck.append(card)
-    return game.deck
+    #return game.deck
         
 def start(game): #deck:list
     #shuffle the deck of cards
@@ -201,8 +201,8 @@ def initial(game, top:str):
             game.messages.append('Duece Down +4')
         else:
             b_points += 4
-            print('Mr. Crib: Duece Down +4')
-            #game.messages.append('Mr. Crib: Duece Down +4')
+            #print('Mr. Crib: Duece Down +4')
+            game.messages.append('Mr. Crib: Duece Down +4')
     return a_points, b_points
     
 def go(signal, player_tot): 
@@ -289,6 +289,7 @@ def user_error(chosen):
 #Mogging
 def mogging(a_tot, b_tot, trumper, game, mog, trd): #local user total, local computer total, trump card, user grand total
 # Dealer has the right to mog first = offer up a card to give to dealer
+    game.phase = "MOGGING"
     if game.player_hand[0] == '#':
         mog #= input('Would you like to "Mog" (trade a card with Mr. Crib). Type Y or N:')
         #OLD: while mog not in ('Y', 'N'):
@@ -313,8 +314,8 @@ def mogging(a_tot, b_tot, trumper, game, mog, trd): #local user total, local com
             game.messages.append("Mr. Crib also wishes to Mog!")
             #trade = input('Select the card you wish to trade (1, 2, or 3): ') 
             game.messages.append('Select the card you wish to trade (1, 2, or 3): ')
-            trade = user_error(trade)
-            trade = int(trade)
+            trade = user_error(trd)
+            trade = int(trd)
             crade = game.computer_hand.index(card_choice) #computer selects the card they want to get rid of 
             t_card = game.player_hand.pop(trade)
             tc_card = game.computer_hand.pop(crade)
@@ -333,27 +334,33 @@ def mogging(a_tot, b_tot, trumper, game, mog, trd): #local user total, local com
             #print("Mr. Crib refuses to Mog: +1 point\n")
             game.messages.append("Mr. Crib refuses to Mog: +1 point")
         elif cmog == 'Y':  
-            print("Mr. Crib wants to Mog")
+            #print("Mr. Crib wants to Mog")
             game.messages.append("Mr. Crib wants to Mog")
-            mog = input("Would you like to 'Mog' (trade a card to Mr. Crib). Type Y or N: ")
-            while mog not in ('Y', 'N'):
-                mog = input("\n***Please just type capital 'Y' for yes, or capital 'N' for No: ")
+            #mog = input("Would you like to 'Mog' (trade a card to Mr. Crib). Type Y or N: ")
+            #while mog not in ('Y', 'N'):
+            #    mog = input("\n***Please just type capital 'Y' for yes, or capital 'N' for No: ")
             if mog == 'N':
                 b_tot += 1
-                print("You refuse to Mog: Mr.Crib +1 point\n")
+                #print("You refuse to Mog: Mr.Crib +1 point\n")
+                game.messages.append("You refuse to Mog: Mr.Crib +1 point")
             elif mog == 'Y':
-                print("You also wish to Mog!")
-                trade = input('Select the card you wish to trade (1, 2, or 3): ') 
-                trade = user_error(trade)
-                trade = int(trade)
-                crade = b.index(card_choice) #computer selects the card they want to get rid of 
-                t_card = a.pop(trade)
-                tc_card = b.pop(crade)
-                a.append(tc_card)
-                b.append(t_card)
-                print("Your hand is now:")
-                print(a)
-                print("")
+                #print("You also wish to Mog!")
+                game.messages.append("You also wish to Mog!")
+                #trade = input('Select the card you wish to trade (1, 2, or 3): ')
+                game.messages.append('Select the card you wish to trade (1, 2, or 3): ') 
+                trade = user_error(trd)
+                trade = int(trd)
+                crade = game.computer_hand.index(card_choice) #computer selects the card they want to get rid of 
+                t_card = game.player_hand.pop(trade)
+                tc_card = game.computer_hand.pop(crade)
+                game.player_hand.append(tc_card)
+                game.computer_hand.append(t_card)
+                #print("Your hand is now:")
+                game.messages.append("Your hand is now:")
+                #print(a)
+                game.messages.append(game.player_hand)
+                #print("")
+                game.messages.append("")
     return a_tot, b_tot
 
 #Pegging Play

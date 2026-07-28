@@ -18,3 +18,6 @@ class GameState:
         self.dealer = None
 
         self.messages = []
+
+        self.phase = "START"
+        self.begin = "STARTED"
