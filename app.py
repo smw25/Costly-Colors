@@ -16,20 +16,41 @@ def home():
     ###
     name = ''
     start = request.form.get('start')
-    if start == "TRUE":
+    if start == "TRUE" and game.phase == "NOT":
         game.begin = "IN"
         name = '*#*#*#*#*Costly Colours*#*#*#*#*'
         c.cards(game)       #onload="document.getElementById('start.reset();')"
-        c.start(game)
-    if game.begin == "IN":
-        top_card = c.deal(game)
-        p_round_pnts, comp_round_pnts = c.initial(game, top_card)
-        ##C
+        c.start(game) 
+        game.phase = "DEAL"
+
+    if game.phase != "NOT":
+        name = '*#*#*#*#*Costly Colours*#*#*#*#*'
+
+    if game.phase == "DEAL":
+        c.deal(game)
+        c.initial(game)
+        game.phase = "MOG?"
+        ##Check Win
+
+    if game.phase == "MOG?" and request.form.get('mogg') is not None:
         mogg = request.form.get('mogg')
         trade = request.form.get('card')
-        p_round_pnts, comp_round_pnts = c.mogging(p_round_pnts, comp_round_pnts, top_card, game, mogg, trade)
-    return render_template('index.html', c_title=name, start=start, messages=game.messages,game=game
-        )
+        c.mog_choice(game, mogg)
+        #if mogg == 'Y' or mogg == 'Y':
+        #card_choice = computers card 
+        game.phase = "MOGGING"
+
+    #card_choice = something means computer is a Y, and if form 'card' = something player is Y
+    if game.phase == "MOGGING" and game.card_choice and request.form.get('card') is not None:
+        trade = request.form.get('card')
+        c.mogging(game, trade, game.card_choice)
+        game.phase = "PEG1"
+
+    
+    return render_template('index.html', c_title=name, start=start, 
+                           messages=game.messages,
+                           game=game 
+                           )
     
 
 if __name__ == '__main__':

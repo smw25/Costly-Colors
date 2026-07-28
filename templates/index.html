@@ -33,25 +33,29 @@
                     <p> {{ message }}</p>
                 {% endfor %}
             </div>
+            <p>-----------------------------------------------------------</p>
 
-            {% if start == "TRUE" %}
+            {% if start == "TRUE" or game.phase == "MOG?"%}
             <div id="mogg">
             <form method="POST">
-                <p>-----------------------------------------------------------</p>
                 <label>Would you like to "Mogg" (trade a card with Mr. Crib)?:</label>
                 <label><input type="radio" name="mogg" value="Y" /> Yes</label>
                 <label><input type="radio" name="mogg" value="N" /> No</label>
                 <button>Submit</button>
             </form><br>
             </div>
+            {% else %}
+            {% endif %}
 
             <div id="totals_messages">
 
             </div>
+
             <div id="hands">
 
             </div>
 
+            {% if  game.phase == "MOGGING" or game.phase == "PEG1" %}
             <div id="card_choice">
                 <form method="POST">
                     <button name="card" value="1">Play Card 1</button>
