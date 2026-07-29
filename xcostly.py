@@ -80,36 +80,39 @@ def deal(game): #deck:list
     game.top = top
     return game
 
-def analyze(c_card:str, player_total):
+def analyze(c_card:str, player_total, game):   #game.player_rsco OR game.comp_rsco
     numadd = 0 
     vitals = c_card.split(' ') #list with ['#', 'of', 'suit']
     #add to running total pile
-    total.append(vitals[0])  #string value (no suit) stays in total 
+    game.running_cards.append(vitals[0])  #string value (no suit) stays in total 
     #analyze running total function
   #pairs first 
-    if len(total) >= 4 and total[-4] == total[-3] == total[-2] == total[-1]:
+    if len(game.running_cards) >= 4 and game.running_cards[-4] == game.running_cards[-3] == game.running_cards[-2] == game.running_cards[-1]:
         player_total += 18
         numadd += 18
-        print('Double Prial (4-of-a-kind) +18')
-    elif len(total) >= 3 and total[-3] == total[-2] == total[-1]:
+        #print('Double Prial (4-of-a-kind) +18')
+        game.messages.append('Double Prial (4-of-a-kind) +18')
+    elif len(game.running_cards) >= 3 and game.running_cards[-3] == game.running_cards[-2] == game.running_cards[-1]:
         player_total += 9 
         numadd += 9
-        print('Prial (3-of-a-kind) +9')
-    elif len(total) >= 2 and total[-2] == total[-1]:
+        #print('Prial (3-of-a-kind) +9')
+        game.messages.append('Prial (3-of-a-kind) +9')
+    elif len(game.running_cards) >= 2 and game.running_cards[-2] == game.running_cards[-1]:
         player_total += 2
         numadd += 2
-        print('Pair +2')
+        #print('Pair +2')
+        game.messages.append('Pair +2')
 
   #sequence second 
     #ordtotal = sorted(total, key=ranks.index) #sorted total sequence strings 
-    if len(total) >= 3:
+    if len(game.running_cards) >= 3:
         true_seq = False
         portion = total[-3:]
         ######
         best_run = 0
     # Check from longest possible slice down to 3
-        for run_len in range(len(total), 2, -1):       #(start, stop, step)
-            portion = total[-run_len:]
+        for run_len in range(len(game.running_cards), 2, -1):       #(start, stop, step)
+            portion = game.running_cards[-run_len:]
             true_seq, sh, ord = s.sequence(portion)
             if true_seq == True:
                 best_run = run_len
@@ -132,7 +135,8 @@ def analyze(c_card:str, player_total):
             if true_seq == True:
                 player_total += len(portion)
                 run = str(len(portion))
-                print('Run of ' + run + ': +' + run)
+                #print('Run of ' + run + ': +' + run)
+                game.messages.append('Run of ' + run + ': +' + run)
             #elif true_seq == False and len(portion) >= 3: 
                 #p_ind = p_ind +2 
                 #portion = total[p_ind:]
@@ -148,36 +152,43 @@ def analyze(c_card:str, player_total):
         vitals[0] = 1
     else:
         vitals[0] = int(vitals[0])
-    ntotal.append(vitals[0])
+    game.running_values.append(vitals[0])
 
   #sums third 
-    if sum(ntotal) == 31:
-        snumadd = len(ntotal)
+    if sum(game.running_values) == 31:
+        snumadd = len(game.running_values)
         player_total += snumadd
-        print('31 +' + str(snumadd))   #add a line making total and ntotal 0
+        #print('31 +' + str(snumadd))   #add a line making total and ntotal 0
+        game.messages.append('31 +' + str(snumadd))
         numadd += snumadd
-        total.clear()
-    elif sum(ntotal) == 25:
-        snumadd = len(ntotal)
+        game.running_cards.clear()
+    elif sum(game.running_values) == 25:
+        snumadd = len(game.running_values)
         player_total += snumadd
-        print('25 +' + str(snumadd))
+        #print('25 +' + str(snumadd))
+        game.messages.append('25 +' + str(snumadd))
         numadd += snumadd
-    elif sum(ntotal) == 15:
-        snumadd = len(ntotal)
+    elif sum(game.running_values) == 15:
+        snumadd = len(game.running_values)
         player_total += snumadd
-        print('15 +' + str(snumadd))
+        #print('15 +' + str(snumadd))
+        game.messages.append('15 +' + str(snumadd))
         numadd += snumadd
     
     #adding '1 for the latter' 
-    if len(a) == 2 and len(b) == 1:
-        if c_card in a:
+    if len(game.player_hand) == 2 and len(game.computer_hand) == 1:
+        if c_card in game.player_hand:
             player_total += 1
-            print('+1 For the "Latter"')
-    if len(b) == 2 and len(a) == 1:
-        if c_card in b:
+            #print('+1 For the "Latter"')
+            game.messages.append('+1 For the "Latter"')
+            game.phase = 'END_PEG'
+    if len(game.computer_hand) == 2 and len(game.player_hand) == 1:
+        if c_card in game.computer_hand:
             player_total += 1
-            print('+1 For the "Latter"')
-    return player_total, sum(ntotal)
+            #print('+1 For the "Latter"')
+            game.messages.append('+1 For the "Latter"')
+            game.phase = 'END_PEG'
+    return player_total, sum(game.running_values)
     
 #Pegging playCard Turn 
 def initial(game): #top:str
@@ -209,36 +220,52 @@ def initial(game): #top:str
     game.comp_rsco = b_points
     return game
     
-def go(signal, player_tot): 
+def go(signal, player_tot, game): 
     if signal == 0: 
-        total.clear()
-        ntotal.clear()
+        #total.clear()
+        game.running_cards.clear()
+        #ntotal.clear()
+        game.running_values.clear()
+        game.go = "None"
         player_tot += 1 
-        print('Go! +1 for Mr. Crib \n')
+        #print('Go! +1 for Mr. Crib \n')
+        game.messages.append('Go! +1 for Mr. Crib')
     elif signal == None: 
-        total.clear()
-        ntotal.clear()
+        #total.clear()
+        game.running_cards.clear()
+        #ntotal.clear()
+        game.running_values.clear()
         player_tot += 1
-        print('Go! +1 for you \n')
+        game.go = "None"
+        #print('Go! +1 for you \n')
+        game.messages.append('Go! +1 for you')
     return player_tot
 
-def user_error(chosen):
+def user_error(chosen, game):
     #If the typed value is not an integer
+    chosen = int(chosen)
+    #----------NOT NEEDED WITH WEBSITE------------#
     while True:
         try:
             chosen = int(chosen)
             break
         except ValueError: 
             chosen = input('Type an integer (0, 1, 2, or , 3): ')
-    #If chosen number is not in the list of cards by size (1,2,3 or 0)
-    if chosen > len(a) - 1:
-        print('**Out of Position** -- Choose the correct card position \n')
+    #---------------------------------------------------#
+    #If chosen number is not in the list of cards by size (1,2,3 or 0) 
+    #------------- NOT NEEDED WITH WEBSITE ---------------------#
+    if chosen > len(game.player_hand) - 1:
+        #print('**Out of Position** -- Choose the correct card position \n')
+        game.messages.append('**Out of Position** -- Choose the correct card position')
         chosen = input("Choose card # 1, 2, or 3 (If applicable type '0' for a Go): ")
-        rechoose = chosen
+        game.messages.append("Choose card # 1, 2, or 3 (If applicable type '0' for a Go): ")
+        return None
+        rechoose = chosen   #------Not needed for website------#
         return user_error(rechoose)
+    #---------------------------------------------------#
     #If player tries to Renege
     if chosen == 0:
-        rtest = a.copy()
+        rtest = game.player_hand.copy()
         for card in rtest[1:]:
            cix = rtest.index(card)
            if card[0:4] == 'Jack' or card[0:4] == 'Quee' or card[0:4] == 'King' or card[0:2] == '10':
@@ -250,13 +277,14 @@ def user_error(chosen):
 
         for card in rtest[1:]:
             cix = rtest.index(card)
-            if card + sum(ntotal) <= 31: ###A renege 
-                print('**Renege** - You can still play a card (' + str(a[cix]) + ') with Total remaining under 31')  
+            if card + sum(game.running_values) <= 31: ###A renege 
+                #print('**Renege** - You can still play a card (' + str(game.player_hand[cix]) + ') with Total remaining under 31')  
+                game.messages.append('**Renege** - You can still play a card (' + str(game.player_hand[cix]) + ') with Total remaining under 31')
                 rechoose = input('Choose the correct card 1 or 2: ')
-                print('')
+                #print('')
                 return user_error(rechoose)
 
-    v_spl = a[chosen].split()
+    v_spl = game.player_hand[chosen].split()
     if v_spl[0] == 'Jack' or v_spl[0] == 'Queen' or v_spl[0] == 'King':
         v_spl[0] = 10
     elif v_spl[0] == 'Ace':
@@ -268,6 +296,7 @@ def user_error(chosen):
     if sum(ntotal) + numb > 31:
         #while sum(ntotal) + numb > 31:
         print('**Over 31** --- Choose a differnet card or type "0" for Go \n')
+        game.messages.append('**Over 31** --- Choose a differnet card or type "0" for Go')
         rechoose = input("Selection: ")
         return user_error(rechoose)
             #if a person picks a number out of the card hand range 
@@ -296,17 +325,20 @@ def mog_choice(game, inp):
         cmog, card_choice = s.mog_choice(game.computer_hand[1:], game.top, game.player_score)
         if mog == 'Y' and cmog == 'N':
             game.player_rsco += 1
+            game.phase = 'PEG_START'
             #print(cmog + 'o --------------> Mr. Crib refuses to Mog: +1 point\n')
             game.messages.append(cmog + 'o --------------> Mr. Crib refuses to Mog: +1 point')
             #print("")
             game.messages.append("")
         elif mog == 'N':
             game.comp_rsco += 1
+            game.phase = 'PEG_START'
             #print('You refuse to Mog: Mr.Crib +1 point\n')
             game.messages.append('You refuse to Mog: Mr.Crib +1 point')
             #print("")
             game.messages.append("")   
         elif mog == 'Y' and cmog == 'Y':
+                game.phase = "MOGGING"
                     #print("Mr. Crib also wishes to Mog!")
                 game.messages.append("Mr. Crib also wishes to Mog!")
                     #trade = input('Select the card you wish to trade (1, 2, or 3): ') 
@@ -316,6 +348,7 @@ def mog_choice(game, inp):
         cmog, card_choice = s.mog_choice(game.computer_hand[1:], game.top, game.player_score)
         if cmog == 'N':
             game.player_rsco += 1
+            game.phase = 'PEG_START'
             ####print(cmog + 'o -------------->')
             #print("Mr. Crib refuses to Mog: +1 point\n")
             game.messages.append("Mr. Crib refuses to Mog: +1 point")
@@ -327,14 +360,17 @@ def mog_choice(game, inp):
             #    mog = input("\n***Please just type capital 'Y' for yes, or capital 'N' for No: ")
             if mog == 'N':
                 game.comp_rsco += 1
+                game.phase = 'PEG_START'
                 #print("You refuse to Mog: Mr.Crib +1 point\n")
                 game.messages.append("You refuse to Mog: Mr.Crib +1 point")  
             elif mog == 'Y':
+                game.phase = "MOGGING"
                 #print("You also wish to Mog!")
                 game.messages.append("You also wish to Mog!")
                 #trade = input('Select the card you wish to trade (1, 2, or 3): ')
                 game.messages.append('Select the card you wish to trade (1, 2, or 3): ') 
     game.card_choice = card_choice
+    #game.messages.append("Choose card # 1, 2, or 3 (If applicable type '0' for a Go): ")
     return game
            
 #Mogging
@@ -342,7 +378,7 @@ def mogging(game, trd, card_choice): #local user total, local computer total, tr
 # Dealer has the right to mog first = offer up a card to give to dealer
     game.phase = "MOGGING"
     if game.player_hand[0] == '#':
-        #trade = user_error(trd)
+        #trade = user_error(trd, game)
         trade = int(trd)
         crade = game.computer_hand.index(card_choice) #computer selects the card they want to get rid of 
         t_card = game.player_hand.pop(trade)
@@ -355,7 +391,7 @@ def mogging(game, trd, card_choice): #local user total, local computer total, tr
         game.messages.append(game.player_hand)
         #print("")
     else: 
-        #trade = user_error(trd)
+        #trade = user_error(trd, game)
         trade = int(trd)
         crade = game.computer_hand.index(card_choice) #computer selects the card they want to get rid of 
         t_card = game.player_hand.pop(trade)
@@ -368,183 +404,271 @@ def mogging(game, trd, card_choice): #local user total, local computer total, tr
         game.messages.append(game.player_hand)
         #print("")
         game.messages.append("")
+    #game.messages.append("Choose card # 1, 2, or 3 (If applicable type '0' for a Go): ")
     return game
 
+def start_peg(game):
+    #if player is non-dealer they play first 
+    if game.player_hand[0] == '#':
+        game.phase = 'PLAYER_TURN'
+        game.messages.append("Choose card # 1, 2, or 3 (If applicable type '0' for a Go): ")
+    else:
+        game.phase = 'COMP_TURN'
+
+def player_peg(game, choice):
+    nflop = choice
+    if nflop != 0:          #(run as normal)
+        flop = game.player_hand[nflop]
+        game.player_rsco, total_sum = analyze(flop, game.player_rsco, game)
+        #print(flop + ' --> Total is: ' + str(sum(game.running_values)))
+        game.messages.append(flop + ' --> Total is: ' + str(sum(game.running_values)))
+        ###CHECK FOR WIN
+        if total_sum == 31:
+            game.running_values.clear()
+        else:
+            pass
+        game.player_hand.pop(nflop)
+        game.player_played.append(flop)
+    elif nflop == 0 and game.go == 'GO_C': #Computer said go and user can't play 
+        nflop = None
+        game.player_rsco = go(nflop, game.player_rsco, game)
+    elif nflop == 0: #(got == 'x':)      #User says go 
+            #Allow computer to make a play
+        game.messages.append('Go! ----->')
+        game.go = 'GO_P'
+    game.phase = 'COMP_TURN'
+
+def comp_peg(game):
+    ### First play in pegging is the computer 
+    if len(game.running_cards) == 0:  #total
+        seq_value, seq_hand, orderd = s.sequence(game.computer_hand[1:])
+        w = s.first_card_non(seq_hand, seq_value, orderd)
+        xflop = random.choices(game.computer_hand[1:], weights=w)
+        flop = xflop[0]      
+    ### Everything besides first play ###     
+    else: 
+        flop = s.next_card(game.running_values, game.running_cards, game.computer_hand[1:])
+        if flop == None and game.go == "GO_P": #user's fault and Computer can't play    #and gotc == 'x':
+            nflop = 0
+            game.comp_rsco = go(nflop, game.comp_rsco, game)  #Figuiring out ----------------
+            pass #continue maybe
+        elif flop == None and game.go == "None":    #Computer is first to say GO
+            nflop = None
+            game.go = "GO_C"
+            #game.comp_rsco = go(nflop, game.comp_rsco, game)
+        elif flop != None:
+            game.comp_rsco, total_sum = analyze(flop, game.comp_rsco, game)
+            game.messages.append(flop + ' --> Total is: ' + str(sum(game.running_values)))
+            if total_sum == 31:
+                game.running_values.clear()
+            else:
+                pass
+        nflop = game.computer_hand.index(flop)
+        game.computer_hand.pop(nflop)
+        game.computer_played.append(flop)    
+    game.phase = 'PLAYER_TURN'
+    game.messages.append("Choose card # 1, 2, or 3 (If applicable type '0' for a Go): ")
+
+def peg_stop(game):
+    #if len(game.player_played) == 3 and len(game.computer_played) == 3:
+        game.messages.append('---Pegging Completed---')
+        game.messages.append("Mr. Crib's Points: " + str(game.comp_rsco))
+        game.messages.append("Your Points: " + str(game.player_rsco))
+        game.phase = 'HANDS'
+
 #Pegging Play
-def pegging(a_tot, b_tot, playerp:int, compp:int):
+def pegging(game, a_tot, b_tot, playerp:int, compp:int):
     #Non-dealer starts
     #could put this in a 'for' loop x in range(6)
     got = 'x'
     gotc = 'comp' 
-    while len(a) > 1 or len(b) > 1:  
+    while len(game.player_hand) > 1 or len(game.computer_hand) > 1:  
     #for inning in range(3):
-        if a[0] == '#':
+        if game.player_hand[0] == '#':
         #1st Play = User
             nflop = input("Choose card # 1, 2, or 3 (If applicable type '0' for a Go): ") #user enters integer of card
-            
+            #---Insert input from html---#
             #user error
-            nflop = user_error(nflop)
-
+            nflop = user_error(nflop, game)
             if nflop != 0:          #(run as normal)
-                flop = a[nflop]
-                a_tot, total_sum = analyze(flop, a_tot)
-                print(flop + ' --> Total is: ' + str(sum(ntotal)))
+                flop = game.player_hand[nflop]
+                game.player_rsco, total_sum = analyze(flop, game.player_rsco)
+                #print(flop + ' --> Total is: ' + str(sum(game.running_values)))
+                game.messages.append(flop + ' --> Total is: ' + str(sum(game.running_values)))
                 ###CHECK FOR WIN
-                if playerp + a_tot >= 61:
-                    #print("You Win off of pegging: (point total)")
+                if game.player_score + game.player_rsco >= 61:
+                    ##print("You Win off of pegging: (point total)")
                     break
                 else:
                     pass
                 if total_sum == 31:
-                    ntotal.clear()
+                    game.running_values.clear()
                     print('')
                 else:
                     pass
-                a.pop(nflop)
-                ah.append(flop)
+                game.player_hand.pop(nflop)
+                game.player_played.append(flop)
             elif nflop == 0 and got == 'x': #use go procedure ------------------- (User says 'go' and Starts pegging after)
             #Allow computer to make a play
-                print('Go! ----->')
-                cflop = s.next_card(ntotal, total, b[1:])
+                #print('Go! ----->')
+                game.messages.append('Go! ----->')
+                cflop = s.next_card(game.running_values, game.running_cards, game.computer_hand[1:])
                 if cflop == None:
-                    b_tot = go(nflop, b_tot)
-                    print(a)
+                    game.comp_rsco = go(nflop, game.comp_rsco)
+                    #print(game.player_hand)
+                    game.messages.append(game.player_hand)
                     continue       #Allows the user to start at the top of the loop
                 else: 
                     pass #break?? / pass
-
+            
             #2nd Play = Computer's choice and show
-            flop = s.next_card(ntotal, total, b[1:])
+            flop = s.next_card(game.running_values, game.running_cards, game.computer_hand[1:])
             if flop != None:           #Normal Play 
-                b_tot, total_sum = analyze(flop, b_tot)
-                print(flop + ' --> Total is: ' + str(sum(ntotal)))
+                game.comp_rsco, total_sum = analyze(flop, game.comp_rsco)
+                #print(flop + ' --> Total is: ' + str(sum(game.running_values)))
+                game.messages.append(flop + ' --> Total is: ' + str(sum(game.running_values)))
                 ###CHECK FOR WIN
-                if compp + b_tot >= 61:
+                if game.computer_score + game.comp_rsco >= 61:
                     #print("Mr. Crib Win's off of pegging: (point total) points")
                     break
                 else:
                     pass
                 if total_sum == 31:
-                    ntotal.clear()
-                    print('')
+                    game.running_values.clear()
+                    #print('')
                 else:
                     pass
-                nflop = b.index(flop)
-                b.pop(nflop)
-                bh.append(flop)
+                nflop = game.computer_hand.index(flop)
+                game.computer_hand.pop(nflop)
+                game.computer_played.append(flop)
             else: #'comp' & 0          #use go procedure ---------------
                 if nflop != 0 and got == 'x': #(indicating the player hasn't reciprocated the go)
-                    print('Go! ----->')
-                    print(a)
+                    #print('Go! ----->')
+                    game.messages.append('Go! ----->')
+                    #print(game.player_hand)
+                    game.messages.append(game.player_hand)
                     got = 'comp'
                     continue
                 elif got == 'comp':
-                    a_tot = go(flop, a_tot)
+                    game.player_rsco = go(flop, game.player_rsco)
                     #Computer's turn  (maybe put the computer gameplay in that part of the go)
-                    seq_value, seq_hand, orderd = s.sequence(b[1:])
+                    seq_value, seq_hand, orderd = s.sequence(game.computer_hand[1:])
                     w = s.first_card_non(seq_hand, seq_value, orderd)
-                    xflop = random.choices(b[1:], weights=w)
+                    xflop = random.choices(game.computer_hand[1:], weights=w)
                     flop = xflop[0]
-                    b_tot, total_sum = analyze(flop, b_tot)
-                    print(flop + ' --> Total is: ' + str(sum(ntotal)))
+                    game.comp_rsco, total_sum = analyze(flop, game.comp_rsco)
+                    #print(flop + ' --> Total is: ' + str(sum(game.running_values)))
+                    game.messages.append(flop + ' --> Total is: ' + str(sum(game.running_values)))
                     ###CHECK FOR WIN
-                    if compp + b_tot >= 61:
+                    if game.computer_score + game.comp_rsco >= 61:
                     #print("Mr. Crib Win's off of pegging: (point total) points")
                         break
                     else:
                         pass
-                    nflop = b.index(flop)
-                    b.pop(nflop)
-                    bh.append(flop)
-            print(a)
+                    nflop = game.computer_hand.index(flop)
+                    game.computer_hand.pop(nflop)
+                    game.computer_played.append(flop)
+            #print(a)
+            game.messages.append(game.player_hand)
         
         else: 
         #1st Play = Computer's choice
-            if len(total) == 0:
-                seq_value, seq_hand, orderd = s.sequence(b[1:])
+            if len(game.running_cards) == 0:  #total
+                seq_value, seq_hand, orderd = s.sequence(game.computer_hand[1:])
                 w = s.first_card_non(seq_hand, seq_value, orderd)
-                xflop = random.choices(b[1:], weights=w)
+                xflop = random.choices(game.computer_hand[1:], weights=w)
                 flop = xflop[0]
             else: 
-                flop = s.next_card(ntotal, total, b[1:])
+                flop = s.next_card(game.running_values, game.running_cards, game.computer_hand[1:])
 
             if flop == None and gotc == 'x':    #user's fault and Computer can't play 
-                b_tot = go(nflop, b_tot)  #Figuiring out ----------------
+                game.comp_rsco = go(nflop, game.comp_rsco)  #Figuiring out ----------------
                 pass #continue maybe
             elif flop != None:
-                b_tot, total_sum = analyze(flop, b_tot)
-                print(flop + ' --> Total is: ' + str(sum(ntotal)))
+                game.comp_rsco, total_sum = analyze(flop, game.comp_rsco)
+                #print(flop + ' --> Total is: ' + str(sum(game.running_values)))
+                game.messages.append(flop + ' --> Total is: ' + str(sum(game.running_values)))
                 ###CHECK FOR WIN
-                if compp + b_tot >= 61:
+                if game.computer_score + game.comp_rsco >= 61:
                     #print("Mr. Crib Win's off of pegging: (point total) points")
                     break
                 else:
                     pass
                 if total_sum == 31:
-                    ntotal.clear()
+                    game.running_values.clear()
                     print('')
                 else:
                     pass
-                nflop = b.index(flop)
-                b.pop(nflop)
-                bh.append(flop)
+                nflop = game.computer_hand.index(flop)
+                game.computer_hand.pop(nflop)
+                game.computer_played.append(flop) 
             else:      #Let the user make a play 
                 #Let user go 
                 if nflop == 0 and gotc == 'comp':   #computer's fault 
                     #run go
-                    a_tot = go(flop, a_tot)
+                    game.player_rsco = go(flop, game.player_rsco)
                     continue
                 else: 
-                    print('Go! ----->')
+                    #print('Go! ----->')
+                    game.messages.append('Go! ----->')
                     pass
 
             #2nd Play = User's turn 
-            print(a)
+            print(game.player_hand)
+            #############
             nflop = input("Choose card # 1, 2, or 3: (If applicable type '0' for a Go):") #user enters integer of card (index)
-            nflop = user_error(nflop)
+            nflop = user_error(nflop, game)
             if nflop != 0:    #(run as normal)
-                flop = a[nflop]  #value / card 
-                a_tot, total_sum = analyze(flop, a_tot)
-                print(flop + ' --> Total is: ' + str(sum(ntotal)) + '\n')
+                flop = game.player_hand[nflop]  #value / card 
+                game.player_rsco, total_sum = analyze(flop, game.player_rsco)
+                #print(flop + ' --> Total is: ' + str(sum(game.running_values)) + '\n')
+                game.messages.append(flop + ' --> Total is: ' + str(sum(game.running_values)))
                 ###CHECK FOR WIN
-                if playerp + a_tot >= 61:
+                if game.player_score + game.player_rsco >= 61:
                     #print("You Win off of pegging: (point total)")
                     break
                 else:
                     pass
                 if total_sum == 31:
-                    ntotal.clear()
-                    print('')
+                    game.running_values.clear()
+                    #print('')
                 else:
                     pass
-                a.pop(nflop)
-                ah.append(flop)
+                game.player_hand.pop(nflop)
+                game.player_played.append(flop)
+    
             else: 
                 if flop != None:
-                    print('Go! ----->')
+                    #print('Go! ----->')
+                    game.messages.append('Go! ----->')
                     gotc = 'x'                   #go is user fault
                     pass  
                 elif nflop == 0 and gotc == 'x':
                     #go procedure -------------
-                    b_tot = go(nflop, b_tot)
+                    game.comp_rsco = go(nflop, game.comp_rsco)
                     nflop = input("Choose card # 1, 2, or 3: (If applicable type '0' for a Go):")
-                    nflop = user_error(nflop)
-                    flop = a[nflop]  #value / card 
-                    a_tot, total_sum = analyze(flop, a_tot)
-                    print(flop + ' --> Total is: ' + str(sum(ntotal)))
+                    #---Figure it out with the html input----############
+                    nflop = user_error(nflop, game)
+                    flop = game.player_hand[nflop]  #value / card 
+                    game.player_rsco, total_sum = analyze(flop, game.player_rsco)
+                    #print(flop + ' --> Total is: ' + str(sum(game.running_values)))
+                    game.messages.append(flop + ' --> Total is: ' + str(sum(game.running_values)))
                     ###CHECK FOR WIN
-                    if playerp + a_tot >= 61:
+                    if game.player_score + game.player_rsco >= 61:
                     #print("You Win off of pegging: (point total)")
                         break
                     else:
                         pass
-                    a.pop(nflop)
-                    ah.append(flop)
+                    game.player_hand.pop(nflop)
+                    game.player_played.append(flop)
     
-    print('---Pegging Completed---')
-    print("Mr. Crib's Points: " + str(b_tot))
-    print("Your Points: " + str(a_tot))
-    return a_tot, b_tot
+    #print('---Pegging Completed---')
+    game.messages.append('---Pegging Completed---')
+    #print("Mr. Crib's Points: " + str(game.comp_rsco))
+    game.messages.append("Mr. Crib's Points: " + str(game.comp_rsco))
+    #print("Your Points: " + str(game.player_rsco))
+    game.messages.append("Your Points: " + str(game.player_rsco))
+    return game.player_rsco, game.comp_rsco
     
     #Hand Play    
 

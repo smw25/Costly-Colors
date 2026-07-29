@@ -12,6 +12,7 @@ class GameState:
 
         self.running_cards = []
         self.running_values = []
+        self.running_total = 0
 
         self.player_score = 0
         self.computer_score = 0
@@ -26,3 +27,4 @@ class GameState:
 
         self.phase = "NOT"
         self.begin = "NO"
+        self.go = "None"

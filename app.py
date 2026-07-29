@@ -36,17 +36,27 @@ def home():
         mogg = request.form.get('mogg')
         trade = request.form.get('card')
         c.mog_choice(game, mogg)
-        #if mogg == 'Y' or mogg == 'Y':
         #card_choice = computers card 
-        game.phase = "MOGGING"
+        #game.phase = "MOGGING"
 
     #card_choice = something means computer is a Y, and if form 'card' = something player is Y
     if game.phase == "MOGGING" and game.card_choice and request.form.get('card') is not None:
         trade = request.form.get('card')
         c.mogging(game, trade, game.card_choice)
-        game.phase = "PEG1"
-
+        game.phase = "PEG_START"
     
+    if game.phase == "PEG_START":
+        c.start_peg(game)
+    p_choice = request.form.get('card') 
+
+    if game.phase == 'PLAYER_TURN' and request.form.get('card') is not None:
+        p_choice = int(p_choice)
+        c.player_peg(game, p_choice) 
+    elif game.phase == 'COMP_TURN':
+        c.comp_peg(game)
+    elif game.phase == 'END_PEG':
+        c.peg_stop(game)
+
     return render_template('index.html', c_title=name, start=start, 
                            messages=game.messages,
                            game=game 
