@@ -52,9 +52,9 @@ def home():
     if game.phase == 'PLAYER_TURN' and request.form.get('card') is not None:
         p_choice = int(p_choice)
         c.player_peg(game, p_choice) 
-    elif game.phase == 'COMP_TURN':
+    if game.phase == 'COMP_TURN':
         c.comp_peg(game)
-    elif game.phase == 'END_PEG':
+    if game.phase == 'END_PEG':
         c.peg_stop(game)
 
     return render_template('index.html', c_title=name, start=start, 

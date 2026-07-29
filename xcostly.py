@@ -322,7 +322,7 @@ def user_error(chosen, game):
 def mog_choice(game, inp):
     mog = inp
     if game.player_hand[0] == '#':
-        cmog, card_choice = s.mog_choice(game.computer_hand[1:], game.top, game.player_score)
+        cmog, game.card_choice = s.mog_choice(game.computer_hand[1:], game.top, game.player_score)
         if mog == 'Y' and cmog == 'N':
             game.player_rsco += 1
             game.phase = 'PEG_START'
@@ -345,7 +345,7 @@ def mog_choice(game, inp):
                 game.messages.append('Select the card you wish to trade (1, 2, or 3): ')
 
     else:
-        cmog, card_choice = s.mog_choice(game.computer_hand[1:], game.top, game.player_score)
+        cmog, game.card_choice = s.mog_choice(game.computer_hand[1:], game.top, game.player_score)
         if cmog == 'N':
             game.player_rsco += 1
             game.phase = 'PEG_START'
@@ -369,7 +369,7 @@ def mog_choice(game, inp):
                 game.messages.append("You also wish to Mog!")
                 #trade = input('Select the card you wish to trade (1, 2, or 3): ')
                 game.messages.append('Select the card you wish to trade (1, 2, or 3): ') 
-    game.card_choice = card_choice
+    #game.card_choice = card_choice
     #game.messages.append("Choose card # 1, 2, or 3 (If applicable type '0' for a Go): ")
     return game
            
@@ -463,9 +463,9 @@ def comp_peg(game):
                 game.running_values.clear()
             else:
                 pass
-        nflop = game.computer_hand.index(flop)
-        game.computer_hand.pop(nflop)
-        game.computer_played.append(flop)    
+            nflop = game.computer_hand.index(flop)
+            game.computer_hand.pop(nflop)
+            game.computer_played.append(flop)    
     game.phase = 'PLAYER_TURN'
     game.messages.append("Choose card # 1, 2, or 3 (If applicable type '0' for a Go): ")
 

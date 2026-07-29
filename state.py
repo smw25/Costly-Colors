@@ -21,7 +21,7 @@ class GameState:
         self.comp_rsco = 0
 
         self.dealer = None
-        self.card_choice = ''
+        self.card_choice = ''   #for the computer during mogging
 
         self.messages = []
 
