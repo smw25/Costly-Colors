@@ -58,7 +58,7 @@
 
             </div>
 
-            {% if  game.phase != "NOT" or game.phase == "DEAL" or game.phase == "MOG?" %}
+            {% if  game.phase != "NOT" or game.phase != "DEAL" or game.phase != "MOG?" %}
             <div id="card_choice">
                 <form method="POST">
                     <button name="card" value="1">Play Card 1</button>

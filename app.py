@@ -49,12 +49,15 @@ def home():
         if t is False:
             return render_template('index.html', c_title=name, start=start, messages=game.messages, game=game)
         c.mogging(game, trade, game.card_choice)
-        game.phase = "PEG_START"
-        return render_template('index.html', c_title=name, start=start, messages=game.messages, game=game)
+        #game.phase = "PEG_START"
+        if game.player_hand[0] == '#':   #Player is a non-dealer
+            return render_template('index.html', c_title=name, start=start, messages=game.messages, game=game)
+        else:
+            pass
     
     if game.phase == "PEG_START":
         c.start_peg(game)
-
+        
     p_choice = request.form.get('card') 
 
     if game.phase == 'PLAYER_TURN' and request.form.get('card') is not None:

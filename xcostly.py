@@ -231,7 +231,7 @@ def go(signal, player_tot, game):
         #print('Go! +1 for Mr. Crib \n')
         game.messages.append('Go! +1 for Mr. Crib')
         game.messages.append('')
-        game.messages.append(game.player_hand)
+        #game.messages.append(game.player_hand)
     elif signal == None: 
         #total.clear()
         game.running_cards.clear()
@@ -383,6 +383,7 @@ def mogging(game, trd, card_choice): #local user total, local computer total, tr
         game.messages.append(game.player_hand)
         #print("")
         game.messages.append("")
+        game.phase = "PEG_START"
         game.messages.append("Choose card # 1, 2, or 3 (If applicable type '0' for a Go): ")
     else: 
         #trade = user_error(trd, game)
@@ -398,6 +399,7 @@ def mogging(game, trd, card_choice): #local user total, local computer total, tr
         game.messages.append(game.player_hand)
         #print("")
         game.messages.append("")
+        game.phase = "PEG_START"
     #game.messages.append("Choose card # 1, 2, or 3 (If applicable type '0' for a Go): ")
     return game
 
@@ -478,7 +480,7 @@ def comp_peg(game):
 
 def peg_stop(game):
     #if len(game.player_played) == 3 and len(game.computer_played) == 3:
-        game.messages.append('---Pegging Completed---')
+        game.messages.append('------- Pegging Completed -------')
         game.messages.append("Mr. Crib's Points: " + str(game.comp_rsco))
         game.messages.append("Your Points: " + str(game.player_rsco))
         game.phase = 'HANDS'
