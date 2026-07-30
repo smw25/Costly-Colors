@@ -164,7 +164,7 @@ def next_card(totalnum, vtotal, c_hand):
         
     #Pairs and Prials
     p_hand = c_hand.copy()
-    p_hand, val = pairs(p_hand)
+    p_hand, val = pairs(p_hand) #Just the number or Face
     if len(vtotal) >= 3 and vtotal[-3] == vtotal[-2] == vtotal[-1]: #only can be 4 of a kind
         if vtotal[-1] in p_hand:                #JUST the Number or Face
             ipp = p_hand.index(vtotal[-1])

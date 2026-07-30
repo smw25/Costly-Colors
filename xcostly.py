@@ -1,5 +1,5 @@
 import random
-import strategy as s
+import xstrategy as s
 import xhand as h
 import time as t 
 
@@ -316,7 +316,7 @@ def user_error(chosen, game):
     #If player Has to say go, but tries to play a card
     if sum(game.running_values) + numb > 31:
         #while sum(ntotal) + numb > 31:
-        print('**Over 31** --- Choose a differnet card or type "0" for Go \n')
+        #print('**Over 31** --- Choose a differnet card or type "0" for Go \n')
         game.messages.append('**Over 31** --- Choose a differnet card or type "0" for Go')
         #rechoose = input("Selection: ")
         game.messages.append("Selection: ")

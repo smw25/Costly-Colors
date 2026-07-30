@@ -47,8 +47,8 @@ class GameState:
         self.player_played = []
         self.computer_played = []
 
-        self.running_cards = []
-        self.running_values = []
+        self.running_cards = []    #cards played with just name e.g. ['Jack', '7', 'Ace']
+        self.running_values = []   #cards played as integers
         self.running_total = 0
 
         self.player_score = 0
