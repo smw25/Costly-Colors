@@ -55,10 +55,12 @@
             </div>
 
             <div id="hands">
-
+                {% for message in game.handages %}
+                    <p> {{ message }}</p>
+                {% endfor %}
             </div>
 
-            {% if  game.phase != "NOT" or game.phase != "DEAL" or game.phase != "MOG?" %}
+            {% if  game.phase != "NOT" or game.phase != "DEAL" or game.phase != "MOG?" or game.phase != "HANDS" or game.phase != "END_PEG" %}
             <div id="card_choice">
                 <form method="POST">
                     <button name="card" value="1">Play Card 1</button>

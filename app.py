@@ -1,7 +1,7 @@
 ###ALL VIBED FROM GOOGLE###
 from flask import Flask, render_template, request
 from state import GameState
-import xgameplay as g
+import xhand as h
 import xcostly as c
 app = Flask(__name__)
 
@@ -70,6 +70,14 @@ def home():
         c.comp_peg(game)
     if game.phase == 'END_PEG':
         c.peg_stop(game)
+
+    if game.phase == 'HANDS':
+        a,b, game.phand_score, game.chand_score = c.hand(game.player_rsco, game.comp_rsco, game.top, game)
+
+    if game.phase == 'TOTALS':
+        p_peg_sc = game.player_rsco - game.phand_score
+        c_peg_sc = game.comp_rsco - game.chand_score
+        #h.round_totals(game.player_rsco, game.comp_rsco, p_peg_sc, c_peg_sc, game)
 
     return render_template('index.html', c_title=name, start=start, 
                            messages=game.messages,

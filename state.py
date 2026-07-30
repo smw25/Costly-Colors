@@ -20,10 +20,14 @@ class GameState:
         self.player_rsco = 0
         self.comp_rsco = 0
 
+        self.phand_score = 0    #player's hand score
+        self.chand_score = 0    #computer's hand score
+        
         self.dealer = None
         self.card_choice = ''   #for the computer during mogging
 
         self.messages = []
+        self.handages = []
 
         self.phase = "NOT"
         self.begin = "NO"

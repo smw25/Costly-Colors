@@ -1,6 +1,6 @@
 import random
 import strategy as s
-import hand as h
+import xhand as h
 import time as t 
 
 suits = ["Diamonds", "Hearts", "Clubs", "Spades", ]
@@ -467,9 +467,9 @@ def comp_peg(game):
         game.computer_played.append(flop)
     else:
         pass
-        nflop = game.computer_hand.index(flop)
-        game.computer_hand.pop(nflop)
-        game.computer_played.append(flop)   
+        #nflop = game.computer_hand.index(flop)
+        #game.computer_hand.pop(nflop)
+        #game.computer_played.append(flop)   
 
     if len(game.player_played) == 3 and len(game.computer_played) == 3:
         game.phase = 'END_PEG'
@@ -681,56 +681,73 @@ def pegging(game, a_tot, b_tot, playerp:int, compp:int):
     
     #Hand Play    
 
-def hand(a_tot, b_tot, top_cd):
-    t.sleep(2)
-    print('\n---Hand Play---')
+def hand(a_tot, b_tot, top_cd, game):
+    #t.sleep(2)
+    #print('\n---Hand Play---')
+    game.handages.append('------- Hand Play -------')
     pa_total = a_tot
     pb_total = b_tot
-    ah.append(top_cd)
-    bh.append(top_cd)
-    print('Top Card is: ' + top_cd + '\n')
-    if a[0] == '#':
-        t.sleep(1.5)
-        print('Non-Dealer (Your) Hand Totals:')
+    game.player_played.append(top_cd)
+    game.computer_played.append(top_cd)
+    #print('Top Card is: ' + top_cd + '\n')
+    game.handages.append('Top Card is: ' + top_cd)
+    game.handages.append('')
+    if game.player_hand[0] == '#':
+        #t.sleep(1.5)
+        #print('Non-Dealer (Your) Hand Totals:')
+        game.handages.append('Non-Dealer (Your) Hand Totals:')
         #count (non-dealer) user's hand first 
-        print(ah)
-        a_tot = h.analyze_2(a_tot, ah)
+        #print(ah)
+        game.handages.append(game.player_played)
+        a_tot = h.analyze_2(a_tot, game.player_played, game)
         hatot = a_tot - pa_total
         if hatot < 0:
             hatot = 0 
-        print('Your Total is: ' + str(hatot) + '\n')
+        #print('Your Total is: ' + str(hatot) + '\n')
+        game.handages.append('Your Total is: ' + str(hatot))
+        game.handages.append('')
         ###count (dealer) computer's hand last 
-        t.sleep(1.25)
-        print("Dealer's (Mr. Crib's) Hand Totals:")
-        print(bh)
-        b_tot = h.analyze_2(b_tot, bh)
+        #t.sleep(1.25)
+        #print("Dealer's (Mr. Crib's) Hand Totals:")
+        game.handages.append("Dealer's (Mr. Crib's) Hand Totals:")
+        #print(bh)
+        game.handages.append(game.computer_played)
+        b_tot = h.analyze_2(b_tot, game.computer_played, game)
         hbtot = b_tot - pb_total
         if hbtot < 0:
             hbtot = 0
-        print("Mr. Crib's Total is: " + str(hbtot) + '\n')
+        #print("Mr. Crib's Total is: " + str(hbtot) + '\n')
+        game.handages.append("Mr. Crib's Total is: " + str(hbtot))
     
     else:
         #count computer (non-d) first
-        t.sleep(1)
-        print("Non-Dealer (Mr. Crib's) Hand Totals:")
-        print(bh)
-        b_tot = h.analyze_2(b_tot, bh)
+        #t.sleep(1)
+        #print("Non-Dealer (Mr. Crib's) Hand Totals:")
+        game.handages.append("Non-Dealer (Mr. Crib's) Hand Totals:")
+        #print(bh)
+        game.handages.append(game.computer_played)
+        b_tot = h.analyze_2(b_tot, game.computer_played, game)
         hbtot = b_tot - pb_total
         if hbtot < 0:
             hbtot = 0
-        print("Mr. Crib's Total is: " + str(hbtot) + '\n')
+        #print("Mr. Crib's Total is: " + str(hbtot) + '\n')
+        game.handages.append("Mr. Crib's Total is: " + str(hbtot))
         ###user = dealer last 
-        t.sleep(1.25)
-        print("Dealer's (Your) Hand Totals:")
-        print(ah)
-        a_tot = h.analyze_2(a_tot, ah)
+        #t.sleep(1.25)
+        #print("Dealer's (Your) Hand Totals:")
+        game.handages.append("Dealer's (Your) Hand Totals:")
+        #print(ah)
+        game.handages.append(game.player_played)
+        a_tot = h.analyze_2(a_tot, game.player_played, game)
         hatot = a_tot - pa_total
         if hatot < 0:
             hatot = 0
-        print('Your Total is: ' + str(hatot) + '\n')
-    total.clear()
-    ntotal.clear()
-    return a_tot, b_tot
+        #print('Your Total is: ' + str(hatot) + '\n')
+        game.handages.append('Your Total is: ' + str(hatot))
+    game.running_cards.clear()
+    game.running_values.clear()
+    game.phase = 'TOTALS'
+    return a_tot, b_tot, hatot, hbtot #hatot = Player Hand Score #hbtot = Computer Hand Score 
     
 def return_cards(u_hand, ai_hand, topc, deck:list):
     u_hand.pop()
