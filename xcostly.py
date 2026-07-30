@@ -327,7 +327,7 @@ def user_error(chosen, game):
         rechoose = chosen 
     return rechoose
 
-def mog_choice(game, inp):
+def mog_choice(game, inp): #NO RETURNS
     mog = inp
     if game.player_hand[0] == '#':
         cmog, game.card_choice = s.mog_choice(game.computer_hand[1:], game.top, game.player_score)
@@ -382,7 +382,7 @@ def mog_choice(game, inp):
     #game.messages.append("Choose card # 1, 2, or 3 (If applicable type '0' for a Go): ")
     return game
            
-#Mogging
+#Mogging ---- NO RETURNS
 def mogging(game, trd, card_choice): #local user total, local computer total, trump card, user grand total
 # Dealer has the right to mog first = offer up a card to give to dealer
     game.phase = "MOGGING"
@@ -428,7 +428,7 @@ def start_peg(game):
     else:
         game.phase = 'COMP_TURN'
 
-def player_peg(game, choice):
+def player_peg(game, choice): #NO RETURN
     nflop = choice
     if nflop != 0:          #(run as normal)
         flop = game.player_hand[nflop]
@@ -438,7 +438,7 @@ def player_peg(game, choice):
         #print(flop + ' --> Total is: ' + str(sum(game.running_values)))
         game.messages.append(flop + ' --> Total is: ' + str(sum(game.running_values)))
         if win(game) is True:
-            return
+            return 
         ###CHECK FOR WIN
         if total_sum == 31:
             game.running_values.clear()
@@ -455,7 +455,7 @@ def player_peg(game, choice):
         game.go = 'GO_P'
     game.phase = 'COMP_TURN'
 
-def comp_peg(game):
+def comp_peg(game): #NO RETURN
     ### First play in pegging is the computer ------CHOOSING THE CARD-----------
     if len(game.running_cards) == 0:  #total
         seq_value, seq_hand, orderd = s.sequence(game.computer_hand[1:])
@@ -702,7 +702,7 @@ def pegging(game, a_tot, b_tot, playerp:int, compp:int):
     
     #Hand Play    
 
-def hand(a_tot, b_tot, top_cd, game): #total from pegging 
+def hand(a_tot, b_tot, top_cd, game): #total from pegging  (4 RETURNS)
     #t.sleep(2)
     #print('\n---Hand Play---')
     game.handages.append('------- Hand Play -------')
@@ -728,9 +728,9 @@ def hand(a_tot, b_tot, top_cd, game): #total from pegging
         if a_tot + game.player_score >= 61:
             game.player_rsco = a_tot
             win(game)
-            return
-        if win(game) is True:
-            return 
+            return game.player_rsco, game.comp_rsco, pa_total, pb_total
+        #if win(game) is True:
+        #    return game.player_rsco, game.comp_rsco, pa_total, pb_total
         game.handages.append('Your Total is: ' + str(hatot))
         game.handages.append(' ')
         ###count (dealer) computer's hand last 
@@ -747,7 +747,7 @@ def hand(a_tot, b_tot, top_cd, game): #total from pegging
         if b_tot + game.computer_score >= 61:
                     game.comp_rsco = b_tot
                     win(game)
-                    return
+                    return game.player_rsco, game.comp_rsco, pa_total, pb_total
         #if win(game) is True:
         #            return
         game.handages.append("Mr. Crib's Total is: " + str(hbtot))
@@ -768,7 +768,7 @@ def hand(a_tot, b_tot, top_cd, game): #total from pegging
         if b_tot + game.computer_score >= 61:
             game.comp_rsco = b_tot
             win(game)
-            return
+            return game.player_rsco, game.comp_rsco, pa_total, pb_total
         #if win(game) is True:
         #            return
         game.handages.append("Mr. Crib's Total is: " + str(hbtot))
@@ -785,9 +785,9 @@ def hand(a_tot, b_tot, top_cd, game): #total from pegging
             hatot = 0
         #print('Your Total is: ' + str(hatot) + '\n')
         if a_tot + game.player_score >= 61:
-                    game.player_rsco = a_tot
-                    win(game)
-                    return
+                game.player_rsco = a_tot
+                win(game)
+                return game.player_rsco, game.comp_rsco, pa_total, pb_total
         #if win(game) is True:
         #            return
         game.handages.append('Your Total is: ' + str(hatot))
@@ -797,7 +797,7 @@ def hand(a_tot, b_tot, top_cd, game): #total from pegging
     game.phase = 'TOTALS'
     return a_tot, b_tot, pa_total, pb_total #hatot = Player Hand Score #hbtot = Computer Hand Score 
     
-def return_cards(u_hand, ai_hand, topc, deck:list):
+def return_cards(u_hand, ai_hand, topc, deck:list): #RETURN DECK
     u_hand.pop()
     for card in u_hand[0:3]:
         deck.append(card)
@@ -820,7 +820,7 @@ def main():
     h.round_totals(a_point, b_point, pa_point, pb_point)
     main_deck = return_cards(ah, bh, trump, main_deck)
 
-def finish(game):
+def finish(game): #NO RETURNS
     game.messages.clear()
     game.handages.clear()
     game.player_played.clear()

@@ -10,15 +10,16 @@ game = GameState()
 # Route for the home page   ----may not be necessary-----
 @app.route('/', methods=['GET', 'POST'])
 def home():
+    global game
     # Send variables directly to index.html
     ###
     round = request.form.get('next')
-    reset = request.form.get('')
+    reset = request.form.get('reset')
     if game.phase == 'FINISH' and round is not None:
         game.round += 1
         c.finish(game)
     elif game.phase == 'GAME_OVER' and reset is not None:
-        game.reset()
+        game = GameState()
 
     name = ''
     start = request.form.get('start')

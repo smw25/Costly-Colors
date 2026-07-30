@@ -201,7 +201,7 @@ def next_card(totalnum, vtotal, c_hand):
     a_hand = c_hand.copy()
     a_hand = addition(a_hand)
     go_out = []
-    over = []
+    over = []   #current = sum of total
     #if current + any number in hand = 15, 25, or 31
     for card in a_hand: #hand is now composed of numerical value of cards
         aind = a_hand.index(card)
