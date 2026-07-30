@@ -79,6 +79,18 @@
                 </form>
             </div>
             {% endif %}
+
+            {% if game.phase == "GAME_OVER" %}
+            <div>
+                {% for message in game.wintags %}
+                    <p> {{ message }}</p>
+                {% endfor %}    
+                <form method="POST">
+                    <button name="reset" value="N">New Game</button>
+                    <button name="reset" value="Q">Quit</button>
+                </form>
+            </div>
+            {% endif %}
         </section>
 
         <section>

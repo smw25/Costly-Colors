@@ -5,8 +5,6 @@ import xhand as h
 import xcostly as c
 app = Flask(__name__)
 
-usertot = 0
-comptot = 0 
 game = GameState()
     
 # Route for the home page   ----may not be necessary-----
@@ -15,9 +13,13 @@ def home():
     # Send variables directly to index.html
     ###
     round = request.form.get('next')
+    reset = request.form.get('')
     if game.phase == 'FINISH' and round is not None:
+        game.round += 1
         c.finish(game)
-        
+    elif game.phase == 'GAME_OVER' and reset is not None:
+        game.reset()
+
     name = ''
     start = request.form.get('start')
     if start == "TRUE" and game.phase == "NOT":
@@ -82,6 +84,9 @@ def home():
         h.round_totals(game.player_rsco, game.comp_rsco, game.pp_score, game.cp_score, game)
         h.grand_totals(game) #phase = 'FINISH'
 
+    if game.phase == 'GAME_OVER':
+        #need to add something to reset everything 
+        pass
     return render_template('index.html', c_title=name, start=start, 
                            messages=game.messages,
                            game=game 

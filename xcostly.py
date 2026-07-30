@@ -53,6 +53,23 @@ def start(game): #deck:list
     random.shuffle(game.deck)
     return name
 
+def win(game):
+    if game.player_score + game.player_rsco >= 61:
+        game.player_score += game.player_rsco
+        game.phase = "GAME_OVER"
+        game.winner = "PLAYER"
+        game.wintags.append('*#*#*#*#*#*#* GAME OVER *#*#*#*#**#*#*')
+        game.wintags.append("🎉You win!🎉 with a total of " + str(game.player_score))
+        return True 
+    elif game.computer_score + game.comp_rsco >= 61:
+        game.computer_score += game.comp_rsco
+        game.phase = "GAME_OVER"
+        game.winner = "COMPUTER"
+        game.wintags.append('*#*#*#*#*#*#* GAME OVER *#*#*#*#**#*#*')
+        game.wintags.append("Mr. Crib Wins with a total of" + str(game.computer_score))
+        return True
+    return False
+
 def deal(game): #deck:list
     #"deal the cards" by popping the first item of the deck list
     for i in range(6):
@@ -420,6 +437,8 @@ def player_peg(game, choice):
         #    return
         #print(flop + ' --> Total is: ' + str(sum(game.running_values)))
         game.messages.append(flop + ' --> Total is: ' + str(sum(game.running_values)))
+        if win(game) is True:
+            return
         ###CHECK FOR WIN
         if total_sum == 31:
             game.running_values.clear()
@@ -460,6 +479,8 @@ def comp_peg(game):
     elif flop != None:
         game.comp_rsco, total_sum = analyze(flop, game.comp_rsco, game)
         game.messages.append(flop + ' --> Total is: ' + str(sum(game.running_values)))
+        if win(game) is True:
+                    return
         if total_sum == 31:
             game.running_values.clear()
         nflop = game.computer_hand.index(flop)
@@ -704,6 +725,12 @@ def hand(a_tot, b_tot, top_cd, game): #total from pegging
         if hatot < 0:
             hatot = 0 
         #print('Your Total is: ' + str(hatot) + '\n')
+        if a_tot + game.player_score >= 61:
+            game.player_rsco = a_tot
+            win(game)
+            return
+        if win(game) is True:
+            return 
         game.handages.append('Your Total is: ' + str(hatot))
         game.handages.append(' ')
         ###count (dealer) computer's hand last 
@@ -717,6 +744,12 @@ def hand(a_tot, b_tot, top_cd, game): #total from pegging
         if hbtot < 0:
             hbtot = 0
         #print("Mr. Crib's Total is: " + str(hbtot) + '\n')
+        if b_tot + game.computer_score >= 61:
+                    game.comp_rsco = b_tot
+                    win(game)
+                    return
+        #if win(game) is True:
+        #            return
         game.handages.append("Mr. Crib's Total is: " + str(hbtot))
         game.handages.append(" ")
     
@@ -732,6 +765,12 @@ def hand(a_tot, b_tot, top_cd, game): #total from pegging
         if hbtot < 0:
             hbtot = 0
         #print("Mr. Crib's Total is: " + str(hbtot) + '\n')
+        if b_tot + game.computer_score >= 61:
+            game.comp_rsco = b_tot
+            win(game)
+            return
+        #if win(game) is True:
+        #            return
         game.handages.append("Mr. Crib's Total is: " + str(hbtot))
         game.handages.append(" ")
         ###user = dealer last 
@@ -745,6 +784,12 @@ def hand(a_tot, b_tot, top_cd, game): #total from pegging
         if hatot < 0:
             hatot = 0
         #print('Your Total is: ' + str(hatot) + '\n')
+        if a_tot + game.player_score >= 61:
+                    game.player_rsco = a_tot
+                    win(game)
+                    return
+        #if win(game) is True:
+        #            return
         game.handages.append('Your Total is: ' + str(hatot))
         game.handages.append(" ")
     game.running_cards.clear()
@@ -792,7 +837,7 @@ def finish(game):
     game.go = "None"
 
     game.phase = "DEAL"
-    game.messages.append('*#*#*#*Next Round*#*#*#*')
+    game.messages.append('*#*#*#*Round ' +  str(game.round) + '*#*#*#*')
     
 if __name__ == '__main__':
     main()    

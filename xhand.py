@@ -1,6 +1,6 @@
 import random
 import itertools as it
-import costly as c 
+import xcostly as c 
 import strategy as s 
 import time as t
 import random as r 

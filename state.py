@@ -1,6 +1,8 @@
 class GameState:
     def __init__(self):
 
+        self.reset()
+
         self.deck = []
         self.top = ''
 
@@ -28,7 +30,44 @@ class GameState:
 
         self.messages = []
         self.handages = []
+        self.wintags = []
 
         self.phase = "NOT"
         self.begin = "NO"
         self.go = "None"
+        self.round = 1
+
+    def reset(self):
+        self.deck = []
+        self.top = ''
+
+        self.player_hand = []
+        self.computer_hand = []
+
+        self.player_played = []
+        self.computer_played = []
+
+        self.running_cards = []
+        self.running_values = []
+        self.running_total = 0
+
+        self.player_score = 0
+        self.computer_score = 0
+
+        self.player_rsco = 0
+        self.comp_rsco = 0
+
+        self.pp_score = 0    #player's hand score
+        self.cp_score = 0    #computer's hand score
+        
+        self.dealer = None
+        self.card_choice = ''   #for the computer during mogging
+
+        self.messages = []
+        self.handages = []
+        self.wintags = []
+
+        self.phase = "NOT"
+        self.begin = "NO"
+        self.go = "None"
+        self.round = 1
