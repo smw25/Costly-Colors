@@ -216,8 +216,8 @@ def initial(game): #top:str
             b_points += 4
             #print('Mr. Crib: Duece Down +4')
             game.messages.append('Mr. Crib: Duece Down +4')
-    game.player_rsco = a_points
-    game.comp_rsco = b_points
+    game.player_rsco += a_points
+    game.comp_rsco += b_points
     return game
     
 def go(signal, player_tot, game): 
@@ -320,14 +320,14 @@ def mog_choice(game, inp):
             #print(cmog + 'o --------------> Mr. Crib refuses to Mog: +1 point\n')
             game.messages.append(cmog + 'o --------------> Mr. Crib refuses to Mog: +1 point')
             #print("")
-            game.messages.append("")
+            game.messages.append(" ")
         elif mog == 'N':
             game.comp_rsco += 1
             game.phase = 'PEG_START'
             #print('You refuse to Mog: Mr.Crib +1 point\n')
             game.messages.append('You refuse to Mog: Mr.Crib +1 point')
             #print("")
-            game.messages.append("")   
+            game.messages.append(" ")   
         elif mog == 'Y' and cmog == 'Y':
                 game.phase = "MOGGING"
                     #print("Mr. Crib also wishes to Mog!")
@@ -416,8 +416,8 @@ def player_peg(game, choice):
     if nflop != 0:          #(run as normal)
         flop = game.player_hand[nflop]
         game.player_rsco, total_sum = analyze(flop, game.player_rsco, game)
-        if game.phase == "END_PEG":
-            return
+        #if game.phase == "END_PEG":
+        #    return
         #print(flop + ' --> Total is: ' + str(sum(game.running_values)))
         game.messages.append(flop + ' --> Total is: ' + str(sum(game.running_values)))
         ###CHECK FOR WIN
@@ -681,43 +681,44 @@ def pegging(game, a_tot, b_tot, playerp:int, compp:int):
     
     #Hand Play    
 
-def hand(a_tot, b_tot, top_cd, game):
+def hand(a_tot, b_tot, top_cd, game): #total from pegging 
     #t.sleep(2)
     #print('\n---Hand Play---')
     game.handages.append('------- Hand Play -------')
-    pa_total = a_tot
-    pb_total = b_tot
+    pa_total = a_tot    #remain with pegging value
+    pb_total = b_tot    #remain with pegging value 
     game.player_played.append(top_cd)
     game.computer_played.append(top_cd)
     #print('Top Card is: ' + top_cd + '\n')
     game.handages.append('Top Card is: ' + top_cd)
-    game.handages.append('')
+    game.handages.append(' ')
     if game.player_hand[0] == '#':
         #t.sleep(1.5)
         #print('Non-Dealer (Your) Hand Totals:')
         game.handages.append('Non-Dealer (Your) Hand Totals:')
         #count (non-dealer) user's hand first 
         #print(ah)
-        game.handages.append(game.player_played)
+        game.handages.append(game.player_played.copy())
         a_tot = h.analyze_2(a_tot, game.player_played, game)
         hatot = a_tot - pa_total
         if hatot < 0:
             hatot = 0 
         #print('Your Total is: ' + str(hatot) + '\n')
         game.handages.append('Your Total is: ' + str(hatot))
-        game.handages.append('')
+        game.handages.append(' ')
         ###count (dealer) computer's hand last 
         #t.sleep(1.25)
         #print("Dealer's (Mr. Crib's) Hand Totals:")
         game.handages.append("Dealer's (Mr. Crib's) Hand Totals:")
         #print(bh)
-        game.handages.append(game.computer_played)
+        game.handages.append(game.computer_played.copy())
         b_tot = h.analyze_2(b_tot, game.computer_played, game)
         hbtot = b_tot - pb_total
         if hbtot < 0:
             hbtot = 0
         #print("Mr. Crib's Total is: " + str(hbtot) + '\n')
         game.handages.append("Mr. Crib's Total is: " + str(hbtot))
+        game.handages.append(" ")
     
     else:
         #count computer (non-d) first
@@ -725,29 +726,31 @@ def hand(a_tot, b_tot, top_cd, game):
         #print("Non-Dealer (Mr. Crib's) Hand Totals:")
         game.handages.append("Non-Dealer (Mr. Crib's) Hand Totals:")
         #print(bh)
-        game.handages.append(game.computer_played)
+        game.handages.append(game.computer_played.copy())
         b_tot = h.analyze_2(b_tot, game.computer_played, game)
         hbtot = b_tot - pb_total
         if hbtot < 0:
             hbtot = 0
         #print("Mr. Crib's Total is: " + str(hbtot) + '\n')
         game.handages.append("Mr. Crib's Total is: " + str(hbtot))
+        game.handages.append(" ")
         ###user = dealer last 
         #t.sleep(1.25)
         #print("Dealer's (Your) Hand Totals:")
         game.handages.append("Dealer's (Your) Hand Totals:")
         #print(ah)
-        game.handages.append(game.player_played)
+        game.handages.append(game.player_played.copy())
         a_tot = h.analyze_2(a_tot, game.player_played, game)
         hatot = a_tot - pa_total
         if hatot < 0:
             hatot = 0
         #print('Your Total is: ' + str(hatot) + '\n')
         game.handages.append('Your Total is: ' + str(hatot))
+        game.handages.append(" ")
     game.running_cards.clear()
     game.running_values.clear()
     game.phase = 'TOTALS'
-    return a_tot, b_tot, hatot, hbtot #hatot = Player Hand Score #hbtot = Computer Hand Score 
+    return a_tot, b_tot, pa_total, pb_total #hatot = Player Hand Score #hbtot = Computer Hand Score 
     
 def return_cards(u_hand, ai_hand, topc, deck:list):
     u_hand.pop()
@@ -771,6 +774,25 @@ def main():
     a_point, b_point = hand(pa_point, pb_point, trump)  #total points after the round for each player
     h.round_totals(a_point, b_point, pa_point, pb_point)
     main_deck = return_cards(ah, bh, trump, main_deck)
+
+def finish(game):
+    game.messages.clear()
+    game.handages.clear()
+    game.player_played.clear()
+    game.computer_played.clear()
+    game.running_cards.clear()
+    game.running_values.clear()
+
+    game.player_rsco = 0
+    game.comp_rsco = 0
+    game.pp_score = 0   
+    game.cp_score = 0 
+
+    game.begin = "NO"
+    game.go = "None"
+
+    game.phase = "DEAL"
+    game.messages.append('*#*#*#*Next Round*#*#*#*')
     
 if __name__ == '__main__':
     main()    

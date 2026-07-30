@@ -14,6 +14,10 @@ game = GameState()
 def home():
     # Send variables directly to index.html
     ###
+    round = request.form.get('next')
+    if game.phase == 'FINISH' and round is not None:
+        c.finish(game)
+        
     name = ''
     start = request.form.get('start')
     if start == "TRUE" and game.phase == "NOT":
@@ -34,7 +38,7 @@ def home():
         
     if game.phase == "MOG?" and request.form.get('mogg') is None:
             c.mog_choice(game, None)
-            return render_template('index.html', c_title=name, start=start, messages=game.messages, game=game)
+            #return render_template('index.html', c_title=name, start=start, messages=game.messages, game=game)
     if game.phase == "MOG?" and request.form.get('mogg') is not None:
         mogg = request.form.get('mogg')
         trade = request.form.get('card')
@@ -72,12 +76,11 @@ def home():
         c.peg_stop(game)
 
     if game.phase == 'HANDS':
-        a,b, game.phand_score, game.chand_score = c.hand(game.player_rsco, game.comp_rsco, game.top, game)
+        game.player_rsco, game.comp_rsco, game.pp_score, game.cp_score = c.hand(game.player_rsco, game.comp_rsco, game.top, game)
 
     if game.phase == 'TOTALS':
-        p_peg_sc = game.player_rsco - game.phand_score
-        c_peg_sc = game.comp_rsco - game.chand_score
-        #h.round_totals(game.player_rsco, game.comp_rsco, p_peg_sc, c_peg_sc, game)
+        h.round_totals(game.player_rsco, game.comp_rsco, game.pp_score, game.cp_score, game)
+        h.grand_totals(game) #phase = 'FINISH'
 
     return render_template('index.html', c_title=name, start=start, 
                            messages=game.messages,

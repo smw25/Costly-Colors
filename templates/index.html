@@ -60,7 +60,7 @@
                 {% endfor %}
             </div>
 
-            {% if  game.phase != "NOT" or game.phase != "DEAL" or game.phase != "MOG?" or game.phase != "HANDS" or game.phase != "END_PEG" %}
+            {% if  game.phase == "MOGGING" or game.phase == "PLAYER_TURN" or game.phase == "PEG_START" %}
             <div id="card_choice">
                 <form method="POST">
                     <button name="card" value="1">Play Card 1</button>
@@ -68,8 +68,16 @@
                     <button name="card" value="3">Play Card 3</button>
                     <button name="card" value="0">GO!</button>
                 </form>
-            </div>
+            </div> <br>
             {% else %}
+            {% endif %}
+
+            {% if game.phase == 'FINISH' %}
+            <div>
+                <form method="POST">
+                    <button name="next" value="Y">Next Round</button>
+                </form>
+            </div>
             {% endif %}
         </section>
 
