@@ -30,26 +30,37 @@ def home():
         c.deal(game)
         c.initial(game)
         game.phase = "MOG?"
-        ##Check Win
-
+        ##Check 
+        
+    if game.phase == "MOG?" and request.form.get('mogg') is None:
+            c.mog_choice(game, None)
+            return render_template('index.html', c_title=name, start=start, messages=game.messages, game=game)
     if game.phase == "MOG?" and request.form.get('mogg') is not None:
         mogg = request.form.get('mogg')
         trade = request.form.get('card')
         c.mog_choice(game, mogg)
         #card_choice = computers card 
         #game.phase = "MOGGING"
-
-    #card_choice = something means computer is a Y, and if form 'card' = something player is Y
+    
+    #card_choice = something, means computer is a Y, and if form 'card' = something player is Y
     if game.phase == "MOGGING" and game.card_choice and request.form.get('card') is not None:
         trade = request.form.get('card')
+        t = c.user_error(trade, game)
+        if t is False:
+            return render_template('index.html', c_title=name, start=start, messages=game.messages, game=game)
         c.mogging(game, trade, game.card_choice)
         game.phase = "PEG_START"
+        return render_template('index.html', c_title=name, start=start, messages=game.messages, game=game)
     
     if game.phase == "PEG_START":
         c.start_peg(game)
+
     p_choice = request.form.get('card') 
 
     if game.phase == 'PLAYER_TURN' and request.form.get('card') is not None:
+        t = c.user_error(p_choice, game)
+        if t is False:
+            return render_template('index.html', c_title=name, start=start, messages=game.messages, game=game)
         p_choice = int(p_choice)
         c.player_peg(game, p_choice) 
     if game.phase == 'COMP_TURN':

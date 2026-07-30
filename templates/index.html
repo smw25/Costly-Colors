@@ -21,12 +21,15 @@
         </p>
         <section>
             <h2>Gameplay</h2>
+            {% if game.phase == "NOT" %}
             <div id="start"> 
                 <form id="start" method="POST">
                     <button name='start' type="submit" value="TRUE">Start Game</button>
                 </form>
+            {% endif %}
                 <h3> {{ c_title }} </h3>
             </div> 
+            
 
             <div id="pre_peg">
                 {% for message in messages %}
