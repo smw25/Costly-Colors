@@ -280,9 +280,9 @@ def mog_choice(hand:list, topcard, a_total):          #What should the number be
     cc_hand.append(topcard)  
     total = h.analyze_3(c_tot, cc_hand)
     cc_hand.pop()   #take out top card
-    if total > 4: 
-        cmog = 'N'
-    elif a_total >= 58:
+    #if total > 4: 
+    #    cmog = 'N'
+    if a_total >= 58:
         cmog = 'Y'
         trader = random.choice(cc_hand)
         tgc = 0     #"too good counter"
@@ -297,6 +297,8 @@ def mog_choice(hand:list, topcard, a_total):          #What should the number be
                    trader = random.choice(cc_hand)
         elif tgc == 3:
             trader = random.choice(cc_hand)
+    elif total > 4: 
+            cmog = 'N'
 
     elif total == 4:
         t_hand = cc_hand.copy()

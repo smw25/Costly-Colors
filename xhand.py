@@ -162,7 +162,7 @@ def analyze_2(player_tot, p_hand:list, game):
                 #print(' -------> ' + kick)
                 game.handages.append(str(combo) + ' -------> ' + kick)
                 #game.handages.append()
-            elif 10 in combo and len(tenxs) > 1: #works with multiple 10s 
+            elif 10 in combo and (len(tenxs) > 1): #works with multiple 10s 
                 kick = p_hand[tenxs[counter]]
                 #print(combo, end='')
                 #print(' -------> ' + kick)

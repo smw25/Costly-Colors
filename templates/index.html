@@ -10,8 +10,8 @@
     <header>
         <h1>Costly Colours</h1>
         <nav>
-            <a href="index.html">Home</a>
-            <a href="instructions.html">Instructions</a>
+            <a href="/">Home</a>
+            <a href="/instructions">Instructions</a>
             <a href="https://en.wikipedia.org/wiki/Costly_Colours">History</a>
         </nav>
     </header>
@@ -26,6 +26,12 @@
                 <form id="start" method="POST">
                     <button name='start' type="submit" value="TRUE">Start Game</button>
                 </form>
+            {% elif game.phase != "NOT" %}
+            <div>
+                <form id="quit" method="POST">
+                    <button name="reset" type="submit" value="TRUE">Quit</button>
+                </form>
+            </div>
             {% endif %}
                 <h3> {{ c_title }} </h3>
             </div> 
@@ -38,7 +44,7 @@
             </div>
             <p>-----------------------------------------------------------</p>
 
-            {% if start == "TRUE" or game.phase == "MOG?"%}
+            {% if start == "TRUE" or game.phase == "MOG?" %}
             <div id="mogg">
             <form method="POST">
                 <label>Would you like to "Mogg" (trade a card with Mr. Crib)?:</label>

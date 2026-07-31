@@ -66,7 +66,7 @@ def win(game):
         game.phase = "GAME_OVER"
         game.winner = "COMPUTER"
         game.wintags.append('*#*#*#*#*#*#* GAME OVER *#*#*#*#**#*#*')
-        game.wintags.append("Mr. Crib Wins with a total of" + str(game.computer_score))
+        game.wintags.append("Mr. Crib Wins with a total of " + str(game.computer_score))
         return True
     return False
 
@@ -224,6 +224,7 @@ def initial(game): #top:str
             b_points += 4
             #print('Mr. Crib: His Heels +4')
             game.messages.append('Mr. Crib: His Heels +4')
+        win(game)
     if top_type == '2 of':
         if game.player_hand[0] == '*D*':
             a_points += 4
@@ -233,6 +234,7 @@ def initial(game): #top:str
             b_points += 4
             #print('Mr. Crib: Duece Down +4')
             game.messages.append('Mr. Crib: Duece Down +4')
+        win(game)
     game.player_rsco += a_points
     game.comp_rsco += b_points
     return game
@@ -457,7 +459,9 @@ def player_peg(game, choice): #NO RETURN
 
 def comp_peg(game): #NO RETURN
     ### First play in pegging is the computer ------CHOOSING THE CARD-----------
-    if len(game.running_cards) == 0:  #total
+    if len(game.running_cards) == 0 and len(game.computer_hand) == 1: #if total is reset but computer has no more cards
+        flop = None
+    elif len(game.running_cards) == 0:  #total
         seq_value, seq_hand, orderd = s.sequence(game.computer_hand[1:])
         w = s.first_card_non(seq_hand, seq_value, orderd)
         xflop = random.choices(game.computer_hand[1:], weights=w)

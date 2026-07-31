@@ -20,6 +20,8 @@ def home():
         c.finish(game)
     elif game.phase == 'GAME_OVER' and reset is not None:
         game = GameState()
+    elif reset is not None:
+        game = GameState()
 
     name = ''
     start = request.form.get('start')
@@ -36,7 +38,10 @@ def home():
     if game.phase == "DEAL":
         c.deal(game)
         c.initial(game)
-        game.phase = "MOG?"
+        if game.phase == "GAME_OVER":
+            pass
+        else:
+            game.phase = "MOG?"
         ##Check 
         
     if game.phase == "MOG?" and request.form.get('mogg') is None:
@@ -93,6 +98,9 @@ def home():
                            game=game 
                            )
     
+@app.route('/instructions')
+def instructions():
+    return render_template('instructions.html')
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True)  # debug=True auto-reloads the browser when you change code
