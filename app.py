@@ -1,16 +1,34 @@
-###ALL VIBED FROM GOOGLE###
-from flask import Flask, render_template, request
+###INITIAL LAYOUT VIBED FROM GOOGLE###
+from flask import Flask, render_template, request, session
+import uuid
 from state import GameState
 import xhand as h
 import xcostly as c
 app = Flask(__name__)
 
-game = GameState()
+#game = GameState()
+games = {}
+
+app.secret_key = 'combinations_n0t_permutations_c140c'
+
+def get_game():
+    #if a new person goes to the website, they won't have game_id in their session
+    if "game_id" not in session:
+        session["game_id"] = str(uuid.uuid4()) 
+        #session is a dictionary so the "game_id" is the content/key and the str(of session name) is data/entry 
+
+    gid = session["game_id"]
+
+    if gid not in games:
+        games[gid] = GameState()
+
+    return games[gid]
     
 # Route for the home page   ----may not be necessary-----
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    global game
+    #global game
+    game = get_game()
     # Send variables directly to index.html
     ###
     round = request.form.get('next')
@@ -20,8 +38,14 @@ def home():
         c.finish(game)
     elif game.phase == 'GAME_OVER' and reset is not None:
         game = GameState()
+        #game.reset()
+        #games[session["game_id"]] = GameState()
+        #game = games[session["game_id"]]
     elif reset is not None:
         game = GameState()
+        #game.reset()
+        #games[session["game_id"]] = GameState()
+        #game = games[session["game_id"]]
 
     name = ''
     start = request.form.get('start')
