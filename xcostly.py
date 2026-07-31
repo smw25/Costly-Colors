@@ -280,7 +280,7 @@ def user_error(chosen, game):
         #print('**Out of Position** -- Choose the correct card position \n')
         game.messages.append('**Out of Position** -- Choose the correct card position')
         #chosen = input("Choose card # 1, 2, or 3 (If applicable type '0' for a Go): ")
-        game.messages.append("Choose card # 1, 2, or 3 (If applicable type '0' for a Go): ")
+        game.messages.append("Choose card # 1, 2, or 3 (If applicable Pres 'Go'): ")
         return False
         rechoose = chosen   #------Not needed for website------#
         return user_error(rechoose)
@@ -319,7 +319,7 @@ def user_error(chosen, game):
     if sum(game.running_values) + numb > 31:
         #while sum(ntotal) + numb > 31:
         #print('**Over 31** --- Choose a differnet card or type "0" for Go \n')
-        game.messages.append('**Over 31** --- Choose a differnet card or type "0" for Go')
+        game.messages.append('**Over 31** --- Choose a differnet card or press "Go"')
         #rechoose = input("Selection: ")
         game.messages.append("Selection: ")
         #return user_error(rechoose)
@@ -403,7 +403,7 @@ def mogging(game, trd, card_choice): #local user total, local computer total, tr
         #print("")
         game.messages.append("")
         game.phase = "PEG_START"
-        game.messages.append("Choose card # 1, 2, or 3 (If applicable type '0' for a Go): ")
+        game.messages.append("Choose card # 1, 2, or 3 (If applicable press 'Go'): ")
     else: 
         #trade = user_error(trd, game)
         trade = int(trd)
@@ -426,7 +426,7 @@ def start_peg(game):
     #if player is non-dealer they play first 
     if game.player_hand[0] == '#':
         game.phase = 'PLAYER_TURN'
-        game.messages.append("Choose card # 1, 2, or 3 (If applicable type '0' for a Go): ")
+        game.messages.append("Choose card # 1, 2, or 3 (If applicable press 'Go'): ")
     else:
         game.phase = 'COMP_TURN'
 
@@ -501,7 +501,7 @@ def comp_peg(game): #NO RETURN
     else:
         game.phase = 'PLAYER_TURN'
         game.messages.append(game.player_hand)
-        game.messages.append("Choose card # 1, 2, or 3 (If applicable type '0' for a Go): ")
+        game.messages.append("Choose card # 1, 2, or 3 (If applicable press 'Go'): ")
 
 def peg_stop(game):
     #if len(game.player_played) == 3 and len(game.computer_played) == 3:

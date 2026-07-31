@@ -126,5 +126,9 @@ def home():
 def instructions():
     return render_template('instructions.html')
 
+@app.errorhandler(500)
+def server_error(error):
+    return render_template("500.html"), 500
+
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000, debug=True)  # debug=True auto-reloads the browser when you change code
+    app.run(host="0.0.0.0", port=5000, debug=False)  # debug=True auto-reloads the browser when you change code
