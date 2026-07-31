@@ -115,7 +115,7 @@ def analyze_2(player_tot, p_hand:list, game):
     #addition fifth
     #find indexes of face cards
     add_hand = p_hand.copy()
-    tenxs = []
+    tenxs = []      #the index of the 10 card IN the p_hand list
     for card in add_hand:
         if 'Jack' in card[0:4] or 'Quee' in card[0:4] or 'King' in card[0:4] or '10' in card[0:2]:
             findx = add_hand.index(card)
@@ -133,6 +133,8 @@ def analyze_2(player_tot, p_hand:list, game):
     for triple in it.combinations(add_hand, 3):
         if sum(triple) == 15 or sum(triple) == 25:
             if 10 in triple and len(tenxs) > 1:
+                if counter >= len(tenxs):    #for 2 ten cards and 2 five cards
+                    counter = 0
                 kick = p_hand[tenxs[counter]]
                 #print(triple, end='')
                 #print(' -------> ' + kick)
@@ -141,7 +143,7 @@ def analyze_2(player_tot, p_hand:list, game):
                 counter += 1
             elif 10 in triple and len(tenxs) == 1:
                 kick = p_hand[tenxs[0]]
-                #print(triple, end='')
+                #print(triple, end='')  ---------- tenxs = a list of indexes of the 10 value cards in p_hand
                 #print(' -------> ' + kick)
                 game.handages.append(str(triple) + ' -------> ' + kick)
                 #game.handages.append(' -------> ' + kick)
@@ -160,9 +162,11 @@ def analyze_2(player_tot, p_hand:list, game):
                 kick = p_hand[tenxs[0]]   #counter == 0 
                 #print(combo, end='')
                 #print(' -------> ' + kick)
-                game.handages.append(str(combo) + ' -------> ' + kick)
+                game.handages.append(str(combo) + ' -------> ' + kick) #tenxs = a list of indexes of the 10 value cards in p_hand
                 #game.handages.append()
             elif 10 in combo and (len(tenxs) > 1): #works with multiple 10s 
+                if counter >= len(tenxs):    #for 2 ten cards and 2 five cards
+                    counter = 0 
                 kick = p_hand[tenxs[counter]]
                 #print(combo, end='')
                 #print(' -------> ' + kick)

@@ -193,13 +193,13 @@ def analyze(c_card:str, player_total, game):   #game.player_rsco OR game.comp_rs
         numadd += snumadd
     
     #adding '1 for the latter' 
-    if len(game.player_hand) == 2 and len(game.computer_hand) == 1:
+    if len(game.player_hand) == 2 and len(game.computer_hand) == 1 and sum(game.running_values) != 31:
         #if c_card in game.player_hand:
             player_total += 1
             #print('+1 For the "Latter"')
             game.messages.append('+1 For the "Latter"')
             game.phase = 'END_PEG'
-    if len(game.computer_hand) == 2 and len(game.player_hand) == 1:
+    if len(game.computer_hand) == 2 and len(game.player_hand) == 1 and sum(game.running_values) != 31:
         #if c_card in game.computer_hand:
             player_total += 1
             #print('+1 For the "Latter"')
