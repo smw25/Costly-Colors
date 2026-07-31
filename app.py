@@ -30,7 +30,7 @@ def home():
     #global game
     game = get_game()
     # Send variables directly to index.html
-    ###
+    ### ----- 
     round = request.form.get('next')
     reset = request.form.get('reset')
     if game.phase == 'FINISH' and round is not None:
