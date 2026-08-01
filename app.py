@@ -37,15 +37,15 @@ def home():
         game.round += 1
         c.finish(game)
     elif game.phase == 'GAME_OVER' and reset is not None:
-        game = GameState()
+        #game = GameState()
         #game.reset()
-        #games[session["game_id"]] = GameState()
-        #game = games[session["game_id"]]
+        games[session["game_id"]] = GameState()
+        game = games[session["game_id"]]
     elif reset is not None:
-        game = GameState()
+        #game = GameState()
         #game.reset()
-        #games[session["game_id"]] = GameState()
-        #game = games[session["game_id"]]
+        games[session["game_id"]] = GameState()
+        game = games[session["game_id"]]
 
     name = ''
     start = request.form.get('start')
