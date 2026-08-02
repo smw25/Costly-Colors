@@ -23,8 +23,8 @@
         </nav>
     </header>
     <main>
-        <p class="byline">x 
-            "A fascinating relative to cribbage, with more complexity of combinations"
+        <p class="byline">
+            <em>"A fascinating relative to cribbage, with more complexity of combinations"</em>
         </p>
         <section>
             <h2>Gameplay</h2>
@@ -115,6 +115,27 @@
 
         <section>
             <h2>Statistics</h2>
+            
+            <table>
+                <tr>
+                    <th>Player's</th>
+                    <th>Pegging Avg</th>
+                    <th>Hand Score Avg</th>
+                </tr>
+
+                <tr>
+                    <td>Computer</td>
+                    <td> {{ game.comp_p_avg }} </td>
+                    <td> {{ game.comp_h_avg }} </td>
+                </tr>
+
+                <tr>
+                    <td>You</td>
+                    <td> {{ game.player_p_avg }} </td>
+                    <td> {{ game.player_h_avg }} </td>
+                </tr>
+            </table>
+            
         </section>
     </main>
     <footer>

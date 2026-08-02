@@ -37,6 +37,17 @@ class GameState:
         self.go = "None"
         self.round = 1
 
+        self.comp_pegs = []
+        self.player_pegs = [] 
+        self.comp_handscs = []
+        self.player_handscs = []
+
+        self.comp_p_avg = 0
+        self.player_p_avg = 0
+        self.comp_h_avg = 0
+        self.player_h_avg = 0
+        
+
     def reset(self):
         self.deck = []
         self.top = ''
@@ -71,3 +82,14 @@ class GameState:
         self.begin = "NO"
         self.go = "None"
         self.round = 1
+
+        self.comp_pegs = []
+        self.player_pegs = [] 
+        self.comp_handscs = []
+        self.player_handscs = [] 
+
+        
+        self.comp_p_avg = 0
+        self.player_p_avg = 0
+        self.comp_h_avg = 0
+        self.player_h_avg = 0

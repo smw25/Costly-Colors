@@ -36,7 +36,11 @@ def analyze_2(player_tot, p_hand:list, game):
     count = c_hand.count(suit_c)
     #suit_c = c_hand[0]
     if red == True and blk == True: 
-        pass #keep going
+        if c_hand.count(suit_c) == 3: #3 cards same suit & NOT ALL same color 
+            player_tot += 3
+            #print('3 in Suit (' + suit_c + '): +3') 
+            game.handages.append('3 in Suit (' + suit_c + '): +3')
+        #pass #keep going
     elif (red == True and blk == False) or (red == False and blk == True):  #All red/black cards
         if all(suit_c == card for card in c_hand) == True: #All same suit 
             player_tot += 6
@@ -50,10 +54,7 @@ def analyze_2(player_tot, p_hand:list, game):
             player_tot += 4
             #print('4 in Colour, 2 in Suit (' + suit_c + '): +4 \n')
             game.handages.append('4 in Colour, 2 in Suit (' + suit_c + '): +4')
-    elif c_hand.count(suit_c) == 3: #3 cards same suit & NOT ALL same color 
-        player_tot += 3
-        #print('3 in Suit (' + suit_c + '): +3') 
-        game.handages.append('3 in Suit (' + suit_c + '): +3')
+    
     if (red == True and bc == 1):     #3 in Color
         player_tot += 2 
         #print('3 in Color (Red): +2 \n')
@@ -197,8 +198,10 @@ def round_totals(user_total, comp_total, pa, pb, game):
     game.handages.append('---Mr. Crib---')
     #print("Pegging = " + pbs)
     game.handages.append("Pegging = " + pbs)
+    game.comp_pegs.append(int(pbs))
     #print("Hand = " + str(comp_total - pb))
     game.handages.append("Hand = " + str(comp_total - pb))
+    game.comp_handscs.append(int(comp_total - pb))
     #print("Mr. Crib's Total = " + ct + "\n")
     game.handages.append("Mr. Crib's Total = " + ct)
     game.handages.append(" ")
@@ -208,10 +211,20 @@ def round_totals(user_total, comp_total, pa, pb, game):
     game.handages.append('---You---')
     #print('Pegging = ' + pas)
     game.handages.append('Pegging = ' + pas)
+    game.player_pegs.append(int(pas))
     #print("Hand = " + str(user_total - pa))
     game.handages.append("Hand = " + str(user_total - pa))
+    game.player_handscs.append(int(user_total - pa))
     #print('Your Total = ' + ut)
     game.handages.append('Your Total = ' + ut)
+
+    #updates for the table
+    game.comp_p_avg = round(sum(game.comp_pegs) / game.round, 2)
+    game.player_p_avg = round(sum(game.player_pegs) / game.round, 2)
+    game.comp_h_avg = round(sum(game.comp_handscs) / game.round, 2)
+    game.player_h_avg = round(sum(game.player_handscs) / game.round, 2)
+
+    
 
 def grand_totals(game):
     #print('\n*#*#*Grand Totals*#*#*')
