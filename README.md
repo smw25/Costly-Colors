@@ -75,20 +75,26 @@ Mr. Crib's Total is: 7
 Totals for the round, delineated by pegging and hand scores are calculated and displayed after this hand counting, then grand totals for total points between Mr. Crib and the user are displayed after. One must score 61 points to win. (Currently you cannot win off of mogging, but you can win based upon)
 ## Roadmap
 
-1. Statistical Analysis: The ability to track average pegging scores, average hand scares, highest pegging and hand scares, and best possible hand combination before pegging for the user and the computer across all rounds of the game. This will be implemented by saving the points earned during pegging and each round into a readable file format (.csv) which can be ran into R. 
+1. Statistical Analysis (Website): The ability to now track all averages and other statical events:
+    - Most Played opening card
+    - Pegging Averages
+    - Highest Hand Scored 
+    - Highest Pegging Score
+    - Average Hand Score (for game)
+2. **COMPLETE** - Statistical Analysis: The ability to track average pegging scores, average hand scores, highest pegging and hand scores, and best possible hand combination before pegging for the user and the computer across all rounds of the game. This will be implemented by saving the points earned during pegging and each round into a readable file format (.csv) which can be ran into R. 
     - Save pegging, hand, and total scores for each round as a row in a csv file (after each run through the gameplay while loop) 
     - In R, read the .csv file, and save contents into a data.frame variable object
     - Run mean(), max(), combinations of 5 card theoretical hand (3 cards dealt + top card + mogged card), and plots to the data added into the data.frame
     - export these values (and plots) back into a .csv file or other comparable file format
     - Display values in either python or R
-2. Mogging features to add for computer analysis: 
+3. Mogging features to add for computer analysis: 
 (a) User has a point total >= 58
 (b) Don't Trade 2, 5, or Jack unless total would go up without it (and maybe not even for that)
 (c) Work in more strategy into the mogging decision in general. 
 
-3. Make the code path for breaking the loop for wins a function which returns true if player gets past 61, the function should return the player total, and a boolean T or F. This will allow for a smaller code blocks and simple 'if True, then break' statements. 
+4. **COMPLETE** - Make the code path for breaking the loop for wins a function which returns true if player gets past 61, the function should return the player total, and a boolean T or F. This will allow for a smaller code blocks and simple 'if True, then break' statements. 
 
-4. **COMPLETE** - Game stoppage in the middle of pegging. This will more than likely occur the need of passing the cumulative totals of bot the computer and the user into the pegging() function as new imputs and returning an output in case a break occurs and a "player" wins off of pegging. I forsee much troubleshooting occuring with this in the future
+5. **COMPLETE** - Game stoppage in the middle of pegging. This will more than likely occur the need of passing the cumulative totals of bot the computer and the user into the pegging() function as new imputs and returning an output in case a break occurs and a "player" wins off of pegging. I forsee much troubleshooting occuring with this in the future
 
 5. **COMPLETE** - "Mogging" Feature: According to sources with the rules of this anceint game: 
     '*After the deal and turn-up, the players may now "mog". This is done by each passing a card from his hand face down to the other. If either refuses to mog, the other pegs one hole for the refusal. If either gives away Jack or a Deuce, he may first peg 2, or 4 if it is the "right" Jack or Deuce (of the same suit as the turn-up). If he neglects to do so, the other may peg for it when the hands are finally counted (but not before).*' 
@@ -96,14 +102,10 @@ Totals for the round, delineated by pegging and hand scores are calculated and d
 6. **COMPLETE** - Taking out sequences from the first_card() decision making in the computer since runs do not count during hand play in this game. 
 
 ## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+The specific imports needed are listed in the requirements.txt file. The game is playable on the webiste link, or as originally created, in your terminal thorugh the use of gameplay.py. The use of python would be required to run the game locally in the terminal. 
 
 ## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+Currently not open to contributions, but comments and critiques would be more than helpful for this young student of coding. 
 
 ## Authors and acknowledgment
 Shenard Williams - Duke University: Civil Engineering (Class of 2029)

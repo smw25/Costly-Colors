@@ -297,8 +297,10 @@ def mog_choice(hand:list, topcard, a_total):          #What should the number be
                    trader = random.choice(cc_hand)
         elif tgc == 3:
             trader = random.choice(cc_hand)
+        #--------------for loop end-------------------
+        return cmog, trader
     elif total > 4: 
-            cmog = 'N'
+        cmog = 'N'
 
     elif total == 4:
         t_hand = cc_hand.copy()
