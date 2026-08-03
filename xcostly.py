@@ -70,6 +70,21 @@ def win(game):
         return True
     return False
 
+def card_converter(game, hand, id):
+    for card in hand:
+        vitals = card.split(' ')
+
+        value = vitals[0]             #first item of the original card string (value)
+        value = value[0:1].lower()    #first letter of the value (k)ing or (7)
+
+        suit = vitals[-1]
+        suit = suit.lower()
+
+        if id == 'P':
+            game.p_css_hand.append((suit, value))   
+        if id == 'C':  
+            game.c_css_hand.append((suit, value))
+
 def deal(game): #deck:list
     #"deal the cards" by popping the first item of the deck list
     for i in range(6):
@@ -91,6 +106,7 @@ def deal(game): #deck:list
 #print the list that a (user) has 
     #print(a)
     game.messages.append(game.player_hand.copy())
+    #card_converter(game, game.player_hand 'P')
     #print(top_card)
     game.messages.append(top_card)
     #print('')
@@ -842,7 +858,8 @@ def finish(game): #NO RETURNS
 
     game.phase = "DEAL"
     game.messages.append('*#*#*#*Round ' +  str(game.round) + '*#*#*#*')
-    
+
+
 if __name__ == '__main__':
     main()    
 

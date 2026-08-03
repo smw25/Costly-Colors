@@ -1,0 +1,397 @@
+/* 
+  Deck of CSS Cards
+  by Jeff Yaus
+  v3.0, released July 2025
+
+  http://jyaus.github.io/css-playing-cards/
+*/
+
+.card {
+  --card-color-background: #f6f6f6;
+  --card-color-facedown-background: #cc9;
+  --card-color-facedown-icon: #987;
+
+  --card-color-hearts: #c00;            
+  --card-color-diamonds: var(--card-color-hearts); /* for accessibility, some French-style decks use blue diamonds */
+  --card-color-spades: #000;            
+  --card-color-clubs: var(--card-color-spades);    /* for accessibility, some French-style decks use green clubs */
+
+  --card-border-radius: .3em;
+
+  /* two spaces are necessary after a Unicode character, since these will be concatenated to each other */
+  --card-icon-k: "\265A  ";
+  --card-icon-q: "\265B  ";
+  --card-icon-j: "\2658  ";         /* yeah, the jack looks a little, um, horse-faced */
+  --card-icon-joker:    "\263A ";
+  --card-icon-facedown: "\2748 ";   /* the icon on the back of the card */
+
+  --card-icon-hearts:   "\2665  ";  /* cups are \2615, roses are \273F */
+  --card-icon-diamonds: "\2666  ";  /* coins are \2742, bells are \237E or \1F514 */
+  --card-icon-spades:   "\2660  ";  /* swords are \2020 */
+  --card-icon-clubs:    "\2663  ";  /* clubs are \2759, acorns are \2766 */
+
+  --card-icon-facedown: "\2748";
+
+  /* text for the face cards and jokers */
+  --card-text-k:        "K";
+  --card-text-q:        "Q";
+  --card-text-j:        "J";
+  --card-text-a:        "A";
+  --card-text-joker:    "Joker";
+  --card-a11y-joker-alt: "(One-Color)"; /* visually hidden text to distinguish the second joker */
+  --card-text-facedown: "Card facedown";
+
+  /* accessible text for the names of the suits */
+  --card-text-hearts:   " of hearts";
+  --card-text-diamonds: " of diamonds";
+  --card-text-spades:   " of spades";
+  --card-text-clubs:    " of clubs";
+}
+
+.card {
+  box-sizing: border-box;
+  display: block;
+  position: relative;
+  overflow: hidden;
+  width: 5em;
+  height: 7em;
+  background-color: #f6f6f6;
+  font-family: Times, serif;
+  border: .07em solid #666;
+  border-radius: var(--card-border-radius);
+  overflow: hidden;
+  box-shadow: 0.07em 0.07em 0.07em 0.07em rgba(20, 20, 20, 0.4);
+}
+.card.card-hearts {
+  --card-icon-suit: var(--card-icon-hearts);
+}
+.card.card-diamonds {
+  --card-icon-suit: var(--card-icon-diamonds);
+}
+.card.card-spades {
+  --card-icon-suit: var(--card-icon-spades);
+}
+.card.card-clubs {
+  --card-icon-suit: var(--card-icon-clubs);
+}
+
+.card::before {
+  /* rank letter */
+  position: absolute;
+  display: block;
+  width: .8em;
+  padding: .1em .2em 0 .1em;
+  font-size: 1em;
+  font-weight: bold;
+  text-align: center;
+  line-height: 1em;
+}
+.card::after {
+  position: absolute;
+  clip: rect(0 0 0 0); 
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  color: transparent;
+  white-space: nowrap; 
+  width: 1px;
+}
+
+.card span {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 25%;
+  right: 17%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.card span:before {
+  /* main icons */
+  display: block;
+  font-size: 1.6em;
+  text-align: center;
+  margin-top: -.1em;
+}
+.card span::after {
+  /* main icons, center column */
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 1em;
+  font-size: 1.6em;
+  text-align: center;
+}
+
+.card span:last-of-type::before {
+  display: none;
+  content: "";
+}
+.card span:last-of-type::after {
+  /* top left icon for the suit */
+  position: absolute;
+  content: "";
+  inset: unset;
+  top: 1em;
+  right: 90%;
+  display: block;
+  text-align: center;
+  font-size: initial;
+  line-height: 1em;
+}
+
+/* suit colors */
+.card-hearts::before,
+.card-hearts span {
+  color: var(--card-color-hearts);
+}
+.card-diamonds::before,
+.card-diamonds span {
+  color: var(--card-color-diamonds);
+}
+.card-clubs::before,
+.card-clubs span {
+  color: var(--card-color-clubs);
+}
+.card-spades::before,
+.card-spades span {
+  color: var(--card-color-spades);
+}
+
+/* text of rank at top left */
+.card-k::before {
+  content: var(--card-text-k);
+}
+.card-q::before {
+  content: var(--card-text-q);
+}
+.card-j::before {
+  content: var(--card-text-j);
+}
+.card-10::before {
+  content: "10";
+}
+.card-9::before {
+  content: "9";
+}
+.card-8::before {
+  content: "8";
+}
+.card-7::before {
+  content: "7";
+}
+.card-6::before {
+  content: "6";
+}
+.card-5::before {
+  content: "5";
+}
+.card-4::before {
+  content: "4";
+}
+.card-3::before {
+  content: "3";
+}
+.card-2::before {
+  content: "2";
+}
+.card-a::before {
+  content: var(--card-text-a);
+}
+
+/* accessible text of the suit */
+.card-hearts::after {
+  content: var(--card-text-hearts);
+}
+.card-diamonds::after {
+  content: var(--card-text-diamonds);
+}
+.card-clubs::after {
+  content: var(--card-text-clubs);
+}
+.card-spades::after {
+  content: var(--card-text-spades);
+}
+
+/* suit icon at top left */
+.card-hearts span:last-of-type::after {
+  content: var(--card-icon-hearts);
+}
+.card-diamonds span:last-of-type::after {
+  content: var(--card-icon-diamonds);
+}
+.card-clubs span:last-of-type::after {
+  content: var(--card-icon-clubs);
+}
+.card-spades span:last-of-type::after {
+  content: var(--card-icon-spades);
+}
+
+/* center of card - font sizes and layout */
+.card-k span:before,
+.card-q span:before,
+.card-j span:before {
+  font-size: 3em;
+  line-height: 2em;
+}
+.card-a span:before {
+  font-size: 3.5em;
+  line-height: 1.3em;
+}
+.card-10 span:before,
+.card-9 span:before,
+.card-8 span:before {
+  line-height: 1em;
+}
+.card-5 span:before,
+.card-4 span:before,
+.card-2 span:before {
+  margin-top: -0.2em;
+  line-height: 2.4em;
+}
+.card-3 span:before,
+.card-2 span:before {
+  width: 1em;
+}
+
+.card-10 span:first-of-type::after {
+  margin-top: -.2em;
+  line-height: 2em;
+}
+.card-9 span:first-of-type::after {
+  margin-top: -.1em;
+}
+.card-7 span:first-of-type::after {
+  margin-top: -1.3em;
+}
+.card-5 span:first-of-type::after {
+  margin-top: -.2em;
+}
+
+.card-diamonds {
+  word-spacing: 0.4em; /* diamonds are visible narrower than the other suits, so spacing them out a little */
+}
+
+.card-joker span:before,
+.card-joker-alt span:before {
+  font-size: 4.6em;
+}
+.card-joker span,
+.card-joker-alt span,
+.card-facedown span {
+  left: 0;
+  right: 0;
+}
+
+/* center - suit icons */
+.card-k span::before {
+  content: var(--card-icon-k);
+}
+.card-q span::before {
+  content: var(--card-icon-q);
+}
+.card-j span::before {
+  content: var(--card-icon-j);
+}
+.card-10 span:first-of-type::after {
+  content: var(--card-icon-suit) var(--card-icon-suit);
+}
+.card-9 span::after {
+  content: var(--card-icon-suit);
+}
+.card-10 span::before,
+.card-9 span::before,
+.card-8 span::before {
+  content: var(--card-icon-suit) var(--card-icon-suit) var(--card-icon-suit) var(--card-icon-suit) var(--card-icon-suit) var(--card-icon-suit) var(--card-icon-suit) var(--card-icon-suit);
+}
+.card-7 span::after {
+  content: var(--card-icon-suit);
+}
+.card-7 span::before,
+.card-6 span::before {
+  content: var(--card-icon-suit) var(--card-icon-suit) var(--card-icon-suit) var(--card-icon-suit) var(--card-icon-suit) var(--card-icon-suit);
+}
+.card-5 span::after {
+  content: var(--card-icon-suit);
+}
+.card-5 span::before,
+.card-4 span::before {
+  content: var(--card-icon-suit) var(--card-icon-suit) var(--card-icon-suit)var(--card-icon-suit);
+}
+.card-3 span::before {
+  content: var(--card-icon-suit) var(--card-icon-suit) var(--card-icon-suit);
+}
+.card-2 span::before {
+  content: var(--card-icon-suit) var(--card-icon-suit);
+}
+.card-a span::before {
+  content: var(--card-icon-suit);
+}
+
+/* jokers */
+.card-joker::before,
+.card-joker-alt::before {
+  width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+  text-align: center;
+  font-variant: small-caps;
+  color: var(--card-color-spades);
+  content: var(--card-text-joker);
+}
+.card-joker-alt::after {
+  content: var(--card-a11y-joker-alt);
+}
+.card-joker > span::before,
+.card-joker-alt > span::before {
+  display: block;
+  color: var(--card-color-spades);
+  content: var(--card-icon-joker);
+}
+.card-joker-alt::before,
+.card-joker-alt span::before {
+  color: var(--card-color-diamonds);
+}
+
+/* facedown cards */
+.card.card-facedown {
+  background-color: #bbbb77;
+}
+.card.card-facedown::before {
+  content: var(--card-text-facedown);
+  color: transparent;
+}
+.card.card-facedown::after {
+  content: "";
+}
+.card.card-facedown.card-facedown span::before {
+  content: var(--card-icon-facedown);
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  color: #998877;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 2em;
+}
+.card.card-facedown.card-facedown span::after {
+  content: "";
+  display: flex;
+  inset: 0;
+  transform: none;
+  width: auto;
+  background-color: #bbbb77;
+  border-radius: var(--card-border-radius);
+  font-size: 1em;
+  line-height: 5em;
+  text-align: center;
+  color: #998877;
+  border: 0.15em dashed #b1885f;
+}

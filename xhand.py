@@ -40,7 +40,16 @@ def analyze_2(player_tot, p_hand:list, game):
             player_tot += 3
             #print('3 in Suit (' + suit_c + '): +3') 
             game.handages.append('3 in Suit (' + suit_c + '): +3')
+        elif (red == True and bc == 1):     #3 in Color
+                player_tot += 2 
+                    #print('3 in Color (Red): +2 \n')
+                game.handages.append('3 in Color (Red): +2')
+        elif (blk == True and rc == 1):   
+                player_tot += 2
+                    #print('3 in Color (Black): +2 \n')  
+                game.handages.append('3 in Color (Black): +2')                
         #pass #keep going
+        
     elif (red == True and blk == False) or (red == False and blk == True):  #All red/black cards
         if all(suit_c == card for card in c_hand) == True: #All same suit 
             player_tot += 6
@@ -55,14 +64,6 @@ def analyze_2(player_tot, p_hand:list, game):
             #print('4 in Colour, 2 in Suit (' + suit_c + '): +4 \n')
             game.handages.append('4 in Colour, 2 in Suit (' + suit_c + '): +4')
     
-    if (red == True and bc == 1):     #3 in Color
-        player_tot += 2 
-        #print('3 in Color (Red): +2 \n')
-        game.handages.append('3 in Color (Red): +2')
-    elif (blk == True and rc == 1):   
-        player_tot += 2
-        #print('3 in Color (Black): +2 \n')  
-        game.handages.append('3 in Color (Black): +2')        
         
     #nobs and duces second
     for i in range(len(v_hand[0:3])):

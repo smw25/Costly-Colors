@@ -81,6 +81,8 @@ Totals for the round, delineated by pegging and hand scores are calculated and d
     - Highest Hand Scored 
     - Highest Pegging Score
     - Average Hand Score (for game)
+    - Mog frequency 
+    - Average points when choosing to refuse to mog. 
 2. **COMPLETE** - Statistical Analysis: The ability to track average pegging scores, average hand scores, highest pegging and hand scores, and best possible hand combination before pegging for the user and the computer across all rounds of the game. This will be implemented by saving the points earned during pegging and each round into a readable file format (.csv) which can be ran into R. 
     - Save pegging, hand, and total scores for each round as a row in a csv file (after each run through the gameplay while loop) 
     - In R, read the .csv file, and save contents into a data.frame variable object

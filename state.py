@@ -31,6 +31,9 @@ class GameState:
         self.messages = []
         self.handages = []
         self.wintags = []
+        
+        self.p_css_hand = []
+        self.c_css_hand = []
 
         self.phase = "NOT"
         self.begin = "NO"

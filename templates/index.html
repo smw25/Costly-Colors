@@ -3,17 +3,11 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link rel="stylesheet" href="style.css"> -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='cards.css') }}">
+    <!--<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">-->
     <title>Costly Colours</title>
   </head>
   <body>
-    <!-- <div style="position: relative; width: 100%; height: 0; padding-top: 105.2632%;
-        padding-bottom: 0; box-shadow: 0 2px 8px 0 rgba(63,69,81,0.16); margin-top: 1.6em; margin-bottom: 0.9em; overflow: hidden;
-        border-radius: 8px; will-change: transform;">
-        <iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; border: none; padding: 0;margin: 0;"
-            src="https://www.canva.com/design/DAHREm_EuKA/JI4-ZlbWa3nPBNlnmmVfHA/view?embed" allowfullscreen="allowfullscreen" allow="fullscreen">
-        </iframe>
-        </div>-->
     <header>
         <h1>Costly Colours</h1>
         <nav>
@@ -46,6 +40,7 @@
                     <p><bold>--- Total Scores ---</bold></p>
                     <p> Mr. Crib: {{game.computer_score}}</p>
                     <p> Your Total: {{game.player_score}}</p>
+                    <p>-----------------------</p>
                 </aside>
             {% endif %}
             </div> 
@@ -58,7 +53,7 @@
             </div>
             <p>-----------------------------------------------------------</p>
 
-            {% if start == "TRUE" or game.phase == "MOG?" %}
+            {% if game.phase == "MOG?" %}
             <div id="mogg">
             <form method="POST">
                 <label>Would you like to "Mogg" (trade a card with Mr. Crib)?:</label>
@@ -118,7 +113,7 @@
             
             <table>
                 <tr>
-                    <th>Player's</th>
+                    <th>Players</th>
                     <th>Pegging Avg</th>
                     <th>Hand Score Avg</th>
                 </tr>
