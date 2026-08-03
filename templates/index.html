@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='cards.css') }}">
-    <!--<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <title>Costly Colours</title>
   </head>
   <body>
@@ -48,7 +48,19 @@
 
             <div id="pre_peg">
                 {% for message in messages %}
+                    {% if message is iterable and message is not string %}
+                        <p>{{ message[0] }}</p>
+                        <div class="card-row">
+                        {% for x in range(game.p_css_hand|length) %} 
+                        <div class="card card-{{game.p_css_hand[x][0]}} card-{{game.p_css_hand[x][1]}}">
+                            <span aria-hidden="true"></span>
+                            <span aria-hidden="true"></span>
+                        </div>
+                        {% endfor %}
+                        </div>
+                    {% else %}
                     <p> {{ message }}</p>
+                    {% endif %}
                 {% endfor %}
             </div>
             <p>-----------------------------------------------------------</p>

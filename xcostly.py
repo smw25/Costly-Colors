@@ -71,11 +71,14 @@ def win(game):
     return False
 
 def card_converter(game, hand, id):
+    game.p_css_hand.clear()
     for card in hand:
         vitals = card.split(' ')
 
         value = vitals[0]             #first item of the original card string (value)
         value = value[0:1].lower()    #first letter of the value (k)ing or (7)
+        if value == '1':
+            value = '10'
 
         suit = vitals[-1]
         suit = suit.lower()
@@ -106,7 +109,7 @@ def deal(game): #deck:list
 #print the list that a (user) has 
     #print(a)
     game.messages.append(game.player_hand.copy())
-    #card_converter(game, game.player_hand 'P')
+    card_converter(game, game.player_hand[1:], 'P')
     #print(top_card)
     game.messages.append(top_card)
     #print('')
@@ -416,6 +419,7 @@ def mogging(game, trd, card_choice): #local user total, local computer total, tr
         game.messages.append("Your hand is now:")
         #print(a)
         game.messages.append(game.player_hand)
+        card_converter(game, game.player_hand[1:], 'P') ####---------NEW-------------
         #print("")
         game.messages.append("")
         game.phase = "PEG_START"
@@ -432,6 +436,7 @@ def mogging(game, trd, card_choice): #local user total, local computer total, tr
         game.messages.append("Your hand is now:")
         #print(a)
         game.messages.append(game.player_hand)
+        card_converter(game, game.player_hand[1:], 'P') ####---------NEW-------------
         #print("")
         game.messages.append("")
         game.phase = "PEG_START"
@@ -517,6 +522,7 @@ def comp_peg(game): #NO RETURN
     else:
         game.phase = 'PLAYER_TURN'
         game.messages.append(game.player_hand)
+        card_converter(game, game.player_hand[1:], 'P') ####---------NEW-------------
         game.messages.append("Choose card # 1, 2, or 3 (If applicable press 'Go'): ")
 
 def peg_stop(game):
@@ -526,7 +532,7 @@ def peg_stop(game):
         game.messages.append("Your Points: " + str(game.player_rsco))
         game.phase = 'HANDS'
 
-#Pegging Play
+#Pegging Play --------------OLD AND UNUSED IN WEBSITE-------------
 def pegging(game, a_tot, b_tot, playerp:int, compp:int):
     #Non-dealer starts
     #could put this in a 'for' loop x in range(6)

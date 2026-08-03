@@ -15,6 +15,12 @@ p {
   color: white;
 }*/
 
+.card-row {
+  display: flex;
+  gap: .5em;
+  flex-wrap: wrap;
+}
+
 th,
 td {
 border: 1px solid rgb(160 160 160);
