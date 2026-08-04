@@ -126,6 +126,10 @@ def home():
 def instructions():
     return render_template('instructions.html')
 
+@app.route('/instructions')
+def scoring_eg():
+    return render_template('scoring.html')
+
 @app.errorhandler(500)
 def server_error(error):
     return render_template("500.html"), 500
