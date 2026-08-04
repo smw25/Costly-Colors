@@ -1,28 +1,38 @@
 library(languageserver)
 library(tidyverse)
-cc_data <- read_csv("data.csv", show_col_types = FALSE)
-#find a way to make it so if the game ends before hand play,
-#the -hand values become just NA
-?read_csv()
-print(cc_data)
+library(reticulate)
+
+import("xhand")
+
+#pegging for every round
+p_pegs <- c(py$game.player_pegs)
+c_pegs <- c(py$game.comp_pegs)
+#hand score for every round
+c_hands <- c(py$comp_handscs)
+p_hands <- c(py$player_handscs)
+
+player_data <- tibble(
+  Pegging = p_pegs,
+  Hand = p_hands
+)
+
+computer_data <- tibble(
+  Pegging = c_pegs,
+  Hand = c_hands
+)
 
 #Maxes and Means
-mpeg <- select(cc_data, Pegging) |>
+mpeg <- select(game_data, Pegging) |>
   max()
 
-avg_p <- pull(cc_data, Pegging) |>
+avg_p <- pull(game_data, Pegging) |>
   mean()
 
-mhand <- select(cc_data, Hand) |>
+mhand <- select(game_data, Hand) |>
   max()
 
-avg_h <- pull(cc_data, Hand) |>
+avg_h <- pull(game_data, Hand) |>
   mean()
-
-mpeg
-avg_p
-mhand
-avg_h
 
 round <- c("Pegging", "Hand")
 avgs <- c(avg_p, avg_h)

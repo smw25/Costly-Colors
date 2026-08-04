@@ -59,14 +59,20 @@ def win(game):
         game.phase = "GAME_OVER"
         game.winner = "PLAYER"
         game.wintags.append('*#*#*#*#*#*#* GAME OVER *#*#*#*#**#*#*')
-        game.wintags.append("🎉You win!🎉 with a total of " + str(game.player_score))
+        if game.computer_score <= 30:
+            game.wintags.append("🎉You SKUNKED Mr. Crib!🎉 with a total of " + str(game.player_score))    
+        else:
+            game.wintags.append("🎉You win!🎉 with a total of " + str(game.player_score))
         return True 
     elif game.computer_score + game.comp_rsco >= 61:
         game.computer_score += game.comp_rsco
         game.phase = "GAME_OVER"
         game.winner = "COMPUTER"
         game.wintags.append('*#*#*#*#*#*#* GAME OVER *#*#*#*#**#*#*')
-        game.wintags.append("Mr. Crib Wins with a total of " + str(game.computer_score))
+        if game.player_score <= 30:
+            game.wintags.append("You've been SKUNKED by Mr. Crib with a total of " + str(game.computer_score))
+        else:
+            game.wintags.append("Mr. Crib Wins with a total of " + str(game.computer_score))
         return True
     return False
 
