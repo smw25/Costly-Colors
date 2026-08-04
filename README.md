@@ -73,6 +73,12 @@ Sum to 15: +3
 Mr. Crib's Total is: 7
 ```
 Totals for the round, delineated by pegging and hand scores are calculated and displayed after this hand counting, then grand totals for total points between Mr. Crib and the user are displayed after. One must score 61 points to win. (Currently you cannot win off of mogging, but you can win based upon)
+
+## Implentation
+
+The original framework for this project was to develop the playability of this game "Costly Colours" through the terminal of one's computer with relatively straight forward python script logic. 
+
+
 ## Roadmap
 
 1. Statistical Analysis (Website): The ability to now track all averages and other statical events:

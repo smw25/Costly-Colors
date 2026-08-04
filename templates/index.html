@@ -48,7 +48,7 @@
 
             <div id="pre_peg">
                 {% for message in messages %}
-                    {% if message is iterable and message is not string %}
+                    {% if message is iterable and message is not string and game.phase != 'FINISH' %}
                         <p>{{ message[0] }}</p>
                         <div class="card-row">
                         {% for x in range(game.p_css_hand|length) %} 
@@ -83,7 +83,29 @@
 
             <div id="hands">
                 {% for message in game.handages %}
+                    {% if message is iterable and message is not string %}
+                        {% if message == game.player_played %}
+                            <div class="p-row">
+                            {% for x in range(game.p_css_hand|length) %} 
+                            <div class="card card-{{game.p_css_hand[x][0]}} card-{{game.p_css_hand[x][1]}}">
+                                <span aria-hidden="true"></span>
+                                <span aria-hidden="true"></span>
+                            </div>
+                            {% endfor %}
+                            </div>
+                        {% elif message == game.computer_played %}
+                            <div class="c-row">
+                            {% for x in range(game.c_css_hand|length) %} 
+                            <div class="card card-{{game.c_css_hand[x][0]}} card-{{game.c_css_hand[x][1]}}">
+                                <span aria-hidden="true"></span>
+                                <span aria-hidden="true"></span>
+                            </div>
+                            {% endfor %}
+                            </div>
+                        {% endif %}
+                    {% else %}
                     <p> {{ message }}</p>
+                    {% endif %}
                 {% endfor %}
             </div>
 

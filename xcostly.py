@@ -71,7 +71,10 @@ def win(game):
     return False
 
 def card_converter(game, hand, id):
-    game.p_css_hand.clear()
+    if game.phase != 'HANDS' and game.phase != 'TOTALS':
+        game.p_css_hand.clear()
+        game.c_css_hand.clear()
+
     for card in hand:
         vitals = card.split(' ')
 
@@ -530,6 +533,8 @@ def peg_stop(game):
         game.messages.append('------- Pegging Completed -------')
         game.messages.append("Mr. Crib's Points: " + str(game.comp_rsco))
         game.messages.append("Your Points: " + str(game.player_rsco))
+        game.p_css_hand.clear()
+        game.c_css_hand.clear()
         game.phase = 'HANDS'
 
 #Pegging Play --------------OLD AND UNUSED IN WEBSITE-------------
@@ -745,8 +750,10 @@ def hand(a_tot, b_tot, top_cd, game): #total from pegging  (4 RETURNS)
         game.handages.append('Non-Dealer (Your) Hand Totals:')
         #count (non-dealer) user's hand first 
         #print(ah)
-        game.handages.append(game.player_played.copy())
+        #################game.handages.append(game.player_played.copy())
+        game.handages.append(game.player_played) 
         a_tot = h.analyze_2(a_tot, game.player_played, game)
+        card_converter(game, game.player_played, 'P')
         hatot = a_tot - pa_total
         if hatot < 0:
             hatot = 0 
@@ -764,8 +771,10 @@ def hand(a_tot, b_tot, top_cd, game): #total from pegging  (4 RETURNS)
         #print("Dealer's (Mr. Crib's) Hand Totals:")
         game.handages.append("Dealer's (Mr. Crib's) Hand Totals:")
         #print(bh)
-        game.handages.append(game.computer_played.copy())
+        ############game.handages.append(game.computer_played.copy())
+        game.handages.append(game.computer_played)
         b_tot = h.analyze_2(b_tot, game.computer_played, game)
+        card_converter(game, game.computer_played, 'C')
         hbtot = b_tot - pb_total
         if hbtot < 0:
             hbtot = 0
@@ -785,8 +794,10 @@ def hand(a_tot, b_tot, top_cd, game): #total from pegging  (4 RETURNS)
         #print("Non-Dealer (Mr. Crib's) Hand Totals:")
         game.handages.append("Non-Dealer (Mr. Crib's) Hand Totals:")
         #print(bh)
-        game.handages.append(game.computer_played.copy())
+        #############game.handages.append(game.computer_played.copy())
+        game.handages.append(game.computer_played)
         b_tot = h.analyze_2(b_tot, game.computer_played, game)
+        card_converter(game, game.computer_played, 'C')
         hbtot = b_tot - pb_total
         if hbtot < 0:
             hbtot = 0
@@ -804,8 +815,10 @@ def hand(a_tot, b_tot, top_cd, game): #total from pegging  (4 RETURNS)
         #print("Dealer's (Your) Hand Totals:")
         game.handages.append("Dealer's (Your) Hand Totals:")
         #print(ah)
-        game.handages.append(game.player_played.copy())
+        ###############game.handages.append(game.player_played.copy())
+        game.handages.append(game.player_played)
         a_tot = h.analyze_2(a_tot, game.player_played, game)
+        card_converter(game, game.player_played, 'P')
         hatot = a_tot - pa_total
         if hatot < 0:
             hatot = 0
