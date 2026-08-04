@@ -126,7 +126,7 @@ def home():
 def instructions():
     return render_template('instructions.html')
 
-@app.route('/instructions')
+@app.route('/scoring')
 def scoring_eg():
     return render_template('scoring.html')
 
