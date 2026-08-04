@@ -1,20 +1,48 @@
 * {
-/*body {
-  background-color: steelblue;
+body {
+  /*background-color: steelblue;*/
+  margin: 0;
 }
 
+main {
+  margin: 10px;
+}
 h1 {
-  color: white; /*was white
+  /*color: white;           was white*/
+  margin-top: 15px;
+  margin-bottom: 10px;
   text-align: center;
-  font-size: 65px;
+  font-size: 55px;
   font-family:georgia;
 
 }
 
-p {
+/*p {
   color: white;
 }*/
 
+.byline{
+  text-align: center;
+}
+.navbar{
+  background-color: #505050;
+  display: flex;
+}
+.navbar a{
+  color:white;
+  text-decoration: none;
+  padding: 10px 15px;
+  text-align: center;
+
+}
+
+.navbar a:hover{
+  background-color: black;
+}
+aside{
+  width: 20%;
+  float: right;
+}
 .card-row {
   display: flex;
   gap: .5em;
@@ -54,5 +82,9 @@ letter-spacing: 1px;
 caption {
 caption-side: bottom;
 padding: 10px;
+}
+
+footer{
+  margin: 10px;
 }
 }
