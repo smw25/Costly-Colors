@@ -425,6 +425,7 @@ def mogging(game, trd, card_choice): #local user total, local computer total, tr
         game.player_hand.append(tc_card)
         game.computer_hand.append(t_card)
         #print("Your hand is now:")
+        game.messages.clear() ######
         game.messages.append("Your hand is now:")
         #print(a)
         game.messages.append(game.player_hand)
@@ -442,6 +443,7 @@ def mogging(game, trd, card_choice): #local user total, local computer total, tr
         game.player_hand.append(tc_card)
         game.computer_hand.append(t_card)
         #print("Your hand is now:")
+        game.messages.clear() ######
         game.messages.append("Your hand is now:")
         #print(a)
         game.messages.append(game.player_hand)
@@ -536,6 +538,7 @@ def comp_peg(game): #NO RETURN
 
 def peg_stop(game):
     #if len(game.player_played) == 3 and len(game.computer_played) == 3:
+        #game.messages.clear()
         game.messages.append('------- Pegging Completed -------')
         game.messages.append("Mr. Crib's Points: " + str(game.comp_rsco))
         game.messages.append("Your Points: " + str(game.player_rsco))
@@ -882,7 +885,7 @@ def finish(game): #NO RETURNS
     game.go = "None"
 
     game.phase = "DEAL"
-    game.messages.append('*#*#*#*Round ' +  str(game.round) + '*#*#*#*')
+    #game.messages.append('*#*#*#*Round ' +  str(game.round) + '*#*#*#*')
 
 
 if __name__ == '__main__':
