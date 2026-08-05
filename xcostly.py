@@ -114,14 +114,7 @@ def deal(game): #deck:list
                 game.computer_hand.append(hand)
     #make the deck card 
     top = game.deck.pop(0) 
-    ###TOP Splitting -----------------
-    game.top_split = game.top.split()
-    game.top_split[0] = game.top_split[0][0:1] #A,2,3,4,5,6,7,8,9,1,J,Q,K
-    if game.top_split[0] == '1':
-        game.top_split[0] = '10'
-    else:
-        game.top_split[0].lower()
-    game.top_split[-1] = game.top_split[-1].lower()
+
     top_card = "Top card is: " + top 
 #print the list that a (user) has 
     #print(a)
@@ -131,6 +124,14 @@ def deal(game): #deck:list
     game.messages.append(top_card)
     #print('')
     game.top = top
+    ###TOP Splitting -----------------
+    game.top_split = game.top.split()
+    game.top_split[0] = game.top_split[0][0:1] #A,2,3,4,5,6,7,8,9,1,J,Q,K
+    if game.top_split[0] == '1':    #if a 10 card 
+        game.top_split[0] = '10'    #make it an actual 10
+    else:
+        game.top_split[0] = game.top_split[0].lower()
+    game.top_split[-1] = game.top_split[-1].lower()
     return game
 
 def analyze(c_card:str, player_total, game):   #game.player_rsco OR game.comp_rsco
