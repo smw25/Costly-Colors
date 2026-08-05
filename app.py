@@ -62,9 +62,6 @@ def home():
     if game.phase == "DEAL":
         c.deal(game)
         c.initial(game)
-        ###TOP Splitting -----------------
-        game.top_split = game.top.split()
-        game.top_split[-1] = game.top_split[-1].lower()
         if game.phase == "GAME_OVER":
             pass
         else:
