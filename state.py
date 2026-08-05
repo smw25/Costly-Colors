@@ -5,6 +5,7 @@ class GameState:
 
         self.deck = []
         self.top = ''
+        self.top_split = ''
 
         self.player_hand = []
         self.computer_hand = []

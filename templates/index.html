@@ -60,6 +60,14 @@
                         </div>
                         {% endfor %}
                         </div>
+                    {% elif 'Top' in message %}
+                        <p>{{message}}</p>
+                        <div class="card-row">
+                        <div class="card card-{{game.top_split[0][0:1]}} card-{{game.top_split[-1]}}">
+                            <span aria-hidden="true"></span>
+                            <span aria-hidden="true"></span>
+                        </div>
+                        </div>
                     {% else %}
                     <p> {{ message }}</p>
                     {% endif %}
