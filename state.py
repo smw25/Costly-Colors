@@ -12,8 +12,9 @@ class GameState:
         self.player_played = []
         self.computer_played = []
 
-        self.running_cards = []
-        self.running_values = []
+        self.running_cards = []         #card value as string(8, or King)
+        self.running_values = []        #numeric card value
+        #self.running_suits = []         #suit's of cards  (suit, value)
         self.running_total = 0
 
         self.player_score = 0

@@ -106,8 +106,13 @@ def home():
         c.comp_peg(game)
     if game.phase == 'END_PEG':
         c.peg_stop(game)
+        return render_template('index.html', c_title=name, start=start, 
+                           messages=game.messages,
+                           game=game 
+                           )        
 
-    if game.phase == 'HANDS':
+    if game.phase == 'HANDS' and request.form.get('move-on') is not None:
+        game.messages.clear()
         game.player_rsco, game.comp_rsco, game.pp_score, game.cp_score = c.hand(game.player_rsco, game.comp_rsco, game.top, game)
 
     if game.phase == 'TOTALS':

@@ -43,9 +43,16 @@ aside{
   width: 20%;
   float: right;
 }
+
 .card-row {
   display: flex;
   gap: .5em;
+  flex-wrap: wrap;
+}
+
+.peg-row{
+  display: flex;
+  gap: .75em;
   flex-wrap: wrap;
 }
 .p-row{

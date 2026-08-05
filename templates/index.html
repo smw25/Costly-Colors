@@ -66,6 +66,11 @@
                 {% endfor %}
             </div>
             <p>-----------------------------------------------------------</p>
+            {% if game.phase == 'HANDS' %}
+            <form method="POST">
+                <button name="move-on" value="0">OK / Count Hand</button>
+            </form>
+            {% endif %}
 
             {% if game.phase == "MOG?" %}
             <div id="mogg">
